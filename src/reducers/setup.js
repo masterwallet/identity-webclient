@@ -1,8 +1,9 @@
 const initialState = {
   language: 'en',
   apiRoot: localStorage.getItem("masterwallet_api_root") || 'http://localhost:7773',
-  firstRun: true
-};
+  firstRun: true,
+  serverStatus: {}}
+;
 
 // TODO: determine if that was firstRun, we can query our API server
 

@@ -5,6 +5,8 @@ const RadioButton = styled.button`
   display: block;
   width: 100%;
   text-align:center;
+  cursor: pointer;
+  margin-bottom: 10px;
 `;
 
 const _t = {
@@ -19,14 +21,14 @@ const _t = {
 export const FirstRunComponent = ({ setup }) => {
   const isRunning = false;
   return (
-    <div>
+    <div className="container-fluid">
       <h1>{_t.title}</h1>
       <p>{_t.thisIsFirstRun}</p>
-      <RadioButton disabled={!isRunning}>{_t.createNew}</RadioButton>
-      <RadioButton disabled={!isRunning}>{_t.restore}</RadioButton>
-      <RadioButton>{_t.accessRemote}</RadioButton>
-      <button>{_t.continue}</button>
-      <pre>{JSON.stringify(setup)}</pre>
+      <RadioButton className='btn btn-lg btn-default' disabled={!isRunning}>{_t.createNew}</RadioButton>
+      <RadioButton className='btn btn-lg btn-default' disabled={!isRunning}>{_t.restore}</RadioButton>
+      <RadioButton className='btn btn-lg btn-primary'>{_t.accessRemote}</RadioButton>
+      <button className='btn btn-lg btn-success' >{_t.continue}</button>
+      <pre>{JSON.stringify(setup, null, 2)}</pre>
     </div>
   );
 };
