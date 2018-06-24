@@ -6,7 +6,7 @@ import { FirstRun } from './pages/FirstRun';
 // import { Wallet } from './pages/Wallet';
 // import { Import } from './pages/Import';
 import { CreateMenu } from './pages/CreateMenu';
-// import { Settings } from './pages/Settings';
+import { Settings } from './pages/Settings';
 // import { Assets } from './pages/Assets';
 import { Home } from './pages/Home';
 
@@ -43,8 +43,8 @@ const App = () => (
        <Route path='/assets/:asset/send'    component={Assets.Send} />
        <Route path='/assets/:asset/vote'    component={Assets.Vote} />
        <Route exact path='/assets' component={Assets.List} />
-       <Route exact path='/settings' component={Settings} />
-       */}
+      */}
+      <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />
      </Switch>
   </div>
