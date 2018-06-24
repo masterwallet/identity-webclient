@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'; // withRouter
+import { Link, Switch, Route } from 'react-router-dom'; // withRouter
+
 import ReduxToastr from 'react-redux-toastr';
 import { FirstRun } from './pages/FirstRun';
 // import { Wallet } from './pages/Wallet';
@@ -22,6 +23,13 @@ const toastr = {
 const App = () => (
   <div className="App">
     <ReduxToastr {...toastr} progressBar />
+    <div style={{ textAlign: 'center '}}>
+      <Link to="/">/</Link>
+      &nbsp;
+      <Link to="/first-run">First Run</Link>
+      &nbsp;
+      <Link to="/create">Create</Link>
+    </div>
     <Switch>
       <Route exact path='/first-run' component={FirstRun} />
       {/*<Route path='/create/wallet/:network' component={Wallet.Create} />*/}

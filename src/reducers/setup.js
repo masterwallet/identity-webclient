@@ -1,6 +1,6 @@
 const initialState = {
   language: 'en',
-  apiRoot: localStorage.getItem("masterwallet_api_root") || 'http://localhost:7773',
+  apiRoot: localStorage.getItem("masterwallet_api_root") || process.env.REACT_APP_API_URL || '/',
   firstRun: true,
   serverStatus: {}}
 ;
