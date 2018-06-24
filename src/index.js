@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { configure, history } from './store';
 import Debounced from './services/Debounced';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 const store = configure();
 store.dispatch({ type: 'SCREEN_RESIZE' });
@@ -33,4 +33,4 @@ if (root) {
 	});
 }
 
-registerServiceWorker();
+// registerServiceWorker();

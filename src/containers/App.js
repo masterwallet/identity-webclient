@@ -7,9 +7,9 @@ import { FirstRun } from './pages/FirstRun';
 // import { Import } from './pages/Import';
 import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
-// import { Assets } from './pages/Assets';
+import { AssetsOverview } from './pages/AssetsOverview';
 import { Home } from './pages/Home';
-
+import { WalletBalance, WalletReceive, WalletSend, WalletVote } from './wallet';
 import './App.css';
 
 const toastr = {
@@ -29,21 +29,34 @@ const App = () => (
       <Link to="/first-run">First Run</Link>
       &nbsp;
       <Link to="/create">Create</Link>
+      &nbsp;
+      <Link to="/settings">Settings</Link>
+      &nbsp;
+      <Link to="/assets">Assets</Link>
+    </div>
+    <div style={{ textAlign: 'center '}}>
+      <Link to="/wallets/1/balance">Balance</Link>
+      &nbsp;
+      <Link to="/wallets/2/receive">Receive</Link>
+      &nbsp;
+      <Link to="/wallets/3/send">Send</Link>
+      &nbsp;
+      <Link to="/wallets/4/vote">Vote</Link>
     </div>
     <Switch>
       <Route exact path='/first-run' component={FirstRun} />
-      {/*<Route path='/create/wallet/:network' component={Wallet.Create} />*/}
-      {/*<Route path='/create/import/:network' component={Import.Create} />*/}
-      {/*<Route exact path='/create/wallet' component={Wallet.SelectNetwork} />*/}
-      {/*<Route exact path='/create/import' component={Import.SelectNetwork} />*/}
+      {/*<Route path='/create/wallet/:network' component={WalletCreate} />*/}
+      {/*<Route path='/create/import/:network' component={WalletCreateImported} />*/}
+      {/*<Route exact path='/create/wallet' component={WalletSelectNetwork} />*/}
+      {/*<Route exact path='/create/import' component={ImportSelectNetwork} />*/}
       <Route exact path='/create' component={CreateMenu} />
-      {/*
-       <Route path='/assets/:asset/balance' component={Assets.Balance} />
-       <Route path='/assets/:asset/receive' component={Assets.Receive} />
-       <Route path='/assets/:asset/send'    component={Assets.Send} />
-       <Route path='/assets/:asset/vote'    component={Assets.Vote} />
-       <Route exact path='/assets' component={Assets.List} />
-      */}
+
+      <Route path='/wallets/:walletId/balance' component={WalletBalance} />
+      <Route path='/wallets/:walletId/receive' component={WalletReceive} />
+      <Route path='/wallets/:walletId/send'    component={WalletSend} />
+      <Route path='/wallets/:walletId/vote'    component={WalletVote} />
+
+      <Route exact path='/assets' component={AssetsOverview} />
       <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />
      </Switch>
