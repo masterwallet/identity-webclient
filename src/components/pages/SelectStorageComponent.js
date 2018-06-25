@@ -19,7 +19,7 @@ const _t = {
   continue: 'Continue'
 };
 
-export const FirstRunComponent = ({ setup }) => {
+export const SelectStorageComponent = ({ setup }) => {
   const isRunning = false;
   return (
     <div className="container-fluid">

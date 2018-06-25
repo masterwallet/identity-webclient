@@ -21,7 +21,7 @@ export const MockMenu = () => ([
     <Sep />
     <Link to="/privacy">Privacy</Link>
     <Sep />
-    <Link to="/first-run">First Run</Link>
+    <Link to="/storage">Storage</Link>
     <Sep />
     <Link to="/shake">Shake</Link>
     <Sep />

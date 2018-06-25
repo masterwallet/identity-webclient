@@ -2,15 +2,17 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom'; // withRouter
 
 import ReduxToastr from 'react-redux-toastr';
-import { FirstRun } from './pages/FirstRun';
+import { SelectStorage } from './pages/SelectStorage';
 // import { Wallet } from './pages/Wallet';
 // import { Import } from './pages/Import';
 import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
+import { Unlock } from './pages/Unlock';
 import { AssetsOverview } from './pages/AssetsOverview';
-import { Home } from './pages/Home';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
+import { Home } from './pages/Home';
 import './App.css';
+// temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
 
 const toastr = {
@@ -26,7 +28,7 @@ const App = () => (
     <ReduxToastr {...toastr} progressBar />
     <MockMenu />
     <Switch>
-      <Route exact path='/first-run' component={FirstRun} />
+      <Route exact path='/storage' component={SelectStorage} />
       {/*<Route path='/create/wallet/:network' component={WalletCreate} />*/}
       {/*<Route path='/create/import/:network' component={WalletCreateImported} />*/}
       {/*<Route exact path='/create/wallet' component={WalletSelectNetwork} />*/}
@@ -41,6 +43,8 @@ const App = () => (
       <Route path='/wallets/:walletId/history'    component={WalletHistory} />
 
       <Route exact path='/assets' component={AssetsOverview} />
+      <Route exact path='/merged-assets' component={AssetsOverview} />
+      <Route exact path='/unlock' component={Unlock} />
       <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />
      </Switch>
