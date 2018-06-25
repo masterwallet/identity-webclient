@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom'; // withRouter
+import { Switch, Route } from 'react-router-dom'; // withRouter
 
 import ReduxToastr from 'react-redux-toastr';
 import { FirstRun } from './pages/FirstRun';
@@ -11,6 +11,7 @@ import { AssetsOverview } from './pages/AssetsOverview';
 import { Home } from './pages/Home';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote } from './wallet';
 import './App.css';
+import { MockMenu } from './../components/MockMenu';
 
 const toastr = {
   timeout: 4000,
@@ -23,26 +24,7 @@ const toastr = {
 const App = () => (
   <div className="App">
     <ReduxToastr {...toastr} progressBar />
-    <div style={{ textAlign: 'center '}}>
-      <Link to="/">/</Link>
-      &nbsp;
-      <Link to="/first-run">First Run</Link>
-      &nbsp;
-      <Link to="/create">Create</Link>
-      &nbsp;
-      <Link to="/settings">Settings</Link>
-      &nbsp;
-      <Link to="/assets">Assets</Link>
-    </div>
-    <div style={{ textAlign: 'center '}}>
-      <Link to="/wallets/1/balance">Balance</Link>
-      &nbsp;
-      <Link to="/wallets/2/receive">Receive</Link>
-      &nbsp;
-      <Link to="/wallets/3/send">Send</Link>
-      &nbsp;
-      <Link to="/wallets/4/vote">Vote</Link>
-    </div>
+    <MockMenu />
     <Switch>
       <Route exact path='/first-run' component={FirstRun} />
       {/*<Route path='/create/wallet/:network' component={WalletCreate} />*/}
