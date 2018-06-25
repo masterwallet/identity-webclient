@@ -1,10 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'; // withRouter
-
 import ReduxToastr from 'react-redux-toastr';
-import { SelectStorage } from './pages/SelectStorage';
-// import { Wallet } from './pages/Wallet';
-// import { Import } from './pages/Import';
+import { Welcome, Terms, Privacy, SelectStorage, Shake, Seed, ConfirmSeed, Pin, ConfirmPin, Complete } from './install';
 import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
 import { Unlock } from './pages/Unlock';
@@ -12,7 +9,8 @@ import { AssetsOverview } from './pages/AssetsOverview';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
-// temporary: remove in production
+
+// Temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
 
 const toastr = {
@@ -28,13 +26,22 @@ const App = () => (
     <ReduxToastr {...toastr} progressBar />
     <MockMenu />
     <Switch>
+      {/* Installation */}
+      <Route exact path='/welcome' component={Welcome} />
+      <Route exact path='/terms' component={Terms} />
+      <Route exact path='/privacy' component={Privacy} />
       <Route exact path='/storage' component={SelectStorage} />
-      {/*<Route path='/create/wallet/:network' component={WalletCreate} />*/}
-      {/*<Route path='/create/import/:network' component={WalletCreateImported} />*/}
-      {/*<Route exact path='/create/wallet' component={WalletSelectNetwork} />*/}
-      {/*<Route exact path='/create/import' component={ImportSelectNetwork} />*/}
+      <Route exact path='/shake' component={Shake} />
+      <Route path='/seed/:page' component={Seed} />
+      <Route exact path='/confirm/seed' component={ConfirmSeed} />
+      <Route exact path='/pin' component={Pin} />
+      <Route exact path='/confirm/pin' component={ConfirmPin} />
+      <Route exact path='/setup/complete' component={Complete} />
+
+      {/* Addition of Wallets / Exchange Accounts */}
       <Route exact path='/create' component={CreateMenu} />
 
+      {/* Wallet Managmeent */}
       <Route path='/wallets/:walletId/balance' component={WalletBalance} />
       <Route path='/wallets/:walletId/receive' component={WalletReceive} />
       <Route path='/wallets/:walletId/send'    component={WalletSend} />

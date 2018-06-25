@@ -15,6 +15,7 @@ export const MockMenu = () => ([
   </pre>
   ,
   <pre style={{ textAlign: 'center', margin: 0}}>
+    Install: &nbsp;
     <Link to="/welcome">Welcome</Link>
     <Sep />
     <Link to="/terms">Terms</Link>
@@ -33,7 +34,7 @@ export const MockMenu = () => ([
     <Sep />
     <Link to="/confirm/pin">Confirm PIN</Link>
     <Sep />
-    <Link to="/ready">Ready</Link>
+    <Link to="/setup/complete">Complete</Link>
   </pre>
   ,
   <pre style={{ textAlign: 'center', margin: 0}}>

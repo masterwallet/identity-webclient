@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { SelectStorageComponent } from './../../components/pages/SelectStorageComponent';
+import { SelectStorageComponent } from './../../components/install/SelectStorageComponent';
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({});
