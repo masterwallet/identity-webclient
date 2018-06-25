@@ -1,21 +1,37 @@
+import { getRoot, getLanguage } from './../services/ApiRequest';
 const initialState = {
-  language: 'en',
-  apiRoot: localStorage.getItem("masterwallet_api_root") || process.env.REACT_APP_API_URL || '/',
-  firstRun: true,
-  serverStatus: {}}
-;
+  language: getLanguage(),
+  apiRoot: getRoot(),
+  
+  isFirstRun: false,
+  termsAccepted: false,
+  privaceAccepted: false,
 
-// TODO: determine if that was firstRun, we can query our API server
+  serverStatus: {
+    isLoading: true,
+    isRunning: true,
+    error: '',
+    data: {}
+  }
+};
 
 export default function (state = initialState, action) {
-  //switch (action.type) {
-  //  case 'SCREEN_RESIZE': {
-  //    if (typeof window === 'object') {
-  //      return { ...state, width: window.innerWidth, height: window.innerHeight }
-  //    }
-  //    break;
-  //  }
-  //  default:
-  //}
-  return state
+  const { type, payload } = action;
+  switch (type) {
+    case 'SERVER_STATUS_REQUEST': {
+      const serverStatus = { ...initialState.serverStatus };
+      return { ...state, serverStatus };
+    }
+    case 'SERVER_STATUS_RECEIVED': {
+      const serverStatus = { isLoading: false, isRunning: true, data: payload, error: '' };
+      return { ...state, serverStatus };
+    }
+    case 'SERVER_STATUS_ERROR': {
+      const isRunning = (payload !== 'TypeError: Failed to fetch');
+      const serverStatus = { isLoading: false, isRunning, data: {}, error: payload };
+      return { ...state, serverStatus };
+    }
+    default:
+  }
+  return state;
 };

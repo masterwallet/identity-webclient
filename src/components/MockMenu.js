@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'; // withRouter
 const Sep = () => (<span> | </span>);
 
 export const MockMenu = () => ([
-  <pre style={{ textAlign: 'center', margin: 0}}>
+  <pre key={1} style={{ textAlign: 'center', margin: 0}}>
     <Link to="/">/</Link>
     <Sep />
     <Link to="/unlock">Unlock</Link>
@@ -14,7 +14,7 @@ export const MockMenu = () => ([
     <Link to="/assets">Assets</Link>
   </pre>
   ,
-  <pre style={{ textAlign: 'center', margin: 0}}>
+  <pre key={2} style={{ textAlign: 'center', margin: 0}}>
     Install: &nbsp;
     <Link to="/welcome">Welcome</Link>
     <Sep />
@@ -37,7 +37,7 @@ export const MockMenu = () => ([
     <Link to="/setup/complete">Complete</Link>
   </pre>
   ,
-  <pre style={{ textAlign: 'center', margin: 0}}>
+  <pre key={3} style={{ textAlign: 'center', margin: 0}}>
     <Link to="/add">Add</Link>
     <Sep />
     <Link to="/create">Create Wallet</Link>
@@ -57,7 +57,7 @@ export const MockMenu = () => ([
     <Link to="/import/ETH/complete">[3]</Link>
   </pre>
   ,
-  <pre style={{ textAlign: 'center', margin: 0 }}>
+  <pre key={4} style={{ textAlign: 'center', margin: 0 }}>
     <Link to="/wallets/1/balance">Balance</Link>
     <Sep />
     <Link to="/wallets/2/receive">Receive</Link>
