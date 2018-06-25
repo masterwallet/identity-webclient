@@ -38,20 +38,23 @@ export const MockMenu = () => ([
   </pre>
   ,
   <pre style={{ textAlign: 'center', margin: 0}}>
-    <Link to="/create">Create</Link>
+    <Link to="/add">Add</Link>
     <Sep />
-    <Link to="/create/wallet">Create Wallet (Select)</Link>
-    <Link to="/create/ETH/wallet">[ETH]</Link>
-    <Link to="/create/ETH/done">[Done]</Link>
+    <Link to="/create">Create Wallet</Link>
+    <Link to="/create/ETH/wallet">[2]</Link>
+    <Link to="/create/ETH/complete">[3]</Link>
     <Sep />
-    <Link to="/watch/wallet">Watch Wallet (Select)</Link>
-    <Link to="/watch/ETH/wallet">[ETH]</Link>
+    <Link to="/watch">Watch Wallet</Link>
+    <Link to="/watch/ETH/wallet">[2]</Link>
+    <Link to="/watch/ETH/complete">[3]</Link>
     <Sep />
-    <Link to="/watch/exchange">Watch Exchange</Link>
+    <Link to="/exchange">Watch Exchange</Link>
+    <Link to="/exchange/KUCOIN/account">[2]</Link>
+    <Link to="/exchange/KUCOIN/complete">[3]</Link>
     <Sep />
-    <Link to="/import/wallet">Import Wallet (Select)</Link>
-    <Link to="/import/ETH/wallet">[ETH]</Link>
-    <Link to="/import/ETH/done">[Done]</Link>
+    <Link to="/import">Import Wallet</Link>
+    <Link to="/import/ETH/wallet">[2]</Link>
+    <Link to="/import/ETH/complete">[3]</Link>
   </pre>
   ,
   <pre style={{ textAlign: 'center', margin: 0 }}>

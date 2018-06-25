@@ -9,6 +9,10 @@ import { AssetsOverview } from './pages/AssetsOverview';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
+import { CreateWalletNetwork, CreateWalletInput, CreateWalletComplete } from './add/wallet/index';
+import { WatchWalletNetwork, WatchWalletInput, WatchWalletComplete } from './add/watch/index';
+import { ExchangeSelect, ExchangeInput, ExchangeComplete } from './add/exchange/index';
+import { ImportWalletNetwork, ImportWalletInput, ImportWalletComplete } from './add/import/index';
 
 // Temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
@@ -39,7 +43,23 @@ const App = () => (
       <Route exact path='/setup/complete' component={Complete} />
 
       {/* Addition of Wallets / Exchange Accounts */}
-      <Route exact path='/create' component={CreateMenu} />
+      <Route exact path='/add' component={CreateMenu} />
+      {/* Addition of Wallet to Manage */}
+      <Route exact path='/create' component={CreateWalletNetwork} />
+      <Route path='/create/:network/wallet' component={CreateWalletInput} />
+      <Route path='/create/:network/complete' component={CreateWalletComplete} />
+      {/* Addition of Wallet to Watch */}
+      <Route exact path='/watch' component={WatchWalletNetwork} />
+      <Route path='/watch/:network/wallet' component={WatchWalletInput} />
+      <Route path='/watch/:network/complete' component={WatchWalletComplete} />
+      {/* Addition of Exchange Account to Watch */}
+      <Route exact path='/exchange' component={ExchangeSelect} />
+      <Route path='/exchange/:exchange/account' component={ExchangeInput} />
+      <Route path='/exchange/:exchange/complete' component={ExchangeComplete} />
+      {/* Addition of Wallet by Importing */}
+      <Route exact path='/import' component={ImportWalletNetwork} />
+      <Route path='/import/:network/wallet' component={ImportWalletInput} />
+      <Route path='/import/:network/complete' component={ImportWalletComplete} />
 
       {/* Wallet Managmeent */}
       <Route path='/wallets/:walletId/balance' component={WalletBalance} />
@@ -50,7 +70,7 @@ const App = () => (
       <Route path='/wallets/:walletId/history'    component={WalletHistory} />
 
       <Route exact path='/assets' component={AssetsOverview} />
-      <Route exact path='/merged-assets' component={AssetsOverview} />
+      <Route exact path='/all' component={AssetsOverview} />
       <Route exact path='/unlock' component={Unlock} />
       <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />
