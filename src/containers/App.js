@@ -9,7 +9,7 @@ import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
 import { AssetsOverview } from './pages/AssetsOverview';
 import { Home } from './pages/Home';
-import { WalletBalance, WalletReceive, WalletSend, WalletVote } from './wallet';
+import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import './App.css';
 import { MockMenu } from './../components/MockMenu';
 
@@ -37,6 +37,8 @@ const App = () => (
       <Route path='/wallets/:walletId/receive' component={WalletReceive} />
       <Route path='/wallets/:walletId/send'    component={WalletSend} />
       <Route path='/wallets/:walletId/vote'    component={WalletVote} />
+      <Route path='/wallets/:walletId/account'    component={WalletAccount} />
+      <Route path='/wallets/:walletId/history'    component={WalletHistory} />
 
       <Route exact path='/assets' component={AssetsOverview} />
       <Route exact path='/settings' component={Settings} />
