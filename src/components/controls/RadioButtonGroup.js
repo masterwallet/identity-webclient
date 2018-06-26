@@ -16,21 +16,17 @@ class RadioButtonGroup extends React.Component {
   }
 
   render() {
-    const { style, options, isLabelDisabled } = this.props;
+    const { style, options } = this.props;
     return (
       <div style={style} >
-        {options.map((option, index) => {
-          const key = index;
-          return (
-            <RadioButton
-              key={key}
-              label={!isLabelDisabled ? option : ''}
-              value={option}
-              checked={this.state.checked === option}
-              onChange={this.onChange}
-            />
-          );
-        })}
+        {options.map((option, index) => (
+          <RadioButton
+            key={index}
+            {...option}
+            checked={this.state.checked === option.value}
+            onChange={this.onChange}
+          />
+        ))}
       </div>
     );
   }
