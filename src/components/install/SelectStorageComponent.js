@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Steps } from './../controls/Steps';
+import { InstallationMenu } from './../../config/Wizards';
 
 const RadioButton = styled.button`
   display: block;
@@ -33,6 +35,8 @@ export const SelectStorageComponent = ({ setup }) => {
       <div style={{ textAlign: 'right' }}>
         <button className='btn btn-lg btn-success' >{_t.continue}</button>
       </div>
+
+      <Steps {...{ step: 3, menu: InstallationMenu }} />
 
       <pre>{JSON.stringify(setup, null, 2)}</pre>
     </div>
