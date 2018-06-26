@@ -13,7 +13,8 @@ const Lbl = ({ onClick, label, comment, disabled }) => {
   const styleComment = {
     fontSize: 10,
     fontWeight: 'normal',
-    color: '#444'
+    color: '#444',
+    whiteSpace: 'normal'
   };
   return (
     <div onMouseDown={onClick} style={styleLabel}>
@@ -25,7 +26,7 @@ const Lbl = ({ onClick, label, comment, disabled }) => {
 /* eslint-disable jsx-a11y/label-has-for */
 export const RadioButton = ({ value, side, label, comment, disabled, checked, onChange }) => {
   const onClick = () => { if (!disabled) onChange(value); };
-  const styleTop = { display: 'flex', alignContent: 'center', alignItems: 'flex-start', cursor: 'pointer', width: 50 };
+  const styleTop = { display: 'flex', alignContent: 'center', alignItems: 'flex-start', cursor: 'pointer', maxWidth: 250 };
   const chkAtLeft = (!side || side === 'left');
   const styleCheck = { textAlign: chkAtLeft ? 'left' : 'right', margin: '0px auto' };
   const styleRadioButtonCont = {};

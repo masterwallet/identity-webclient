@@ -1,5 +1,6 @@
 import React from 'react';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
+import { WizardPanel } from './../panel/WizardPanel';
 
 const options = [
   { 
@@ -25,25 +26,10 @@ const options = [
   }
 ];
 
-export const WizardPanel = ({ title, children }) => (
-  <div className="container-fluid">
-    <h3 style={{ 
-      textAlign: 'center', borderBottom: '1px darkgreen solid', 
-      background: '#eff0ff', padding: 5, boxShadow: '0px 4px 10px #eee',
-      marginBottom: 15
-    }}>
-      {title}
-    </h3>
-    <div style={{ width: 300, margin: '0px auto'}}>
-      {children}
-    </div>
-  </div>
-);
-
-// TODO: reduce disable props correctly
+// TODO: reduce value prop correctly
 // TODO: continue
 export const CreateMenuComponent = ({ setup }) => (
-  <WizardPanel title='Choose Your Actions'>
+  <WizardPanel title='Choose Your Action'>
     <RadioButtonGroup options={options} onChange={() => (false)} />
   </WizardPanel>
 );
