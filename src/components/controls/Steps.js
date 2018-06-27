@@ -10,9 +10,10 @@ const Step = styled.span`
   font-family: verdana;
 `;
 
-const PreviousStep = () => <Step style={{ color: '#888' }}>&bull;</Step>;
-const NextStep = () => <Step style={{ color: '#ccc' }}>&bull;</Step>;
-const CurrentStep = () => <Step style={{ color: 'blue' }}>&bull;</Step>;
+const shadow = { textShadow: '0px 0px 2px #333' };
+const PreviousStep = () => <Step style={{ color: '#888', ...shadow }}>&bull;</Step>;
+const NextStep = () => <Step style={{ color: '#ccc', ...shadow }}>&bull;</Step>;
+const CurrentStep = () => <Step style={{ color: '#8662fc', ...shadow }}>&bull;</Step>;
 
 export const Steps = ({ step, total, menu }) => {
   const list = Array.apply(null, { length: menu.length }).map(Function.call, Number);
@@ -24,7 +25,6 @@ export const Steps = ({ step, total, menu }) => {
         else if (n < step) return <PreviousStep key={n} />
         else return <NextStep key={n} />
       })}
-      <pre>{JSON.stringify(menu)}</pre>
     </Wrapper>
   );
 };
