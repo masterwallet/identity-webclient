@@ -25,6 +25,10 @@ const Word = styled.div`
   background: #e6e1f1;
   opacity: 0.9;
   color: #8d66fe;
+  border-top: 1px #fff solid;
+  border-left: 1px #fff solid;
+  border-right: 1px #fff solid;
+  
   border-radius: 5px;
   margin-bottom: 5px;
   padding-left: 10px;
@@ -32,6 +36,12 @@ const Word = styled.div`
   margin-right: 5px;
   user-select: none;
   flex: 0;
+
+  .index {
+    color: #777;
+    width: 28px;
+    display: inline-block;
+  }
 `;
 
 const WordList = styled.div`
@@ -51,7 +61,7 @@ export const SeedComponent = () => (
     <Centered>{_t.importance}</Centered>
     <WordList>
       {words.map((word, index) => (
-        <Word key={index}>{index + 1}. {word}</Word>
+        <Word key={index}><span className="index">{index + 1}.</span> {word}</Word>
       ))}
     </WordList>
     <Steps {...{ step: 5, menu: InstallationMenu }} />

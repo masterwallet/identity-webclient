@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   position: fixed;
   background: white;
   z-index: 1000;
-  bottom: 0px;
+  bottom: 40px;
   left: 0px;
   width: 100%;
 `;
@@ -24,7 +24,6 @@ export const MockMenu = () => (
       <Link to="/assets">Assets</Link>
     </pre>
     <pre key={2} style={{ textAlign: 'center', margin: 0}}>
-      Install: &nbsp;
       <Link to="/welcome">Welcome</Link>
       <Sep />
       <Link to="/terms">Terms</Link>

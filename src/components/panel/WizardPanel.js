@@ -17,6 +17,9 @@ const Wrapper = styled.div`
     color: #262329;
     line-height: 30px;
   }
+  h6 {
+      font-weight: bold;
+  }
 `;
 const Spacer = styled.div`
   height: 50px;

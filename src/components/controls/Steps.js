@@ -2,8 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  position: fixed;
+  z-index: 1001;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 40px;
   text-align: center;
-  padding: 10px;
 `;
 const Step = styled.span`
   font-size: 32px;
