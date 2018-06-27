@@ -28,7 +28,7 @@ const toastr = {
 const App = () => (
   <div className="App">
     <ReduxToastr {...toastr} progressBar />
-    <MockMenu />
+    {process.env.REACT_APP_MOCK ? <MockMenu /> : false}
     <Switch>
       {/* Installation */}
       <Route exact path='/welcome' component={Welcome} />
