@@ -27,10 +27,17 @@ const Wrapper = styled.div`
     border-top: 1px #61c38b solid;
     border-bottom: 1px #6239bf solid;
   }
+
+  a .title { margin-right: 15px; }
+  @media(max-width: 480px) {
+    a .title {
+      display: none;
+    }
+  }
 `;
 
 const ChveronRight = () => (
-  <svg viewBox="0 0 256 512"  style={{ width: 10, marginLeft: 15 }}>
+  <svg viewBox="0 0 256 512"  style={{ width: 10 }}>
     <path fill="currentColor" d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z" />
   </svg>
 );
@@ -38,7 +45,7 @@ const ChveronRight = () => (
 export const Next = ({ title, to, disabled = false }) => (
   <Wrapper>
     <Link disabled={disabled} to={to} className="btn btn-primary btn-sm">
-      {title}
+      <span className="title">{title}</span>
       <ChveronRight />
     </Link>
   </Wrapper>
