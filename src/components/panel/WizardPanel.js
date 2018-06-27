@@ -1,17 +1,33 @@
 import React from 'react';
+import styled from 'styled-components';
 
-export const WizardPanel = ({ title, children }) => (
-    <div className="container-fluid">
-      <h3 style={{ 
-        textAlign: 'center', borderBottom: '1px darkgreen solid', 
-        background: '#eff0ff', padding: 5, boxShadow: '0px 4px 10px #eee',
-        marginBottom: 15
-      }}>
-        {title}
-      </h3>
-      <div style={{ width: 300, margin: '0px auto'}}>
+const Wrapper = styled.div`
+  h3 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+
+    text-align: center;
+    border-bottom: 1px #ba9ef4 solid;
+    background: #e7e1f1;
+    padding: 5px;
+    box-shadow: 0px 2px 10px #d9cef0;
+    font-size: 20px;
+    color: #262329;
+    line-height: 30px;
+  }
+`;
+const Spacer = styled.div`
+  height: 50px;
+`;
+
+export const WizardPanel = ({ title, children, wide = false }) => (
+    <Wrapper className="container-fluid">
+      <h3>{title}</h3>
+      <Spacer />
+      <div style={{ width: (wide ? '80%' : 300), margin: '0px auto', textAlign: 'justify' }}>
         {children}
       </div>
-    </div>
+    </Wrapper>
   );
-  
