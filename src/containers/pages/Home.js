@@ -9,7 +9,7 @@ const mapDispatchToProps = dispatch => ({});
 // export const CreateMenu = connect(mapStateToProps, mapDispatchToProps)(CreateMenuComponent);
 
 // TODO: if we have the key store initialized
-export const HomeScreen = () => (<Redirect to='/first-run' />)
+export const HomeScreen = ({ setup }) => (<Redirect to='/welcome' />)
 
 export const Home = connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 export default { Home };
