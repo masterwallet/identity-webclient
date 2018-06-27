@@ -5,10 +5,10 @@ import { InstallationMenu } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
-  pleaseWrite: 'Please Write 24 Secret Words',
+  pleaseWrite: 'Please Write Seed Phrase',
   importance: 'This is the most important step. ' +
     'Please write down your 24 words and keep them in safe place where no one can access them.' +
-    'These words will allow you to restore access to your funds.',
+    'These seed phrase should be used to restore access to your funds.',
   iWroteIt: 'I wrote it'
 };
 
