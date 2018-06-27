@@ -25,7 +25,7 @@ const Word = styled.div`
   background: #e6e1f1;
   opacity: 0.9;
   color: #8d66fe;
-  border-top: 1px #fff solid;
+  border-top: 1px #ccc solid;
   border-left: 1px #fff solid;
   border-right: 1px #fff solid;
   

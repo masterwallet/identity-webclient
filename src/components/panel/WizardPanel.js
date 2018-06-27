@@ -17,6 +17,9 @@ const Wrapper = styled.div`
     color: #262329;
     line-height: 30px;
   }
+  @media(max-width: 480px) {
+    h3 { font-size: 16px; }
+  }
   h6 {
       font-weight: bold;
   }

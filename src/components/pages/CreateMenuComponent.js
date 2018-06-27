@@ -1,6 +1,11 @@
 import React from 'react';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
-import { WizardPanel } from './../panel/WizardPanel';
+import { WizardPanel, Next } from './../panel/index';
+
+const _t = {
+  choose: 'Please Choose Your Action',
+  next: 'Next'
+};
 
 const options = [
   { 
@@ -25,19 +30,29 @@ const options = [
   }
 ];
 
-// TODO: reduce value prop correctly
-// TODO: continue
-export const CreateMenuComponent = ({ setup }) => {
-  const { serverStatus } = setup;
-  // const noServer = (serverStatus || !serverStatus.isRunning);
-  // const serverData = (serverStatus && serverStatus.data) ? serverStatus.data : {};
-  const hdWallet = false;
-  const adjustedOptions = hdWallet ? options.map((o, index) =>(
-    (index > 0) ? {...o, disabled: true } : o
-  )) : options;
-  return (
-    <WizardPanel title='Choose Your Action'>
-      <RadioButtonGroup options={adjustedOptions} onChange={() => (false)} /> 
-    </WizardPanel>
-  );
+export class CreateMenuComponent extends React.Component {
+  state = {
+    to: ''
+  }
+  onChange = (value) => {
+    this.setState({ to: value });
+  }
+
+  render() {
+    const { setup } = this.props;
+    const { serverStatus } = setup;
+    // const noServer = (serverStatus || !serverStatus.isRunning);
+    // const serverData = (serverStatus && serverStatus.data) ? serverStatus.data : {};
+    const hdWallet = false;
+    const adjustedOptions = hdWallet ? options.map((o, index) =>(
+      (index > 0) ? {...o, disabled: true } : o
+    )) : options;
+    const { to } = this.state;
+    return (
+      <WizardPanel title={_t.choose}>
+        {to ? <Next to={`/${to}`} title={_t.next} /> : false }
+        <RadioButtonGroup options={adjustedOptions} onChange={this.onChange} /> 
+      </WizardPanel>
+    );
+  }
 }

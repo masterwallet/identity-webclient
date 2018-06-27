@@ -10,6 +10,8 @@ const Wrapper = styled.div`
   bottom: 40px;
   left: 0px;
   width: 100%;
+
+  pre { font-size: 9px; }
 `;
 
 export const MockMenu = () => (
