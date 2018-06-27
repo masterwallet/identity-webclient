@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu } from './../../config/Wizards';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
+import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
-  title: 'Please choose your storage',
-  thisIsFirstRun: 'This is your first run of the wallet. Please select what type of storage do you want:',
+  title: 'Choose Storage Type',
+  thisIsFirstRun: 'This is your first launch. Please select what type of storage do you want:',
   createNewHd: 'Сreate HD Wallet',
   createNewHdExplained: 'HD Wallet is a hardened version of a wallet. ' +
-    'Access to your funds could be restored just by secret seed phrase. ' +
-    'You will not be allowed to import other private keys.',
+    'You will not be allowed to import other private keys. ' +
+    'Access to your funds could be restored just by secret seed phrase. ',
   restore: 'Restore HD Wallet',
   restoreExplained: 'Restore HD Wallet by entering 24 words seed',
   createNew: 'Сreate Encrypted Storage',
@@ -19,9 +20,9 @@ const _t = {
     'you will be allowed to safely watch wallets without entering private keys or watch your balances on exchanges. ' +
     'Access to it will allow secret seed phrase and the backup file. ',
 
-  restoreBackup: 'Restore Encrypted Storage from the Backup',
+  restoreBackup: 'Restore Encrypted Storage',
   restoreBackupExplained: 'Restore Encrypted Storage from the backup file and 24 words seed phrase',
-  accessRemote: 'Pair with Another Encrypted Storage',
+  accessRemote: 'Pair with Encrypted Storage',
   accessRemoteExplained: 'Connect to another device or service that is responsible for storing private keys and which will be signing transactions. ' +
     'Private keys will never be exchanged on the network',
   continue: 'Continue'
@@ -39,17 +40,12 @@ export const SelectStorageComponent = ({ setup }) => {
   const { serverStatus } = setup;
   const { isRunning } = serverStatus;
   return (
-    <div className="container-fluid">
-      <h1>{_t.title}</h1>
-      <p>{_t.thisIsFirstRun}</p>
+    <WizardPanel title={_t.title} next={_t.continue}>
+      <Next title={_t.continue} to={InstallationMenu[4]} />
+      <p style={{ textAlign: 'center' }}>{_t.thisIsFirstRun}</p>
 
       <RadioButtonGroup options={options} onChange={() => (false)} />
-
-      <div style={{ textAlign: 'right' }}>
-        <button className='btn btn-lg btn-success' >{_t.continue}</button>
-      </div>
-
       <Steps {...{ step: 3, menu: InstallationMenu }} />
-    </div>
+    </WizardPanel>
   );
 };

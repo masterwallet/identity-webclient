@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Lbl = ({ onClick, label, comment, disabled }) => {
-  const styleLabel = { 
-    flex: 1, whiteSpace: 'nowrap', marginLeft: '5px', color: '#000', 
-    fontWeight: 'bold', fontSize: 14 
+  const styleLabel = {
+    flex: 1, whiteSpace: 'nowrap', marginLeft: '5px', color: '#000',
+    fontWeight: 'bold', fontSize: 14
   };
   if (disabled) {
     styleLabel.color = '#aaa';
@@ -20,13 +20,13 @@ const Lbl = ({ onClick, label, comment, disabled }) => {
     <div onMouseDown={onClick} style={styleLabel}>
       {label}
       <div style={styleComment}>{comment}</div>
-    </div>);  
+    </div>);
 };
 
 /* eslint-disable jsx-a11y/label-has-for */
 export const RadioButton = ({ value, side, label, comment, disabled, checked, onChange }) => {
   const onClick = () => { if (!disabled) onChange(value); };
-  const styleTop = { display: 'flex', alignContent: 'center', alignItems: 'flex-start', cursor: 'pointer', maxWidth: 250 };
+  const styleTop = { display: 'flex', alignContent: 'center', alignItems: 'flex-start', cursor: 'pointer' };
   const chkAtLeft = (!side || side === 'left');
   const styleCheck = { textAlign: chkAtLeft ? 'left' : 'right', margin: '0px auto' };
   const styleRadioButtonCont = {};
