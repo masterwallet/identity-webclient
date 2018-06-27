@@ -30,7 +30,7 @@
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_API_URL=http://localhost:7773 react-scripts start",
+    "start": "cross-env REACT_APP_MOCK=1 REACT_APP_API_URL=http://localhost:7773 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
