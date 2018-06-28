@@ -23,7 +23,9 @@ export const MockMenu = () => (
       <Sep />
       <Link to="/settings">Settings</Link>
       <Sep />
-      <Link to="/assets">Assets</Link>
+      <Link to="/assets/overview">Overview</Link>
+      <Sep />
+      <Link to="/assets/combined">All Assets</Link>
     </pre>
     <pre key={2} style={{ textAlign: 'center', margin: 0}}>
       <Link to="/welcome">Welcome</Link>

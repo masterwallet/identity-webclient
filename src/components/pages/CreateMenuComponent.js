@@ -8,24 +8,24 @@ const _t = {
 };
 
 const options = [
-  { 
-    label: 'Create New Wallet', 
-    value: 'create', 
-    comment: 'Create New Secure Wallet' 
+  {
+    label: 'Create New Wallet',
+    value: 'create',
+    comment: 'Create New Secure Wallet'
   },
-  { 
-    label: 'Watch Existing Wallet', 
-    value: 'watch', 
-    comment: 'Safely Add Wallet to Watch List (just by providing its public address)' 
+  {
+    label: 'Watch Existing Wallet',
+    value: 'watch',
+    comment: 'Safely Add Wallet to Watch List (just by providing its public address)'
   },
-  { 
-    label: 'Watch Exchange Account', 
-    value: 'exchange', 
+  {
+    label: 'Watch Exchange Account',
+    value: 'exchange',
     comment: 'Add Exchange Account API keys to watch the balance'
   },
-  { 
-    label: 'Import Existing Wallet', 
-    value: 'import', 
+  {
+    label: 'Import Existing Wallet',
+    value: 'import',
     comment: 'Import Another Wallet (providing private key or keystore)'
   }
 ];
@@ -51,7 +51,8 @@ export class CreateMenuComponent extends React.Component {
     return (
       <WizardPanel title={_t.choose}>
         {to ? <Next to={`/${to}`} title={_t.next} /> : false }
-        <RadioButtonGroup options={adjustedOptions} onChange={this.onChange} /> 
+        <div style={{ marginTop: 20 }}></div>
+        <RadioButtonGroup options={adjustedOptions} onChange={this.onChange} />
       </WizardPanel>
     );
   }
