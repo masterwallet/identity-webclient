@@ -13,9 +13,11 @@ export const WelcomeComponent = () => (
   <WizardPanel title={_t.welcome}>
     <Next title={_t.start} to={InstallationMenu[1]} />
 
-    <div style={{ marginTop: 50, marginBottom: 50 }}>
-      <FromFile name="welcome.html" />
+    <div style={{ marginTop: 30, marginBottom: 30, textAlign: 'center' }}>
+      <img style={{ width: '50%', height: 'auto' }} src='/media/temp-wallet.png' alt='' />
     </div>
+    <FromFile name="welcome.html" />
+    
     <Steps {...{ step: 0, menu: InstallationMenu }} />
   </WizardPanel>
 );

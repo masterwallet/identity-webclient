@@ -40,7 +40,7 @@ export const RadioButton = ({ value, side, label, comment, children, disabled, c
     styleRadioButton.cursor = 'default';
   }
   if (checked) {
-    styleTop.background = '#ede7f3';
+    styleTop.background = '#ede7f3 linear-gradient(#fff 0%, #ede7f3 80%)';
     styleTop.borderRadius = 8;
   }
   return (
