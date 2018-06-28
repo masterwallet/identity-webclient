@@ -5,7 +5,7 @@ import { Welcome, Terms, Privacy, SelectStorage, Shake, Seed, ConfirmSeed, Pin, 
 import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
 import { Unlock } from './pages/Unlock';
-import { AssetsOverview } from './pages/AssetsOverview';
+import { AssetsOverview, AssetsCombined } from './assets/index';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
@@ -69,8 +69,8 @@ const App = () => (
       <Route path='/wallets/:walletId/account'    component={WalletAccount} />
       <Route path='/wallets/:walletId/history'    component={WalletHistory} />
 
-      <Route exact path='/assets' component={AssetsOverview} />
-      <Route exact path='/all' component={AssetsOverview} />
+      <Route exact path='/assets/overview' component={AssetsOverview} />
+      <Route exact path='/assets/combined' component={AssetsCombined} />
       <Route exact path='/unlock' component={Unlock} />
       <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />

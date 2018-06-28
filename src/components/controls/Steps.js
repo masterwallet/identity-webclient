@@ -20,9 +20,9 @@ const PreviousStep = () => <Step style={{ color: '#888', ...shadow }}>&bull;</St
 const NextStep = () => <Step style={{ color: '#ccc', ...shadow }}>&bull;</Step>;
 const CurrentStep = () => <Step style={{ color: '#8662fc', ...shadow }}>&bull;</Step>;
 
-export const Steps = ({ step, total, menu }) => {
+export const Steps = ({ step, menu }) => {
   const list = Array.apply(null, { length: menu.length }).map(Function.call, Number);
-  const title = `Step ${step+1} of ${total}`;
+  const title = `Step ${step+1} of ${menu.length}`;
   return (
     <Wrapper title={title}>
       {list.map(n => {
