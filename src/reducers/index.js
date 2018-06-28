@@ -6,9 +6,10 @@ import { reducer as toastr } from 'react-redux-toastr'
 import install from './install';
 import screen from './screen';
 import setup from './setup';
+import settings from './settings';
 
 const reducers = {
-  router, responsive, screen, install, toastr, setup
+  router, responsive, screen, install, toastr, setup, settings
 };
 const rootReducer = combineReducers(reducers);
 export default rootReducer;
