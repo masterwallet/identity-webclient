@@ -15,7 +15,7 @@ export const CompleteComponent = () => (
     <Next title={_t.start} to={'/add'} />
 
     <h4 style={{ textAlign: 'center', margin: '50px auto' }}>{_t.congrats}</h4>
-    <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.successfullyFinished}</p>
+    <p style={{ textAlign: 'center', marginBottom: 0, fontWeight: 'bold' }}>{_t.successfullyFinished}</p>
     <p style={{ textAlign: 'center' }}>{_t.nowYouCan}</p>
 
     <Steps {...{ step: 9, menu: InstallationMenu }} />

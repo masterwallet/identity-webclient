@@ -11,14 +11,14 @@ const _t = {
   createNewHd: 'Сreate HD Wallet',
   createNewHdExplained: 'HD Wallet is a hardened version of a wallet - ' +
     'you will not be allowed to import other private keys. ' +
-    'Access to your funds could be restored just by secret seed phrase. ',
+    'Access to your funds could be restored just by secret seed phrase. This is a recommended version for hot wallets.',
   restore: 'Restore HD Wallet',
   restoreExplained: 'Restore HD Wallet by entering 24 words seed',
   createNew: 'Сreate Encrypted Storage',
   createNewExplained: 'Encrypted storage allows you to have more functionality: ' +
     'in addition to wallet management and importing private keys from other wallets, ' +
     'you will be allowed to safely watch wallets without entering private keys or watch your balances on exchanges. ' +
-    'Restoring access will require note only secret seed phrase and the backup file. ',
+    'Restoring access will require note only secret seed phrase but also the backup file. ',
 
   restoreBackup: 'Restore Encrypted Storage',
   restoreBackupExplained: 'Restore Encrypted Storage from the backup file and 24 words seed phrase',
