@@ -5,7 +5,7 @@ import { WizardPanel, Next } from './../../panel/index';
 import { NetworkSelector } from './../../controls/NetworkSelector';
 
 const _t = {
-  selectNetwork: '1. Please Select Network',
+  selectNetwork: 'New Wallet: Select Network',
   continue: 'Continue'
 };
 
@@ -15,8 +15,8 @@ export class CreateWalletNetworkComponent extends React.Component {
   };
 
   onChange = (value) => {
-    this.setState({ network: value });
-  }
+    this.setState({network: value});
+  };
 
   render() {
     const { network } = this.state;

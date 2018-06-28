@@ -27,7 +27,10 @@ const Lbl = ({ onClick, label, comment, disabled, children }) => {
 /* eslint-disable jsx-a11y/label-has-for */
 export const RadioButton = ({ value, side, label, comment, children, disabled, checked, onChange }) => {
   const onClick = () => { if (!disabled) onChange(value); };
-  const styleTop = { display: 'flex', alignContent: 'center', alignItems: 'flex-start', padding: 3, cursor: 'pointer' };
+  const styleTop = {
+    display: 'flex', alignContent: 'center', alignItems: 'flex-start', padding: 3, cursor: 'pointer',
+    userSelect: 'none'
+  };
   const chkAtLeft = (!side || side === 'left');
   const styleCheck = { textAlign: chkAtLeft ? 'left' : 'right', margin: '0px auto' };
   const styleRadioButtonCont = { marginTop: 3 };
