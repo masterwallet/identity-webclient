@@ -14,8 +14,11 @@ export const CompleteComponent = () => (
   <WizardPanel title={_t.isComplete} wide={false}>
     <Next title={_t.start} to={'/add'} />
 
-    <h4 style={{ textAlign: 'center', margin: '50px auto' }}>{_t.congrats}</h4>
-    <p style={{ textAlign: 'center', marginBottom: 0, fontWeight: 'bold' }}>{_t.successfullyFinished}</p>
+    <div style={{ margin: '20px auto', textAlign: 'center' }}>
+      <img src='/media/applause.png' alt='' style={{ width: '70%', height: 'auto' }} />
+      <h4 style={{ textAlign: 'center'}}>{_t.congrats}</h4>
+      <p style={{ textAlign: 'center', marginBottom: 0, fontWeight: 'bold' }}>{_t.successfullyFinished}</p>
+    </div>
     <p style={{ textAlign: 'center' }}>{_t.nowYouCan}</p>
 
     <Steps {...{ step: 9, menu: InstallationMenu }} />
