@@ -14,7 +14,7 @@ const _t = {
 export const PinComponent = () => (
   <WizardPanel title={_t.createPin} wide={true}>
     <Next title={_t.continue} to={InstallationMenu[8]} />
-    <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.usage}</p>
+    <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.usage}</p>
     <p style={{ textAlign: 'center' }}>{_t.willBeRequired}</p>
 
     <PinCode />

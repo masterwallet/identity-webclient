@@ -14,7 +14,7 @@ const _t = {
 export const ConfirmPinComponent = () => (
   <WizardPanel title={_t.confirmPin} wide={true}>
     <Next title={_t.finish} to={InstallationMenu[9]} />
-    <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.please}</p>
+    <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
     <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>
 
     <PinCode />
