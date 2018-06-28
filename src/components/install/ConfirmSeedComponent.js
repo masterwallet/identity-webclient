@@ -6,8 +6,8 @@ import { InstallationMenu } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
-  pleaseConfirm: 'Confirm Your Seed Words',
-  importance: 'Please confirm you\'ve written down your seed words by entering a few of them:',
+  pleaseConfirm: 'Confirm Your Seed Phrase',
+  importance: 'Please confirm you\'ve written down your seed phrase by entering its words:',
   checkIt: 'Check it',
   word: 'Word'
 };

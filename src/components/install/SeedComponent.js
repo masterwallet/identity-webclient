@@ -28,7 +28,7 @@ const Word = styled.div`
   border-top: 1px #ccc solid;
   border-left: 1px #fff solid;
   border-right: 1px #fff solid;
-  
+
   border-radius: 5px;
   margin-bottom: 5px;
   padding-left: 10px;
@@ -36,11 +36,13 @@ const Word = styled.div`
   margin-right: 5px;
   user-select: none;
   flex: 0;
+  font-weight: bold;
 
   .index {
     color: #777;
     width: 28px;
     display: inline-block;
+    text-align: center;
   }
 `;
 

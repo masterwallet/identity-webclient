@@ -11,7 +11,7 @@ const Lbl = ({ onClick, label, comment, disabled }) => {
     styleLabel.cursor = 'default';
   }
   const styleComment = {
-    fontSize: 10,
+    fontSize: '0.8em',
     fontWeight: 'normal',
     color: '#444',
     whiteSpace: 'normal'
