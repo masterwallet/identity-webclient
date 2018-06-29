@@ -11,19 +11,19 @@ const _t = {
 
 export class ExchangeSelectComponent extends React.Component {
   state = {
-    network: 'ETH'
+    exchange: ''
   };
 
   onChange = (value) => {
-    this.setState({network: value});
+    this.setState({exchange: value});
   };
 
   render() {
-    const { network } = this.state;
+    const { exchange } = this.state;
     return (
       <WizardPanel title={_t.selectExchange}>
-        {network ? <Next to={`/exchange/${network}/name`} title={_t.continue} /> : false}
-        <ExchangeSelector value={network} onChange={this.onChange} />
+        {exchange ? <Next to={`/exchange/${exchange}/name`} title={_t.continue} /> : false}
+        <ExchangeSelector value={exchange} onChange={this.onChange} />
 
         <Steps {...{ step: 0, menu: ExchangeMenu() }} />
       </WizardPanel>

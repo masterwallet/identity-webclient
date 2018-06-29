@@ -17,10 +17,10 @@ export class ExchangeNameComponent extends React.Component {
 
   render() {
     const value = '';
-    const { network } = this.props.match.params;
+    const { exchange } = this.props.match.params;
     return (
       <WizardPanel title={_t.nameYourAccount}>
-        <Next to={`/exchange/${network}/account`} title={_t.continue} />
+        <Next to={`/exchange/${exchange}/account`} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true }} />

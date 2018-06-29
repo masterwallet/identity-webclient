@@ -1,11 +1,18 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { ExchangeMenu } from './../../../config/Wizards';
+import { WizardPanel, Next } from './../../panel/index';
 
-const exchange ='kucoin';
+const _t = {
+  success: 'Exchange Account Was Added',
+  accountWasAdded: 'Access to exchange account was verified and added to the wallet for monitoring.',
+  myAssets: 'My Assets'
+};
+
 export const ExchangeCompleteComponent = () => (
-  <div>
-    Exchange Account Added (3/3)
-    <Steps {...{ step: 2, menu: ExchangeMenu(exchange) }} />
-  </div>
+  <WizardPanel title={_t.success}>
+    <Next to={`/assets/overview`} title={_t.myAssets} />      
+    <p style={{ textAlign: 'center', marginTop: 20 }}>{_t.accountWasAdded}</p>
+    <Steps {...{ step: 2, menu: ExchangeMenu() }} />
+  </WizardPanel>
 );
