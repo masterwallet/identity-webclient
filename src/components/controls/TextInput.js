@@ -25,7 +25,7 @@ class TextInput extends React.Component {
   componentDidMount() {
     this.input.value = this.safeValue();
     if (this.props.autofocus) {
-      setTimeout(() => { this.input.focus(); }, 500);
+      setTimeout(() => { if (this.input) this.input.focus(); }, 500);
     }
   }
 

@@ -9,9 +9,9 @@ class RadioButtonGroup extends React.Component {
     this.setState({ checked: value });
   };
 
-  componentWillReceiveProps({ selected }) {
-    if (selected && this.state.checked !== selected) {
-      this.setState({ checked: selected });
+  componentWillReceiveProps({ value }) {
+    if (value && this.state.checked !== value) {
+      this.setState({ checked: value });
     }
   }
 

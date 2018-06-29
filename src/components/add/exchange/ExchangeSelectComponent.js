@@ -22,7 +22,7 @@ export class ExchangeSelectComponent extends React.Component {
     const { network } = this.state;
     return (
       <WizardPanel title={_t.selectExchange}>
-        <Next to={`/exchange/${network}/name`} title={_t.continue} />
+        {network ? <Next to={`/exchange/${network}/name`} title={_t.continue} /> : false}
         <ExchangeSelector value={network} onChange={this.onChange} />
 
         <Steps {...{ step: 0, menu: ExchangeMenu() }} />
