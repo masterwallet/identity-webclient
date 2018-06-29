@@ -49,6 +49,8 @@ const Word = styled.div`
 const WordList = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: 0px auto;
+  max-width: 850px;
   justify-content: center;
 `;
 
