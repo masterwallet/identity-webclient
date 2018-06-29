@@ -7,7 +7,7 @@ export const NetworkSelector = ({ value, onChange }) => {
   const options = Networks.map(n => ({
     value: n.value,
     children: [(
-      <div style={{ display: 'flex' }}>
+      <div key={n.value} style={{ display: 'flex' }}>
         <div style={{ width: 30 }}>
           <img src={n.icon} alt='' style={{ width: 'auto', height: 25 }} />
         </div>
