@@ -2,7 +2,7 @@ import React from 'react';
 import { RadioButton } from './RadioButton';
 
 class RadioButtonGroup extends React.Component {
-  state = { checked: this.props.selected };
+  state = { checked: this.props.value };
 
   onChange = (value) => {
     this.props.onChange(value);
