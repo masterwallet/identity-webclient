@@ -7,9 +7,10 @@ import install from './install';
 import screen from './screen';
 import setup from './setup';
 import settings from './settings';
+import add from './add';
 
 const reducers = {
-  router, responsive, screen, install, toastr, setup, settings
+  router, responsive, screen, install, toastr, setup, settings, add
 };
 const rootReducer = combineReducers(reducers);
 export default rootReducer;

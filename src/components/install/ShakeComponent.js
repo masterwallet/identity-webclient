@@ -12,14 +12,19 @@ const _t = {
 
 const Centered = styled.div`
   text-align:center;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 export const ShakeComponent = () => (
   <WizardPanel title={_t.generate}>
     <Next title={_t.start} to={InstallationMenu[5]} />
-    <Centered>{_t.pleaseShakeDesktop}</Centered>
+    <Centered>
+      <div style={{ margin: '20px auto', textAlign: 'center' }}>
+        <img src='/media/randommove.svg' alt='' style={{ width: '150px', height: 'auto' }} />
+      </div>
+      {_t.pleaseShakeDesktop}
+    </Centered>
     <Steps {...{ step: 4, menu: InstallationMenu }} />
   </WizardPanel>
 );
