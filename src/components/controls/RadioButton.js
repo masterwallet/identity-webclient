@@ -14,7 +14,8 @@ const Lbl = ({ onClick, label, comment, disabled, children }) => {
     fontSize: '0.8em',
     fontWeight: 'normal',
     color: '#444',
-    whiteSpace: 'normal'
+    whiteSpace: 'normal',
+    paddingRight: 10
   };
   return (
     <div onMouseDown={onClick} style={styleLabel}>

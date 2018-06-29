@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  padding-left: 0px;
+  padding-right: 0px;
   h3 {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -32,8 +34,9 @@ export const WizardPanel = ({ title, children, wide = false }) => (
     <Wrapper className="container-fluid">
       <h3>{title}</h3>
       <Spacer />
-      <div style={{ width: (wide ? '80%' : 300), margin: '0px auto', textAlign: 'justify' }}>
+      <div style={{ width: (wide ? '90%' : 300), margin: '0px auto', textAlign: 'justify' }}>
         {children}
       </div>
+      <Spacer />
     </Wrapper>
   );
