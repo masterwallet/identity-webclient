@@ -52,18 +52,22 @@ export const MockMenu = () => (
       <Link to="/add">Add</Link>
       <Sep />
       <Link to="/create">Create Wallet</Link>
+      <Link to="/create/ETH/name">[1]</Link>
       <Link to="/create/ETH/wallet">[2]</Link>
       <Link to="/create/ETH/complete">[3]</Link>
       <Sep />
       <Link to="/watch">Watch Wallet</Link>
+      <Link to="/watch/ETH/name">[1]</Link>
       <Link to="/watch/ETH/wallet">[2]</Link>
       <Link to="/watch/ETH/complete">[3]</Link>
       <Sep />
       <Link to="/exchange">Watch Exchange</Link>
+      <Link to="/exchange/KUCOIN/name">[1]</Link>
       <Link to="/exchange/KUCOIN/account">[2]</Link>
       <Link to="/exchange/KUCOIN/complete">[3]</Link>
       <Sep />
       <Link to="/import">Import Wallet</Link>
+      <Link to="/import/ETH/name">[1]</Link>
       <Link to="/import/ETH/wallet">[2]</Link>
       <Link to="/import/ETH/complete">[3]</Link>
     </pre>

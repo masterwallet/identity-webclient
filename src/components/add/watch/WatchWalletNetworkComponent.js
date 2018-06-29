@@ -22,7 +22,7 @@ export class WatchWalletNetworkComponent extends React.Component {
     const { network } = this.state;
     return (
       <WizardPanel title={_t.selectNetwork}>
-        <Next to={`/watch/${network}/wallet`} title={_t.continue} />
+        <Next to={`/watch/${network}/name`} title={_t.continue} />
         <NetworkSelector value={network} onChange={this.onChange} />
 
         <Steps {...{ step: 0, menu: WatchMenu() }} />

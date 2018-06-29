@@ -9,10 +9,10 @@ import { AssetsOverview, AssetsCombined } from './assets/index';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
-import { CreateWalletNetwork, CreateWalletInput, CreateWalletComplete } from './add/wallet/index';
-import { WatchWalletNetwork, WatchWalletInput, WatchWalletComplete } from './add/watch/index';
-import { ExchangeSelect, ExchangeInput, ExchangeComplete } from './add/exchange/index';
-import { ImportWalletNetwork, ImportWalletInput, ImportWalletComplete } from './add/import/index';
+import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletComplete } from './add/wallet/index';
+import { WatchWalletNetwork, WatchWalletName, WatchWalletInput, WatchWalletComplete } from './add/watch/index';
+import { ExchangeSelect, ExchangeName, ExchangeInput, ExchangeComplete } from './add/exchange/index';
+import { ImportWalletNetwork, ImportWalletName, ImportWalletInput, ImportWalletComplete } from './add/import/index';
 
 // Temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
@@ -46,18 +46,22 @@ const App = () => (
       <Route exact path='/add' component={CreateMenu} />
       {/* Addition of Wallet to Manage */}
       <Route exact path='/create' component={CreateWalletNetwork} />
+      <Route path='/create/:network/name' component={CreateWalletName} />
       <Route path='/create/:network/wallet' component={CreateWalletInput} />
       <Route path='/create/:network/complete' component={CreateWalletComplete} />
       {/* Addition of Wallet to Watch */}
       <Route exact path='/watch' component={WatchWalletNetwork} />
+      <Route path='/watch/:network/name' component={WatchWalletName} />
       <Route path='/watch/:network/wallet' component={WatchWalletInput} />
       <Route path='/watch/:network/complete' component={WatchWalletComplete} />
       {/* Addition of Exchange Account to Watch */}
       <Route exact path='/exchange' component={ExchangeSelect} />
+      <Route path='/exchange/:exchange/name' component={ExchangeName} />
       <Route path='/exchange/:exchange/account' component={ExchangeInput} />
       <Route path='/exchange/:exchange/complete' component={ExchangeComplete} />
       {/* Addition of Wallet by Importing */}
       <Route exact path='/import' component={ImportWalletNetwork} />
+      <Route path='/import/:network/name' component={ImportWalletName} />
       <Route path='/import/:network/wallet' component={ImportWalletInput} />
       <Route path='/import/:network/complete' component={ImportWalletComplete} />
 
