@@ -9,7 +9,10 @@ const _t = {
 
 export const UnlockComponent = () => (
   <WizardPanel title={_t.unlockYourWallet}>
-    <p style={{ textAlign: 'center', marginTop: 50 }}>{_t.byEntering}</p>
+    <p style={{ textAlign: 'center', marginTop: 20 }}>{_t.byEntering}</p>
     <PinCode />
+    <div style={{ margin: '20px auto', textAlign: 'center' }}>
+      <img src='/media/unlock.png' alt='' style={{ width: '50%', height: 'auto' }} />
+    </div>
   </WizardPanel>
 );
