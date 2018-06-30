@@ -80,9 +80,9 @@ export const MockMenu = () => (
       <Sep />
       <Link to="/wallets/3/history">History</Link>
       <Sep />
-      <Link to="/wallets/3/account">Account</Link>
+      <Link style={{ color: 'gray' }} to="/wallets/3/account">Account</Link>
       <Sep />
-      <Link to="/wallets/4/vote">Vote</Link>
+      <Link style={{ color: 'gray' }} to="/wallets/4/vote">Vote</Link>
     </pre>
   </Wrapper>
 );

@@ -11,14 +11,14 @@ const _t = {
   continue: 'Continue'
 };
 
-export const PinComponent = () => (
+export const PinComponent = ({ install, onUpdatePin }) => (
   <WizardPanel title={_t.createPin} wide={true}>
     <Next title={_t.continue} to={InstallationMenu[8]} />
     <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.usage}</p>
     <p style={{ textAlign: 'center' }}>{_t.willBeRequired}</p>
 
-    <PinCode />
-
+    <PinCode value={install.pinCode} onChange={onUpdatePin} />
+    
     <Steps {...{ step: 7, menu: InstallationMenu }} />
   </WizardPanel>
 );

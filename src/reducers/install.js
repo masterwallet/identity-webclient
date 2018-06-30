@@ -1,6 +1,6 @@
 const initialState = {
   storage: '',
-  pinCode: '',
+  pinCode: '12',
   pinCodeConfirm: '',
   wordsGenerated: [],
   generated: [],
