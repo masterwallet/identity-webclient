@@ -55,7 +55,6 @@ export const MockMenu = () => (
       <Link to="/create/ETH/name">[1]</Link>
       <Link to="/create/ETH/wallet">[2]</Link>
       <Link to="/create/ETH/paper">[3]</Link>
-      <Link to="/create/ETH/complete">[4]</Link>
       <Sep />
       <Link to="/watch">Watch Wallet</Link>
       <Link to="/watch/ETH/name">[1]</Link>

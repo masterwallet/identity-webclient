@@ -8,7 +8,7 @@ const _t = {
   paperWallet: 'Print Paper Wallet',
   printInsecurePaperWallet: 'Here you can print insecure Paper Wallet:',
   printSecuredPaperWallet: 'Or you can print Paper Wallet, secured with password:',
-  continue: 'Continue',
+  myAssets: 'My Assets',
   printWallet: 'Print Wallet',
   yourPassword: 'Secret Wallet Password'
 };
@@ -24,7 +24,7 @@ export class CreateWalletPaperComponent extends React.Component {
     const { network } = this.props.match.params;
     return (
       <WizardPanel title={_t.paperWallet}>
-        <Next to={`/create/${network}/complete`} title={_t.continue} />
+        <Next to={`/assets/overview`} title={_t.myAssets} />
         <div style={{ margin: '30px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.printInsecurePaperWallet}</p>
           <div style={{ textAlign: 'center' }}>
