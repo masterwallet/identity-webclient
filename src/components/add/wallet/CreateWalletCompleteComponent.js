@@ -6,6 +6,6 @@ const network = 'eth';
 export const CreateWalletCompleteComponent = () => (
   <div>
     Wallet was Created (3/3)
-    <Steps {...{ step: 2, menu: CreateMenu(network) }} />
+    <Steps {...{ step: 3, menu: CreateMenu(network) }} />
   </div>
 );
