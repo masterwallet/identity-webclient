@@ -15,8 +15,7 @@ export const CreateMenu = network => [
   '/create',
   `/import/${network}/name`,
   `/create/${network}/wallet`,
-  `/create/${network}/paper`,
-  `/create/${network}/complete`
+  `/create/${network}/paper`
 ];
 
 export const ImportMenu = network => [
