@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu } from './../../config/Wizards';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
@@ -37,8 +37,8 @@ const options = [
 ];
 
 export const SelectStorageComponent = ({ setup }) => {
-  const { serverStatus } = setup;
-  const { isRunning } = serverStatus;
+  // const { serverStatus } = setup;
+  // const { isRunning } = serverStatus;
   return (
     <WizardPanel title={_t.title}>
       <Next title={_t.continue} to={InstallationMenu[4]} />

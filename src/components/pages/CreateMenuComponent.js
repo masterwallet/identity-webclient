@@ -39,8 +39,8 @@ export class CreateMenuComponent extends React.Component {
   }
 
   render() {
-    const { setup } = this.props;
-    const { serverStatus } = setup;
+    // const { setup } = this.props;
+    // const { serverStatus } = setup;
     // const noServer = (serverStatus || !serverStatus.isRunning);
     // const serverData = (serverStatus && serverStatus.data) ? serverStatus.data : {};
     const hdWallet = false;
