@@ -9,8 +9,18 @@ const _t = {
   continue: 'Continue',
   generatedText: 'New wallet was generated and added to the watch list.',
   thisIsTheAddress: 'Here is public address of this wallet',
-  itWillBeHelpful: 'It will be helpfull to check this image on transactions' 
-}
+  itWillBeHelpful: 'It will be helpfull to check this image on transactions'
+};
+
+const Address = ({ value }) => (
+  <div style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', display: 'flex', alignItems: 'center' }}>
+    {value}
+    &nbsp;
+    <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }}>
+      <img src="/media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
+    </button>
+  </div>
+);
 
 export class CreateWalletInputComponent extends React.Component {
 
@@ -23,9 +33,7 @@ export class CreateWalletInputComponent extends React.Component {
         <Next to={`/create/${network}/paper`} title={_t.continue} />
         <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
         <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
-        <div style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center' }}>
-          {address}
-        </div>        
+        <Address value={address} />
         <div style={{ textAlign: 'center', background: 'white', width: 150, margin: '0px auto' }}>
           <JDentIcon size={150} value={address} />
         </div>
