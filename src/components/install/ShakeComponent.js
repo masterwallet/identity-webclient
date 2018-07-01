@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
+import { ProgressCircle } from './../controls/ProgressCircle';
 
 const _t = {
   generate: 'Generate Some Randomness',
@@ -20,10 +21,11 @@ export const ShakeComponent = () => (
   <WizardPanel title={_t.generate}>
     <Next title={_t.start} to={InstallationMenu[5]} />
     <Centered>
-      <div style={{ margin: '20px auto', textAlign: 'center' }}>
-        <img src='/media/randommove.svg' alt='' style={{ width: '150px', height: 'auto' }} />
+      <div style={{ margin: '20px auto', display: 'flex' }}>
+        <img src='/media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />
+        <div style={{ textAlign: 'center' }}>{_t.pleaseShakeDesktop}</div>
       </div>
-      {_t.pleaseShakeDesktop}
+      <ProgressCircle value={30} />
     </Centered>
     <Steps {...{ step: 4, menu: InstallationMenu }} />
   </WizardPanel>
