@@ -21,10 +21,14 @@ export default function (state = initialState, action) {
         return {...state, storage: action.payload };
       }
       case 'SHAKE': {
-        const generated = state.generated.slice();
-        generated.push(action.payload);
-        const generatedProgress = state.generatedProgress + 1; 
-        return { ...state, generated, generatedProgress };
+
+        if (state.generatedProgress < 100) {
+          const generated = state.generated.slice();
+          generated.push(action.payload);
+          const generatedProgress = parseInt(generated.length * 100 / 500, 10); 
+          return { ...state, generated, generatedProgress };
+        }
+        return state;
       }
       case 'CONFIRM_WORD': {
         const { index, value } = action.payload;

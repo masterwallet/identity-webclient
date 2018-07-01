@@ -48,9 +48,9 @@ export const ProgressCircle = ({ value, size = 200 }) => {
 
   return (
     <CircleWrapper data-pct={value}>
-      <svg width={size} height={size} viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
-        <circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" style={styleCircle}></circle>
+      <svg width={size} height={size} viewport="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <circle r="90" cx="100" cy="100" fill="transparent" strokeDasharray="565.48" strokeDashoffset="0"></circle>
+        <circle r="90" cx="100" cy="100" fill="transparent" strokeDasharray="565.48" style={styleCircle}></circle>
       </svg>
     </CircleWrapper>
   );
