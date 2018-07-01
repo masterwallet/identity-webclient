@@ -5,7 +5,7 @@ import { WizardPanel, Next } from './../../panel/index';
 import { ExchangeSelector } from './../../controls/ExchangeSelector';
 
 const _t = {
-  selectExchange: 'Select Exchange to Add',
+  selectExchange: 'Select Exchange to Watch',
   continue: 'Continue'
 };
 
