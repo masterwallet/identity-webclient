@@ -21,7 +21,7 @@ export class CreateWalletPaperComponent extends React.Component {
   render() {
     const value = '';
     const onChange = () => {};
-    const { network } = this.props.match.params;
+    // const { network } = this.props.match.params;
     return (
       <WizardPanel title={_t.paperWallet}>
         <Next to={`/assets/overview`} title={_t.myAssets} />

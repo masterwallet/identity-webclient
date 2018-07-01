@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import sha1 from './sha1';
 import SvgRenderer from './svgRenderer';
 import SvgWriter from './svgWriter';
