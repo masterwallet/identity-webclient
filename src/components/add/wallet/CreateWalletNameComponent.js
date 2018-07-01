@@ -20,12 +20,12 @@ export class CreateWalletNameComponent extends React.Component {
     const { network } = this.props.match.params;
     return (
       <WizardPanel title={_t.nameYourAccount}>
-        <Next to={`/create/${network}/account`} title={_t.continue} />
+        <Next to={CreateMenu(network)[2]} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true }} />
         </div>
-        <Steps {...{ step: 1, menu: CreateMenu() }} />
+        <Steps {...{ step: 1, menu: CreateMenu(network) }} />
       </WizardPanel>
     )
   }
