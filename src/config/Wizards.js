@@ -15,17 +15,18 @@ export const InstallationMenu = [
   '/setup/complete'
 ];
 
-export const CreateMenu = network => {
+export const CreateMenu = (network, testnet) => {
   const props = network ? findNetwork(network) : {};
   const terms = props.terms ? [`/create/${network}/terms`] : [];
-  return ['create'].concat(terms).concat([
+  const net = testnet ? [`/create/${network}/`]: [];
+  return ['create'].concat(terms).concat(net).concat([
     `/create/${network}/name`,
     `/create/${network}/wallet`,
     `/create/${network}/paper`
   ]);
 }
 
-export const ImportMenu = network => {
+export const ImportMenu = (network, testnet) => {
   const props = network ? findNetwork(network) : {};
   const terms = props.terms ? [`import/${network}/terms`] : [];
   return ['import'].concat(terms).concat([
@@ -35,7 +36,7 @@ export const ImportMenu = network => {
   ]);
 }
 
-export const WatchMenu = network => [
+export const WatchMenu = (network, testnet) => [
   '/watch',
   `/watch/${network}/name`,
   `/watch/${network}/wallet`,

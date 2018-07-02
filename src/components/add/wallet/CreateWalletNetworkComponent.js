@@ -11,22 +11,30 @@ const _t = {
 
 export class CreateWalletNetworkComponent extends React.Component {
   state = {
-    network: 'ETH'
+    network: 'ETH',
+    testnet: 1
   };
 
   onChange = (value) => {
-    this.setState({network: value});
+    this.setState({ network: value });
   };
+  onTestNet = (value) => {
+    this.setState({ testnet: value });
+  }
 
   render() {
-    const { network } = this.state;
+    const { network, testnet } = this.state;
     const menu = CreateMenu(network);
     const step = 0;
 
     return (
       <WizardPanel title={_t.selectNetwork}>
         {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
-        <NetworkSelector value={network} onChange={this.onChange} />
+        <NetworkSelector
+          value={network} onChange={this.onChange} 
+          isTestNet={testnet}
+          onTestNet={this.onTestNet}
+        />
         <Steps {...{ step, menu }} />
       </WizardPanel>
     )

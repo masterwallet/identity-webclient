@@ -1,9 +1,45 @@
 import React from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import { Networks } from './../../config/Networks';
 import RadioButtonGroup from './RadioButtonGroup';
 
-export const NetworkSelector = ({ value, onChange }) => {
+const NetSwitchDiv = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+  button {
+    width: 50%;
+    background: transparent;
+    
+  }
+  button.active {
+    border-color: #007bff;
+    border-top: 1px #6239bf solid;
+    border-bottom: 1px #61c38b solid;
+  }
+`;
+
+const NetSwitcher = ({ isTestNet, onChange }) => {
+  return (
+    <NetSwitchDiv>
+      {isTestNet}
+      <button
+        className={`btn btn-sm ${isTestNet ? 'active': ''}`}
+        onClick={()=> (onChange(false))}
+      >
+        Main Net
+      </button>
+      <button
+        className={`btn btn-sm ${isTestNet ? 'active': ''}`}
+        onClick={() => (onChange(true))}
+      >
+        Test Net
+      </button>
+    </NetSwitchDiv>
+  );
+}
+
+export const NetworkSelector = ({ value, onChange, isTestNet, onTestNet }) => {
   const options = Networks.map(n => ({
     value: n.value,
     children: [(
@@ -16,5 +52,10 @@ export const NetworkSelector = ({ value, onChange }) => {
       </div>
     )]
   }));
-  return (<RadioButtonGroup {...{value, options, onChange}} />);
+  return (
+    <div>
+      <NetSwitcher isTestNet={isTestNet} onChange={onTestNet} />
+      <RadioButtonGroup {...{value, options, onChange}} />
+    </div>
+  );
 };
