@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { CreateMenu } from './../../../config/Wizards';
+import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 
@@ -11,21 +11,24 @@ const _t = {
 };
 
 export class CreateWalletNameComponent extends React.Component {
+  state = { value: '' };
   onChange = (value) => {
-    // this.setState({network: value});
+    this.setState({ value });
   };
 
   render() {
-    const value = '';
+    const { value } = this.state;
     const { network } = this.props.match.params;
+    const menu = CreateMenu(network);
+    const step = findWizardStep( menu, '/name' );
     return (
       <WizardPanel title={_t.nameYourAccount}>
-        <Next to={CreateMenu(network)[2]} title={_t.continue} />
+        <Next to={menu[step + 1]} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true }} />
         </div>
-        <Steps {...{ step: 1, menu: CreateMenu(network) }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     )
   }

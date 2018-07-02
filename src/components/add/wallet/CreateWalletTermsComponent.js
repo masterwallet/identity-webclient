@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { CreateMenu } from './../../../config/Wizards';
+import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 
 const _t = {
@@ -13,7 +13,7 @@ export class CreateWalletTermsComponent extends React.Component {
   render() {
     const { network } = this.props.match.params;
     const menu = CreateMenu(network);
-    const step = 2;
+    const step = findWizardStep(menu, '/terms');
     return (
       <WizardPanel title={_t.networkTerms} wide={true}>
         <Next to={menu[step + 1]} title={_t.accept} />

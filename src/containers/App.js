@@ -9,7 +9,7 @@ import { AssetsOverview, AssetsCombined } from './assets/index';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
-import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletTerms, CreateWalletPaper, CreateWalletComplete } from './add/wallet/index';
+import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletTerms, CreateWalletPaper } from './add/wallet/index';
 import { WatchWalletNetwork, WatchWalletName, WatchWalletAddress, WatchWalletComplete } from './add/watch/index';
 import { ExchangeSelect, ExchangeName, ExchangeInput, ExchangeComplete } from './add/exchange/index';
 import { ImportWalletNetwork, ImportWalletName, ImportWalletInput, ImportWalletTerms, ImportWalletComplete } from './add/import/index';
@@ -50,7 +50,6 @@ const App = () => (
       <Route path='/create/:network/terms' component={CreateWalletTerms} />
       <Route path='/create/:network/wallet' component={CreateWalletInput} />
       <Route path='/create/:network/paper' component={CreateWalletPaper} />
-      <Route path='/create/:network/complete' component={CreateWalletComplete} />
       {/* Addition of Wallet to Watch */}
       <Route exact path='/watch' component={WatchWalletNetwork} />
       <Route path='/watch/:network/name' component={WatchWalletName} />

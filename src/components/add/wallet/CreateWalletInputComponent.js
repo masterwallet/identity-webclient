@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { CreateMenu } from './../../../config/Wizards';
+import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
@@ -28,9 +28,11 @@ export class CreateWalletInputComponent extends React.Component {
     // const { add } = this.props;
     const address = '0x1303494949494949494949949494940031233949';
     const { network } = this.props.match.params;
+    const menu = CreateMenu(network);
+    const step = findWizardStep(menu, '/wallet')
     return (
       <WizardPanel title={_t.accountWasGenerated}>
-        <Next to={`/create/${network}/paper`} title={_t.continue} />
+        <Next to={menu[step + 1]} title={_t.continue} />
         <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
         <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
         <Address value={address} />
@@ -39,7 +41,7 @@ export class CreateWalletInputComponent extends React.Component {
         </div>
         <p style={{ textAlign: 'center' }}>{_t.itWillBeHelpful}</p>
 
-        <Steps {...{ step: 2, menu: CreateMenu(network) }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     );
   }

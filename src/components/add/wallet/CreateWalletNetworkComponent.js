@@ -20,11 +20,14 @@ export class CreateWalletNetworkComponent extends React.Component {
 
   render() {
     const { network } = this.state;
+    const menu = CreateMenu(network);
+    const step = 0;
+
     return (
       <WizardPanel title={_t.selectNetwork}>
-        {network ? <Next to={CreateMenu(network)[1]} title={_t.continue} /> : false}
-        <NetworkSelector value={network} onChange={this.onChange} />        
-        <Steps {...{ step: 0, menu: CreateMenu(network) }} />
+        {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+        <NetworkSelector value={network} onChange={this.onChange} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     )
   }
