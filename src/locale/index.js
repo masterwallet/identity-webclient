@@ -1,5 +1,5 @@
 import React from 'react';
-export const lang = localStorage.getItem('locale') || 'en';
+export const lang = localStorage.getItem('masterwallet_locale') || 'en';
 
 export const Storage = {
   set: (x, value) => { sessionStorage.setItem(x, value); },
