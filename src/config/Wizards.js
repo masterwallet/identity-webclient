@@ -48,3 +48,8 @@ export const ExchangeMenu = exchange => [
   `/exchange/${exchange}/account`,
   `/exchange/${exchange}/complete`
 ];
+
+export const findWizardStep = (menu, needle) => {
+  const items = menu.map((m, index) => (m.indexOf(needle) > -1 ? index : null)).filter(i => i !== null);
+  return items.length > 0 ? items[0] : -1;
+};

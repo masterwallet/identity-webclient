@@ -1,7 +1,7 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import TextInput from './../../controls/TextInput';
-import { WatchMenu } from './../../../config/Wizards';
+import { WatchMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
@@ -23,7 +23,7 @@ export class WatchWalletAddressComponent extends React.Component {
     const { match } = this.props;
     const { network } = match.params;
     const menu = WatchMenu(network);
-    const step = 2;
+    const step = findWizardStep(menu, '/wallet');
     const { value } = this.state;
     return (
       <WizardPanel title={_t.walletAddress}>
