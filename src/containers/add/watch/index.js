@@ -1,11 +1,11 @@
 import { WatchWalletComplete } from './WatchWalletComplete';
-import { WatchWalletInput } from './WatchWalletInput';
+import { WatchWalletAddress } from './WatchWalletAddress';
 import { WatchWalletNetwork } from './WatchWalletNetwork';
 import { WatchWalletName } from './WatchWalletName';
 
 export {
   WatchWalletComplete,
-  WatchWalletInput,
+  WatchWalletAddress,
   WatchWalletNetwork,
   WatchWalletName
 };

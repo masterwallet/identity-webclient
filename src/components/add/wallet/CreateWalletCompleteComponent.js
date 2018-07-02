@@ -7,7 +7,7 @@ const _t = {
   finished: 'Wallet is Ready to Use',
   readyToUse: 'Wallet is created and ready to use',
   assets: 'Assets'
-}
+};
 
 export const CreateWalletCompleteComponent = ({ match }) => {
   const { network } = match.params;

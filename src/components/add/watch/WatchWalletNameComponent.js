@@ -11,22 +11,26 @@ const _t = {
 };
 
 export class WatchWalletNameComponent extends React.Component {
+  state = { value: '' };
+
   onChange = (value) => {
-    // this.setState({network: value});
+    this.setState({value});
   };
 
   render() {
-    const value = '';
+    const { value } = this.state;
     const { network } = this.props.match.params;
+    const menu = WatchMenu(network);
+    const step = 1;
     return (
       <WizardPanel title={_t.nameYourAccount}>
-        <Next to={`/watch/${network}/account`} title={_t.continue} />
+        <Next to={menu[step + 1]} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true }} />
         </div>
 
-        <Steps {...{ step: 1, menu: WatchMenu() }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     )
   }

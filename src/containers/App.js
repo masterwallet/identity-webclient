@@ -10,7 +10,7 @@ import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, Wa
 import { Home } from './pages/Home';
 import './App.css';
 import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletTerms, CreateWalletPaper, CreateWalletComplete } from './add/wallet/index';
-import { WatchWalletNetwork, WatchWalletName, WatchWalletInput, WatchWalletComplete } from './add/watch/index';
+import { WatchWalletNetwork, WatchWalletName, WatchWalletAddress, WatchWalletComplete } from './add/watch/index';
 import { ExchangeSelect, ExchangeName, ExchangeInput, ExchangeComplete } from './add/exchange/index';
 import { ImportWalletNetwork, ImportWalletName, ImportWalletInput, ImportWalletTerms, ImportWalletComplete } from './add/import/index';
 
@@ -54,7 +54,7 @@ const App = () => (
       {/* Addition of Wallet to Watch */}
       <Route exact path='/watch' component={WatchWalletNetwork} />
       <Route path='/watch/:network/name' component={WatchWalletName} />
-      <Route path='/watch/:network/wallet' component={WatchWalletInput} />
+      <Route path='/watch/:network/wallet' component={WatchWalletAddress} />
       <Route path='/watch/:network/complete' component={WatchWalletComplete} />
       {/* Addition of Exchange Account to Watch */}
       <Route exact path='/exchange' component={ExchangeSelect} />
