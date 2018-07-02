@@ -60,7 +60,7 @@ export class JDentIcon extends React.Component {
   componentDidMount() {
     const { size, value, padding = 0 } = this.props;
     const div = document.createElement('div');
-    div.innerHTML = toSvg({ value, size, padding });
+    div.innerHTML = value ? toSvg({ value: value.toLowerCase(), size, padding }) : '';
     this.root.appendChild(div);
   }
 
@@ -68,7 +68,7 @@ export class JDentIcon extends React.Component {
     const { size, padding, value } = this.props;
     if ( nextProps.size !== size || nextProps.padding !== padding || nextProps.value !== value) {
       const div = document.createElement('div');
-      div.innerHTML = toSvg({ value, size, padding });
+      div.innerHTML = value ? toSvg({ value: value.toLowerCase(), size, padding }) : '';
       this.root.innerHTML = "";
       this.root.appendChild(div);
     }
