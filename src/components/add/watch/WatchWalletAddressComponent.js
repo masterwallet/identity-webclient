@@ -33,8 +33,8 @@ export class WatchWalletAddressComponent extends React.Component {
           <TextInput {...{value, onChange: this.onChange, autofocus: true}} />
           {value ? (
             <div style={{ textAlign: 'center', marginTop: 20}}>
-              <p style={{ textAlign: 'center' }}>{_t.verifyTheImage}</p>
-              <JDentIcon size={150} value={value} style={{ margin: '0px auto' }} />
+              <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.verifyTheImage}</p>
+              <JDentIcon size={150} value={value} style={{ margin: '0px auto', background: 'white' }} />
             </div>
           ) : false}
         </div>

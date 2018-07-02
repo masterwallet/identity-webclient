@@ -20,12 +20,15 @@ export class ImportWalletNetworkComponent extends React.Component {
 
   render() {
     const { network } = this.state;
+    const menu = ImportMenu(network);
+    const step = 0;
+    // TODO: switcher for MainNet or TestNet. The next screen (for testnet appears if testnet was selected)
     return (
       <WizardPanel title={_t.selectNetwork}>
-        {network ? <Next to={`/import/${network}/name`} title={_t.continue} /> : false}
+        {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
         <NetworkSelector value={network} onChange={this.onChange} />
 
-        <Steps {...{ step: 0, menu: ImportMenu() }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     )
   }
