@@ -43,7 +43,7 @@ export class CreateWalletPaperComponent extends React.Component {
             <button className='btn btn-primary'>{_t.printWallet}</button>
           </div>
         </div>
-        <Steps {...{ step: 3, menu: CreateMenu() }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     )
   }
