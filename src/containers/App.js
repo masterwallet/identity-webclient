@@ -9,10 +9,10 @@ import { AssetsOverview, AssetsCombined } from './assets/index';
 import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
 import { Home } from './pages/Home';
 import './App.css';
-import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletPaper, CreateWalletComplete } from './add/wallet/index';
+import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletTerms, CreateWalletPaper, CreateWalletComplete } from './add/wallet/index';
 import { WatchWalletNetwork, WatchWalletName, WatchWalletInput, WatchWalletComplete } from './add/watch/index';
 import { ExchangeSelect, ExchangeName, ExchangeInput, ExchangeComplete } from './add/exchange/index';
-import { ImportWalletNetwork, ImportWalletName, ImportWalletInput, ImportWalletComplete } from './add/import/index';
+import { ImportWalletNetwork, ImportWalletName, ImportWalletInput, ImportWalletTerms, ImportWalletComplete } from './add/import/index';
 
 // Temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
@@ -47,6 +47,7 @@ const App = () => (
       {/* Addition of Wallet to Manage */}
       <Route exact path='/create' component={CreateWalletNetwork} />
       <Route path='/create/:network/name' component={CreateWalletName} />
+      <Route path='/create/:network/terms' component={CreateWalletTerms} />
       <Route path='/create/:network/wallet' component={CreateWalletInput} />
       <Route path='/create/:network/paper' component={CreateWalletPaper} />
       <Route path='/create/:network/complete' component={CreateWalletComplete} />
@@ -63,6 +64,7 @@ const App = () => (
       {/* Addition of Wallet by Importing */}
       <Route exact path='/import' component={ImportWalletNetwork} />
       <Route path='/import/:network/name' component={ImportWalletName} />
+      <Route path='/import/:network/terms' component={ImportWalletTerms} />
       <Route path='/import/:network/wallet' component={ImportWalletInput} />
       <Route path='/import/:network/complete' component={ImportWalletComplete} />
 
