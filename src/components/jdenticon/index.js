@@ -45,7 +45,7 @@ const computeHash = (value) => {
   return sha1(!value ? "" : "" + value);
 };
 
-const toSvg = (value, size, padding) => {
+const toSvg = ({ value, size, padding }) => {
   const writer = new SvgWriter(size);
   const renderer = new SvgRenderer(writer);
   iconGenerator(renderer,
@@ -60,8 +60,18 @@ export class JDentIcon extends React.Component {
   componentDidMount() {
     const { size, value, padding = 0 } = this.props;
     const div = document.createElement('div');
-    div.innerHTML = toSvg(value, size, padding);
+    div.innerHTML = toSvg({ value, size, padding });
     this.root.appendChild(div);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { size, padding, value } = this.props;
+    if ( nextProps.size !== size || nextProps.padding !== padding || nextProps.value !== value) {
+      const div = document.createElement('div');
+      div.innerHTML = toSvg({ value, size, padding });
+      this.root.innerHTML = "";
+      this.root.appendChild(div);
+    }
   }
 
   render() {
