@@ -12,7 +12,7 @@ const CircleWrapper = styled.div`
 
   svg circle {
    stroke-dashoffset: 0;
-   transition: stroke-dashoffset 1s linear;
+   transition: stroke-dashoffset 0.3s linear;
    stroke: white;
    stroke-width: 1em;
   }

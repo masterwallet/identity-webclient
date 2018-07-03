@@ -110,7 +110,7 @@ export const WalletsList = ({ list, title }) => {
                 <div className="address">{shortAddress(address)}</div>
               </div>
               <div className="chevron">
-                <Link to={`/wallet/${address}/balance`}>
+                <Link to={`/wallets/${address}/balance`}>
                   <svg x="0px" y="0px" width="18px" height="30px" viewBox="0 0 18 30">
                     <g><path fill="#eee" d="M0,0h9.333L18,15.001L9.333,30H0l8.667-14.999L0,0z"/></g>
                   </svg>
@@ -119,7 +119,7 @@ export const WalletsList = ({ list, title }) => {
             </div>
             {assets && assets.length ? [
               (
-                <div className="tbl">
+                <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'left' }}>
                     <strong>{assets.length}</strong> assets:
                   </div>

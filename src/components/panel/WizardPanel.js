@@ -32,7 +32,7 @@ const Spacer = styled.div`
 `;
 
 export const WizardPanel = ({ title, children, wide = false }) => (
-    <Wrapper className="container-fluid">
+    <Wrapper>
       <h3>{title}</h3>
       <Spacer />
       <div style={{ width: (wide ? '90%' : 300), margin: '0px auto', textAlign: 'justify' }}>
