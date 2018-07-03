@@ -1,6 +1,6 @@
 const initialState = {
   storage: '',
-  pinCode: '12',
+  pinCode: '',
   pinCodeConfirm: '',
   wordsGenerated: [],
   generated: [],
@@ -8,14 +8,14 @@ const initialState = {
   wordsIndexes: [3, 5, 16],
   wordsEntered: []
 };
-  
+
 export default function (state = initialState, action) {
     switch (action.type) {
       case 'UPDATE_PIN': {
         return {...state, pinCode: action.payload };
       }
       case 'UPDATE_PIN_CONFIRM': {
-        return {...state, pinCodeConfirm: action.payload }; 
+        return {...state, pinCodeConfirm: action.payload };
       }
       case 'UPDATE_STORAGE': {
         return {...state, storage: action.payload };
@@ -25,7 +25,7 @@ export default function (state = initialState, action) {
         if (state.generatedProgress < 100) {
           const generated = state.generated.slice();
           generated.push(action.payload);
-          const generatedProgress = parseInt(generated.length * 100 / 500, 10); 
+          const generatedProgress = parseInt(generated.length * 100 / 500, 10);
           return { ...state, generated, generatedProgress };
         }
         return state;
@@ -40,4 +40,3 @@ export default function (state = initialState, action) {
     }
     return state
   };
-  

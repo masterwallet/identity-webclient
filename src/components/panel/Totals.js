@@ -15,7 +15,7 @@ const TotalsWrapper = styled.div`
   position: relative;
 
   .amount { text-align: center; font-size: 26px; font-weight: bold; margin-top: 50px; }
-  .currency { text-align: center; font-size: 16px; font-weight: normal; margin-top: 0px; color: #8760f6; }
+  .currency { text-align: center; font-size: 16px; font-weight: bold; margin-top: 0px; color: #65869d; text-shadow: 0px 0px 20px #fff; }
 `;
 
 export const Totals = ({ value, currency = 'USD'} ) => {

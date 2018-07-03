@@ -8,9 +8,11 @@ import screen from './screen';
 import setup from './setup';
 import settings from './settings';
 import add from './add';
+import assets from './assets';
+import wallet from './wallet';
 
 const reducers = {
-  router, responsive, screen, install, toastr, setup, settings, add
+  router, responsive, screen, install, toastr, setup, settings, add, assets, wallet
 };
 const rootReducer = combineReducers(reducers);
 export default rootReducer;
