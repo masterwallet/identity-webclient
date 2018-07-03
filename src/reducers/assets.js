@@ -9,8 +9,8 @@ const mockWallets = [
     currency: 'USD',
     assets: [
       { id: 'EOS', name: 'EOS', amount: '200,303', icon: '/networks/EOS.png' },
-      { id: 'KARMA', name: 'Karma Token', amount: '25' },
-      { id: 'EOSDAC', name: 'EOS DAC', amount: '30' }
+      { id: 'EOSDAC', name: 'EOS DAC', amount: '30' },
+      { id: 'KARMA', name: 'Karma Token', amount: '25' }
     ]
   },
   {
@@ -55,10 +55,17 @@ const mockWallets = [
 ];
 
 const mockAssets = [
+  { id: 'BTC', name: 'Bitcoin', amount: '0.102020', icon: '/networks/BTC.png' },
+  { id: 'EOS', name: 'EOS', amount: '200,303', icon: '/networks/EOS.png' },
+  { id: 'EOSDAC', name: 'EOS DAC', amount: '30' },
+  { id: 'ETH', name: 'Ethereum', amount: '11.003020', icon: '/networks/ETH.png' },
+  { id: 'KARMA', name: 'Karma Token', amount: '25' },
+  { id: 'WETH', name: 'Wrapped Ethereum', amount: '3.001020', icon: '/icons/weth_28.png' }
 ];
 
 const initialState = {
   total: '3,400',
+  currency: 'USD',
   wallets: mockWallets || [],
   assets: mockAssets || []
 };

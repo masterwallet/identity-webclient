@@ -77,8 +77,6 @@ const AssetTable = styled.table`
     text-align: right;
     white-space: nowrap;
   }
-  tbody tr {
-  }
   tbody .main {
     flex: 1;
   }
