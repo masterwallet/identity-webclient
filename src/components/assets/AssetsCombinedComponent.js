@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { WizardPanel } from './../panel/index';
-import { Totals } from './../panel/Totals';
+import { WizardPanel, Totals, SettingsButton, LockButton } from './../panel/index';
 import { AssetsList } from './AssetsList';
 
 const _t = {
@@ -91,6 +90,8 @@ const AssetTable = styled.table`
 
 export const AssetsCombinedComponent = ({ assets }) => (
   <WizardPanel title={_t.assetsCombined}>
+    <SettingsButton />
+    <LockButton />
     <Totals value={assets.total} currency={assets.currency}>
       <Link to='/assets/overview'><MyWallets>{_t.wallets}</MyWallets></Link>
     </Totals>

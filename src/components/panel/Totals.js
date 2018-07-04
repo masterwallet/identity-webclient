@@ -6,8 +6,8 @@ const TotalsWrapper = styled.div`
   margin: 0px auto;
   border-top: 3px solid #9b84f2;
   border-bottom: 3px solid #8894b8;
-  border-left: 2px solid #9f98e2;
-  border-right: 2px solid #9f98e2;
+  border-left: 1px solid #9f98e2;
+  border-right: 1px solid #9f98e2;
   background: #ece8f4;
   box-shadow: 0px 0px 30px #cebdf1;
   height: 130px;

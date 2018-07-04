@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { WizardPanel } from './../panel/index';
-import { Totals } from './../panel/Totals';
+import { WizardPanel, Totals, SettingsButton, LockButton } from './../panel/index';
 import { WalletsList } from './WalletsList';
 
 const _t = {
-  assetsOverview: 'Assets Overview',
+  walletsOverview: 'Wallets Overview',
   wallets: 'Wallets',
   accounts: 'Exchange Accounts',
   assets: 'Assets'
@@ -45,7 +44,9 @@ const MyAssets = styled.button`
 // const Ruler = () => (<div style={{ background: '#444', width: '100%', height: 3 }}></div>);
 
 export const AssetsOverviewComponent = ({ assets }) => (
-  <WizardPanel title={_t.assetsOverview}>
+  <WizardPanel title={_t.walletsOverview}>
+    <SettingsButton />
+    <LockButton />
     <Totals value={assets.total} currency="USD">
       <Link to='/assets/combined'><MyAssets>{_t.assets}</MyAssets></Link>
     </Totals>
