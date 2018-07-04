@@ -120,12 +120,14 @@ const _t = {
 export const WalletPanel = ({ name, address, network, icon, children, back = false }) => (
   <Wrapper>
     <div className="top">
-      <ButtonWrapper>
-        <Link to={`/wallets/${address}/balance`} className="btn btn-primary btn-sm">
-          <ChveronLeft />
-          <span className="title">{_t.backToWallet}</span>
-        </Link>
-      </ButtonWrapper>
+      {back ? (
+        <ButtonWrapper>
+          <Link to={`/wallets/${address}/balance`} className="btn btn-primary btn-sm">
+            <ChveronLeft />
+            <span className="title">{_t.backToWallet}</span>
+          </Link>
+        </ButtonWrapper>
+      ): false}
       <div style={{ display: 'flex', alignItems: 'center', width: 300, margin: '0px auto' }}>
         <div style={{ width: 50 }}>
           <NetworkIcon network={network} icon={icon} />

@@ -16,7 +16,6 @@ export const WalletReceiveComponent = () => {
   const network = 'ETH';
   const name = 'My ETH Wallet';
   const icon = '/networks/ETH.png';
-  // const walletUrl = suffix => (`/wallets/${address}/${suffix}`);
   return (
     <WalletPanel {...{address, name, network, icon}} back={true}>
       <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.receive}</h3>
