@@ -5,7 +5,7 @@ import { WizardPanel, Totals, SettingsButton, LockButton } from './../panel/inde
 import { AssetsList } from './AssetsList';
 
 const _t = {
-  assetsCombined: 'All Assets',
+  assetsCombined: 'Assets Overview',
   wallets: 'Wallets',
   assets: 'Assets'
 };

@@ -6,7 +6,8 @@ import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
 import { Unlock } from './pages/Unlock';
 import { AssetsOverview, AssetsCombined } from './assets/index';
-import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletHistory } from './wallet/index';
+import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount } from './wallet/index';
+import { NetworkStatus, NetworkTransaction } from './network/index';
 import { Home } from './pages/Home';
 import './App.css';
 import { CreateWalletNetwork, CreateWalletName, CreateWalletInput, CreateWalletTerms, CreateWalletPaper } from './add/wallet/index';
@@ -73,7 +74,10 @@ const App = () => (
       <Route path='/wallets/:walletId/send'    component={WalletSend} />
       <Route path='/wallets/:walletId/vote'    component={WalletVote} />
       <Route path='/wallets/:walletId/account'    component={WalletAccount} />
-      <Route path='/wallets/:walletId/history'    component={WalletHistory} />
+
+      {/* Network */}
+      <Route path='/networks/:network'                     component={NetworkStatus} />
+      <Route path='/wallets/:walletId/transactions/:txHash' component={NetworkTransaction} />
 
       <Route exact path='/assets/overview' component={AssetsOverview} />
       <Route exact path='/assets/combined' component={AssetsCombined} />

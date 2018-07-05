@@ -100,7 +100,9 @@ export class MockMenu extends React.Component {
           <Sep />
           <Link to="/wallets/3/send">Send</Link>
           <Sep />
-          <Link to="/wallets/3/history">History</Link>
+          <Link to="/wallets/3/transactions/32023030">TX</Link>
+          <Sep />
+          <Link to="/networks/ETH">Network</Link>
           <Sep />
           <Link style={{ color: 'gray' }} to="/wallets/3/account">Account</Link>
           <Sep />
