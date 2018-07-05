@@ -79,8 +79,8 @@ const App = () => (
       <Route path='/networks/:network'                     component={NetworkStatus} />
       <Route path='/wallets/:walletId/transactions/:txHash' component={NetworkTransaction} />
 
-      <Route exact path='/assets/overview' component={AssetsOverview} />
-      <Route exact path='/assets/combined' component={AssetsCombined} />
+      <Route exact path='/wallets' component={AssetsOverview} />
+      <Route exact path='/assets' component={AssetsCombined} />
       <Route exact path='/unlock' component={Unlock} />
       <Route exact path='/settings' component={Settings} />
       <Route exact path='/' component={Home} />

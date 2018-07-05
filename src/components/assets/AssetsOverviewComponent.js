@@ -48,7 +48,7 @@ export const AssetsOverviewComponent = ({ assets }) => (
     <SettingsButton />
     <LockButton />
     <Totals value={assets.total} currency="USD">
-      <Link to='/assets/combined'><MyAssets>{_t.assets}</MyAssets></Link>
+      <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
     </Totals>
     <WalletsList list={ assets.wallets } title={3 + ' ' + _t.wallets + ', 2 ' + _t.accounts} />
   </WizardPanel>

@@ -93,7 +93,7 @@ export const AssetsCombinedComponent = ({ assets }) => (
     <SettingsButton />
     <LockButton />
     <Totals value={assets.total} currency={assets.currency}>
-      <Link to='/assets/overview'><MyWallets>{_t.wallets}</MyWallets></Link>
+      <Link to='/wallets'><MyWallets>{_t.wallets}</MyWallets></Link>
     </Totals>
     <AssetTable>
       <thead>

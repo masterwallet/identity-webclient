@@ -44,7 +44,7 @@ const ChveronRight = () => (
 
 export const MyWalletsButton = ({ title = 'My Wallets' }) => (
   <Wrapper>
-    <Link to={'/assets/overview'} className="btn btn-primary btn-sm">
+    <Link to={'/wallets'} className="btn btn-primary btn-sm">
       <span className="title">{title}</span>
       <ChveronRight />
     </Link>

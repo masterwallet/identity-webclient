@@ -6,7 +6,7 @@ import { WizardPanel, Next } from './../../panel/index';
 const _t = {
   finished: 'Wallet added to Watch List',
   readyToUse: 'Wallet is created and ready to use',
-  assets: 'Assets'
+  assets: 'My Wallets'
 };
 
 export const WatchWalletCompleteComponent = ({ match }) => {
@@ -15,7 +15,7 @@ export const WatchWalletCompleteComponent = ({ match }) => {
   const step = findWizardStep(menu, '/complete');
   return (
     <WizardPanel title={_t.finished}>
-      <Next to={`/assets/overview`} title={_t.assets}/>
+      <Next to={`/wallets`} title={_t.assets}/>
       <div style={{ textAlign: 'center', margin: '50px auto' }}>{_t.readyToUse}</div>
       <Steps {...{step, menu}} />
     </WizardPanel>
