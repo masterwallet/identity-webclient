@@ -126,13 +126,13 @@ export const WalletsList = ({ list, title }) => {
                   {estimate ? (<div className="estimate">{estimate} {currency}</div>): false}
                 </div>
               ),
-              (<AssetsList {...{ assets, currency }} />)
+              (<AssetsList key={1122} {...{ assets, currency }} />)
             ]: false}
 
           </td>
         </tr>
-      ))}
-      <tr className="last"><th colSpan={2}></th></tr>
+        ))}
+        <tr className="last"><th colSpan={2}></th></tr>
       </tbody>
     </AssetTable>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { WalletPanel, Totals } from './../panel/index';
+import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
 
 const Send = styled.button`
@@ -93,10 +93,18 @@ const RightArrowIcon = () => (
 const _t = {
   receive: 'Receive',
   send: 'Send',
-  assets: 'Assets',
+  assets: 'Assets in This Wallet',
   recentTransactions: 'Recent Transactions'
 };
 
+const TransactionDetail = ({ asset, icon, hash, date }) => {
+  return (
+    <div>
+      {asset} &nbsp;
+      {date}
+    </div>
+  );
+};
 
 const AssetTable = styled.table`
   border: 0px transparent solid;
@@ -142,12 +150,13 @@ const AssetTable = styled.table`
   }
 `;
 
-
-export const WalletBalanceComponent = ({ wallet, assets }) => {
+export const WalletBalanceComponent = ({ wallet, assets, transactions }) => {
   const { id, address, network, name, icon } = wallet;
   const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
   return (
     <WalletPanel {...{ id, address, name, network, icon }}>
+      <MyAssetsButton />
+      <MyWalletsButton />
 
       <Totals value={'1,144'} currency={'USD'}>
         <Link to={walletUrl('send')}>
@@ -179,16 +188,17 @@ export const WalletBalanceComponent = ({ wallet, assets }) => {
         <tr>
           <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
         </tr>
+        {transactions.list.map((tr, index) => (
+          <tr key={index}>
+            <td>
+              <TransactionDetail {...tr} />
+            </td>
+          </tr>
+        ))}
+
         <tr className="last"><th></th></tr>
         </tbody>
       </AssetTable>
-
-      <br />
-      <br />
-      TODO: transactions
-      <br />
-      <br />
-      lorem ipsum
     </WalletPanel>
   );
-}
+};

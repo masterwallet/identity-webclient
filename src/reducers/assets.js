@@ -66,6 +66,7 @@ const mockAssets = [
 const initialState = {
   total: '3,400',
   currency: 'USD',
+  showPrices: true,
   wallets: mockWallets || [],
   assets: mockAssets || []
 };

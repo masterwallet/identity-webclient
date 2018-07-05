@@ -10,9 +10,10 @@ import settings from './settings';
 import add from './add';
 import assets from './assets';
 import wallet from './wallet';
+import transactions from './transactions';
 
 const reducers = {
-  router, responsive, screen, install, toastr, setup, settings, add, assets, wallet
+  router, responsive, screen, install, toastr, setup, settings, add, assets, wallet, transactions
 };
 const rootReducer = combineReducers(reducers);
 export default rootReducer;
