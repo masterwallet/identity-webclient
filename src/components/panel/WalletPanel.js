@@ -117,12 +117,12 @@ const _t = {
   backToWallet: 'Back to Wallet'
 };
 
-export const WalletPanel = ({ name, address, network, icon, children, back = false }) => (
+export const WalletPanel = ({ id, name, address, network, icon, children, back = false }) => (
   <Wrapper>
     <div className="top">
       {back ? (
         <ButtonWrapper>
-          <Link to={`/wallets/${address}/balance`} className="btn btn-primary btn-sm">
+          <Link to={`/wallets/${id}/balance`} className="btn btn-primary btn-sm">
             <ChveronLeft />
             <span className="title">{_t.backToWallet}</span>
           </Link>

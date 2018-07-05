@@ -23,13 +23,10 @@ export class WalletSendComponent extends React.Component {
   };
 
   render() {
-    const address = '0xAA2303232020302302323030303030';
-    const network = 'ETH';
-    const name = 'My ETH Wallet';
-    const icon = '/networks/ETH.png';
+    const { id, address, network, name, icon } = this.props.wallet;
     const { qty, to } = this.state;
     return (
-      <WalletPanel {...{address, name, network, icon}} back={true}>
+      <WalletPanel {...{id, address, name, network, icon}} back={true}>
         {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}
         <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.send}</h3>
         <div style={{ alignItems: 'center', display: 'flex', width: 200, margin: '0px auto' }}>

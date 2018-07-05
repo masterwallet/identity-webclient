@@ -1,4 +1,8 @@
 const initialState = {
+  address: '0xd0d1878cB17C576c236dE000d7e7eFfd550d8344',
+  network: 'ETH',
+  name: 'My ETH Wallet',
+  icon: '/networks/ETH.png'
 };
 
 export default function (state = initialState, action) {

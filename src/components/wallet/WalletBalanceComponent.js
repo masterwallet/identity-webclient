@@ -70,15 +70,11 @@ const _t = {
   send: 'Send'
 };
 
-export const WalletBalanceComponent = () =>
-{
-  const address = '0xAA2303232020302302323030303030';
-  const network = 'ETH';
-  const name = 'My ETH Wallet';
-  const icon = '/networks/ETH.png';
-  const walletUrl = suffix => (`/wallets/${address}/${suffix}`);
+export const WalletBalanceComponent = ({ wallet }) => {
+  const { id, address, network, name, icon } = wallet;
+  const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
   return (
-    <WalletPanel {...{ address, name, network, icon }}>
+    <WalletPanel {...{ id, address, name, network, icon }}>
 
       <Totals value={'1,144'} currency={'USD'}>
         <Link to={walletUrl('send')}>

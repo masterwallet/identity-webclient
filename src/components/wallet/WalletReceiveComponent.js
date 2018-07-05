@@ -11,13 +11,10 @@ const _t = {
   imageForVerification: 'Image For Verification'
 };
 
-export const WalletReceiveComponent = () => {
-  const address = '0xAA2303232020302302323030303030';
-  const network = 'ETH';
-  const name = 'My ETH Wallet';
-  const icon = '/networks/ETH.png';
+export const WalletReceiveComponent = ({ wallet }) => {
+  const { id, address, network, name, icon } = wallet;
   return (
-    <WalletPanel {...{address, name, network, icon}} back={true}>
+    <WalletPanel {...{id, address, name, network, icon}} back={true}>
       <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.receive}</h3>
       <div style={{ margin: '0px auto', width: 180 }}>
         <QRCode value={address} style={{ width: 180, height: 180 }} />
