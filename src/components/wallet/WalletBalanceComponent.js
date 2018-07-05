@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WalletPanel, Totals } from './../panel/index';
+import { AssetsList } from './../assets/AssetsList';
 
 const Send = styled.button`
   position: absolute;
@@ -91,10 +92,58 @@ const RightArrowIcon = () => (
 
 const _t = {
   receive: 'Receive',
-  send: 'Send'
+  send: 'Send',
+  assets: 'Assets',
+  recentTransactions: 'Recent Transactions'
 };
 
-export const WalletBalanceComponent = ({ wallet }) => {
+
+const AssetTable = styled.table`
+  border: 0px transparent solid;
+  border-radius: 20px;
+  width: 100%;
+  margin-top: 20px;
+  box-shadow: 0px 0px 40px #f5f3f5;
+
+  thead th {
+    color: #222;
+    text-shadow: 2px 2px 10px #fff;
+    text-align: center;
+    background: #dcd9e9;
+    line-height: 50px;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  tbody tr:nth-child(even) {
+    background: #d4d8de;
+  }
+  tbody tr:nth-child(odd) {
+    background: #cfcddb;
+  }
+  tbody tr.last th {
+    height: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  tbody .tbl {
+    display: flex;
+    margin-left:  0px;
+    margin-right: 10px;
+  }
+  tbody .estimate {
+    flex: 1;
+    color: #65869d;
+    text-shadow: 2px 2px 10px #fff;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: right;
+    white-space: nowrap;
+  }
+`;
+
+
+export const WalletBalanceComponent = ({ wallet, assets }) => {
   const { id, address, network, name, icon } = wallet;
   const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
   return (
@@ -115,6 +164,26 @@ export const WalletBalanceComponent = ({ wallet }) => {
         </Link>
       </Totals>
 
+      <AssetTable>
+        <thead>
+        <tr>
+          <th>{assets.assets.length + ' ' + _t.assets}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <AssetsList {...assets} />
+          </td>
+        </tr>
+        <tr>
+          <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
+        </tr>
+        <tr className="last"><th></th></tr>
+        </tbody>
+      </AssetTable>
+
+      <br />
       <br />
       TODO: transactions
       <br />
