@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   position: fixed;
   z-index: 1001;
   right: 5px;
-  top: 15px;
+  top: 5px;
 
   a.btn {
     display: flex;
