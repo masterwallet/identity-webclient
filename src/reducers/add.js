@@ -2,23 +2,24 @@ const initialState = {
   operation: '',
   create: {
       name: '',
+      network: 'ETH',
       testnet: false,
       rpcRoot: ''
   },
   import: {
       name: '',
+      network: 'ETH',
       testnet: false,
       rpcRoot: ''
   },
   watch: {
       name: '',
+      network: 'ETH',
       testnet: false,
       rpcRoot: ''
   },
   exchange: {
-      name: '',
-      testnet: false,
-      rpcRoot: ''
+      name: ''
   }
 };
 
@@ -27,6 +28,11 @@ export default function (state = initialState, action) {
     case 'UPDATE_NAME': {
         const { section, value } = action.payload;
         const copy = { ...state[section], name: value };
+        return { ...state, [section]: copy };
+    }
+    case 'UPDATE_NETWORK': {
+        const { section, value } = action.payload;
+        const copy = { ...state[section], network: value };
         return { ...state, [section]: copy };
     }
     case 'UPDATE_TESTNET': {

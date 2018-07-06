@@ -9,24 +9,19 @@ const _t = {
   continue: 'Continue'
 };
 
-export class WatchWalletNetworkComponent extends React.Component {
-  state = {
-    network: 'ETH'
-  };
+export const WatchWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
 
-  onChange = (value) => {
-    this.setState({ network: value });
-  };
+  const { network, testnet } = add.watch;
+  return (
+    <WizardPanel title={_t.selectNetwork}>
+      {network ? <Next to={`/watch/${network}/name`} title={_t.continue} /> : false}
+      <NetworkSelector 
+        value={network} onChange={onUpdateNetwork} 
+        isTestNet={testnet} onTestNet={onUpdateTestnet}
+      />
 
-  render() {
-    const { network } = this.state;
-    return (
-      <WizardPanel title={_t.selectNetwork}>
-        {network ? <Next to={`/watch/${network}/name`} title={_t.continue} /> : false}
-        <NetworkSelector value={network} onChange={this.onChange} />
+      <Steps {...{ step: 0, menu: WatchMenu() }} />
+    </WizardPanel>
+  );
 
-        <Steps {...{ step: 0, menu: WatchMenu() }} />
-      </WizardPanel>
-    )
-  }
 }
