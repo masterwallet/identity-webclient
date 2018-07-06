@@ -10,9 +10,13 @@ const NetSwitchDiv = styled.div`
   button {
     width: 50%;
     background: transparent;
-    
+  }
+  button:active, button:focus {
+    outline: none !important;
+    box-shadow: none;
   }
   button.active {
+    background: linear-gradient(rgb(255, 255, 255) 0%, rgb(237, 231, 243) 80%) rgb(237, 231, 243);
     border-color: #007bff;
     border-top: 1px #6239bf solid;
     border-bottom: 1px #61c38b solid;
@@ -22,15 +26,14 @@ const NetSwitchDiv = styled.div`
 const NetSwitcher = ({ isTestNet, onChange }) => {
   return (
     <NetSwitchDiv>
-      {isTestNet}
       <button
-        className={`btn btn-sm ${isTestNet ? 'active': ''}`}
+        className={`btn btn-sm ${!isTestNet ? 'active': ''}`}
         onClick={()=> (onChange(false))}
       >
         Main Net
       </button>
       <button
-        className={`btn btn-sm ${isTestNet ? 'active': ''}`}
+        className={`btn btn-sm ${!!isTestNet ? 'active': ''}`}
         onClick={() => (onChange(true))}
       >
         Test Net
