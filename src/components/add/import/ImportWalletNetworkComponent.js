@@ -9,27 +9,19 @@ const _t = {
   continue: 'Continue'
 };
 
-export class ImportWalletNetworkComponent extends React.Component {
-  state = {
-    network: 'ETH'
-  };
+export const ImportWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
+  const { network, testnet } = add.create;
+  const menu = ImportMenu(network, testnet);
+  const step = 0;
+  return (
+    <WizardPanel title={_t.selectNetwork}>
+      {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <NetworkSelector value={network} 
+        onChange={onUpdateNetwork} 
+        isTestNet={testnet}
+        onTestNet={onUpdateTestnet} />
 
-  onChange = (value) => {
-    this.setState({network: value});
-  };
-
-  render() {
-    const { network } = this.state;
-    const menu = ImportMenu(network);
-    const step = 0;
-    // TODO: switcher for MainNet or TestNet. The next screen (for testnet appears if testnet was selected)
-    return (
-      <WizardPanel title={_t.selectNetwork}>
-        {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
-        <NetworkSelector value={network} onChange={this.onChange} />
-
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    )
-  }
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
 }

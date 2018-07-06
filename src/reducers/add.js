@@ -19,7 +19,8 @@ const initialState = {
       rpcRoot: ''
   },
   exchange: {
-      name: ''
+      name: '',
+      exchange: ''
   }
 };
 
