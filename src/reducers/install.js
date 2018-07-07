@@ -4,6 +4,7 @@ const initialState = {
   isValidStorage: false,
   isValidRemote: false,
   urlValidationError: '',
+  pinCodeLength: 6,
   pinCode: '',
   pinCodeConfirm: '',
   wordsGenerated: [],
@@ -34,7 +35,7 @@ const validatedStorage = (state) => {
 export default function (state = initialState, action) {
     switch (action.type) {
       case 'UPDATE_PIN': {
-        return {...state, pinCode: action.payload };
+        return {...state, pinCode: action.payload, pinCodeConfirm: '' };
       }
       case 'UPDATE_PIN_CONFIRM': {
         return {...state, pinCodeConfirm: action.payload };

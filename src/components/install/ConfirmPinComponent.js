@@ -1,7 +1,7 @@
 import React from 'react';
 import { Steps } from './../controls/Steps';
 import { PinCode } from './../controls/PinCode';
-import { InstallationMenu } from './../../config/Wizards';
+import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
@@ -11,14 +11,23 @@ const _t = {
   finish: 'Finish'
 };
 
-export const ConfirmPinComponent = ({ install, onUpdatePin }) => (
-  <WizardPanel title={_t.confirmPin} wide={true}>
-    {install.pinCodeConfirm.length === 4 ? <Next title={_t.finish} to={InstallationMenu[9]} /> : false}
+export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue }) => {
+  const menu = InstallationMenu;
+  const step = findWizardStep(menu, '/confirm/pin');
+  const onComplete = () => (onContinue(menu[step + 1]));
+  return (
+    <WizardPanel title={_t.confirmPin} wide={true}>
+      {install.pinCodeConfirm.length === install.pinCodeLength ? <Next title={_t.finish} to={menu[step + 1]} /> : false}
 
-    <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
-    <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>
+      <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
+      <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>
 
-    <PinCode value={install.pinCodeConfirm} onChange={onUpdatePin} />
-    <Steps {...{ step: 8, menu: InstallationMenu }} />
-  </WizardPanel>
-);
+      <PinCode
+        value={install.pinCodeConfirm} length={install.pinCodeLength}
+        onChange={onUpdatePin}
+        onComplete={onComplete}
+      />
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
+};

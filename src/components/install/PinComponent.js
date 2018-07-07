@@ -17,11 +17,11 @@ export const PinComponent = ({ install, onUpdatePin, onContinue }) => {
   const onComplete = () => (onContinue(menu[step + 1]));
   return (
     <WizardPanel title={_t.createPin} wide={true}>
-      {install.pinCode.length === 4 ? <Next title={_t.continue} to={menu[step + 1]} /> : false}
+      {install.pinCode.length === install.pinCodeLength ? <Next title={_t.continue} to={menu[step + 1]} /> : false}
       <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.usage}</p>
       <p style={{ textAlign: 'center' }}>{_t.willBeRequired}</p>
 
-      <PinCode value={install.pinCode} onChange={onUpdatePin} onComplete={onComplete} />
+      <PinCode value={install.pinCode} length={install.pinCodeLength} onChange={onUpdatePin} onComplete={onComplete} />
 
       <Steps {...{ step, menu }} />
     </WizardPanel>
