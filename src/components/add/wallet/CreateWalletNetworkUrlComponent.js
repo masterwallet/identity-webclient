@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { WatchMenu, findWizardStep } from './../../../config/Wizards';
+import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 
@@ -13,7 +13,7 @@ const _t = {
 export const CreateWalletNetworkUrlComponent = ({ add, onUpdate }) => {
     const { network, testnet, rpcRoot } = add.create;
     // const { network } = this.props.match.params;
-    const menu = WatchMenu(network, testnet);
+    const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
         <WizardPanel title={_t.customRpcUrl}>
