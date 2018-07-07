@@ -24,7 +24,7 @@ export const Networks = [
   },
   {
     value: 'EOS', name: 'EOS', terms: true, icon: '/networks/EOS.png',
-    local: 'http;//localhost:8888',
+    local: 'http://localhost:8888',
     testnet: [
       { name: 'Jungle TestNet', explorer: 'http://dev.cryptolions.io/' },
       { name: 'Scholar TestNet', explorer: 'https://scholar.eosnation.io/' }

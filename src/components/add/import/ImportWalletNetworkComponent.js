@@ -10,14 +10,14 @@ const _t = {
 };
 
 export const ImportWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
-  const { network, testnet } = add.create;
+  const { network, testnet } = add.import;
   const menu = ImportMenu(network, testnet);
   const step = 0;
   return (
     <WizardPanel title={_t.selectNetwork}>
       {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
-      <NetworkSelector value={network} 
-        onChange={onUpdateNetwork} 
+      <NetworkSelector value={network}
+        onChange={onUpdateNetwork}
         isTestNet={testnet}
         onTestNet={onUpdateTestnet} />
 

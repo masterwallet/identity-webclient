@@ -10,29 +10,25 @@ const _t = {
   continue: 'Continue'
 };
 
-export class ImportWalletNameComponent extends React.Component {
-  state = { name : '' };
+export const ImportWalletNameComponent = ({ add, onChange }) => {
+  const { selectedNetwork } = add;
+  const { name, network } = add.import;
+  const menu = ImportMenu(network);
+  const step = findWizardStep(menu, '/name');
 
-  onChange = (value) => {
-    this.setState({ name: value });
-  };
-
-  render() {
-    const { network } = this.props.match.params;
-    const menu = ImportMenu(network);
-    const step = findWizardStep(menu, '/name');
-    const { name } = this.state;
-
-    return (
-      <WizardPanel title={_t.nameYourAccount}>
-        <Next to={ menu[step + 1] } title={_t.continue} />
-        <div style={{ margin: '50px auto'}}>
-          <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-          <TextInput {...{name, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
-        </div>
-
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    )
-  }
+  return (
+    <WizardPanel title={_t.nameYourAccount}>
+      <Next to={ menu[step + 1] } title={_t.continue} />
+      <div style={{ margin: '50px auto'}}>
+        <p style={{ textAlign: 'center' }}>
+          <img src={selectedNetwork.icon} alt='' style={{ height: 24, width: 'auto' }} />
+          <br />
+          <strong>{selectedNetwork.name}</strong>
+        </p>
+        <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
+        <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
+      </div>
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
 }
