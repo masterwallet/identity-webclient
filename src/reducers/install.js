@@ -1,5 +1,8 @@
 const initialState = {
   storage: '',
+  pair: 'http://127.0.0.1:7773',
+  isValidStorage: false,
+  urlValidationError: '',
   pinCode: '',
   pinCodeConfirm: '',
   wordsGenerated: [],
@@ -7,6 +10,25 @@ const initialState = {
   generatedProgress: 0,
   wordsIndexes: [3, 5, 16],
   wordsEntered: []
+};
+
+const isValidUrl = str => {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return (pattern.test(str));
+};
+
+const validatedStorage = (state) => {
+  const { storage, pair } = state;
+  const hasStorage = !!storage;
+  const isValidRemote = (storage === 'remote' && isValidUrl(pair)) || storage !== 'remote';
+  const isValidStorage = hasStorage && isValidRemote;
+  const urlValidationError = (storage === 'remote' && !isValidUrl(pair)) ? 'Invalid URL' : '';
+  return { ...state, isValidStorage, urlValidationError };
 };
 
 export default function (state = initialState, action) {
@@ -18,7 +40,10 @@ export default function (state = initialState, action) {
         return {...state, pinCodeConfirm: action.payload };
       }
       case 'UPDATE_STORAGE': {
-        return {...state, storage: action.payload };
+        return validatedStorage({...state, storage: action.payload });
+      }
+      case 'UPDATE_PAIR': {
+        return validatedStorage({...state, pair: action.payload });
       }
       case 'SHAKE': {
 

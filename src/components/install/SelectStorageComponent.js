@@ -2,20 +2,21 @@ import React from 'react';
 // import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu } from './../../config/Wizards';
+import TextInput from './../controls/TextInput';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
 import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
   title: 'Choose Storage Type',
-  thisIsFirstRun: 'This is your first launch. Please select what type of storage do you want:',
+  thisIsFirstRun: 'Please select what type of storage do you want to create:',
   createNewHd: 'Сreate HD Wallet',
   createNewHdExplained: 'HD Wallet is a hardened version of a wallet - ' +
     'you will not be allowed to import other private keys. ' +
-    'Access to your funds could be restored just by secret seed phrase. This is a recommended version for hot wallets.',
+    'Access to your funds could be restored just by secret seed phrase. This is an industry standard and a recommended version for hot wallets.',
   restore: 'Restore HD Wallet',
   restoreExplained: 'Restore HD Wallet by entering 24 words seed',
   createNew: 'Сreate Encrypted Storage',
-  createNewExplained: 'Encrypted storage allows you to have more functionality: ' +
+  createNewExplained: 'Encrypted storage allows you to have rich functionality: ' +
     'in addition to wallet management and importing private keys from other wallets, ' +
     'you will be allowed to safely watch wallets without entering private keys or watch your balances on exchanges. ' +
     'Restoring access will require note only secret seed phrase but also the backup file. ',
@@ -29,22 +30,27 @@ const _t = {
 };
 
 const options = [
-  { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
   { label: _t.createNew, value: 'encrypted', comment: _t.createNewExplained  },
-  { label: _t.restore, value: 'restore', comment: _t.restoreExplained },
+  { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
+  { label: _t.accessRemote, value: 'remote', comment: _t.accessRemoteExplained },
   { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained },
-  { label: _t.accessRemote, value: 'remote', comment: _t.accessRemoteExplained }
+  { label: _t.restore, value: 'restore', comment: _t.restoreExplained }
 ];
 
-export const SelectStorageComponent = ({ setup }) => {
+export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair }) => {
   // const { serverStatus } = setup;
   // const { isRunning } = serverStatus;
+  const { storage, pair, isValidStorage } = install;
   return (
     <WizardPanel title={_t.title}>
-      <Next title={_t.continue} to={InstallationMenu[4]} />
+      {isValidStorage ? <Next title={_t.continue} to={InstallationMenu[4]} /> : false}
       <p style={{ textAlign: 'center' }}>{_t.thisIsFirstRun}</p>
 
-      <RadioButtonGroup options={options} onChange={() => (false)} />
+      <RadioButtonGroup value={storage} options={options} onChange={onUpdate}>
+        {(storage === 'remote') ? (
+          <TextInput style={{ marginTop: 5 }} value={pair} onChange={onUpdatePair} />
+        ) : false}
+      </RadioButtonGroup>
       <Steps {...{ step: 3, menu: InstallationMenu }} />
     </WizardPanel>
   );

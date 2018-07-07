@@ -16,7 +16,7 @@ class RadioButtonGroup extends React.Component {
   }
 
   render() {
-    const { style, options } = this.props;
+    const { style, options, children } = this.props;
     return (
       <div style={style} >
         {options.map((option, index) => (
@@ -25,7 +25,9 @@ class RadioButtonGroup extends React.Component {
             {...option}
             checked={this.state.checked === option.value}
             onChange={this.onChange}
-          />
+          >
+            {this.state.checked === option.value ? children : false}
+          </RadioButton>
         ))}
       </div>
     );
