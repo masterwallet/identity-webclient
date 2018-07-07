@@ -43,8 +43,8 @@ export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair 
         (storage === 'remote') ? <TextInput key={2} className={isValidRemote ? '' : 'invalid'} style={{ marginTop: 5, marginBottom: 5 }} value={pair} onChange={onUpdatePair} /> : false
       ]
     },
-    { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained },
-    { label: _t.restore, value: 'restore', comment: _t.restoreExplained }
+    { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained, disabled: true },
+    { label: _t.restore, value: 'restore', comment: _t.restoreExplained, disabled: true }
   ];
   return (
     <WizardPanel title={_t.title}>

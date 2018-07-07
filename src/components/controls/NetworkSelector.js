@@ -43,7 +43,9 @@ const NetSwitcher = ({ isTestNet, onChange }) => {
 }
 
 export const NetworkSelector = ({ value, onChange, isTestNet, onTestNet }) => {
-  const options = Networks.map(n => ({
+  const sortFunc = (v1, v2) => (v1.name.localeCompare(v2.name));
+
+  const options = Networks.sort(sortFunc).map(n => ({
     value: n.value,
     shiftTop: 10,
     children: [(

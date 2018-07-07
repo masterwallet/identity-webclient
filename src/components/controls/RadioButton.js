@@ -30,7 +30,7 @@ export const RadioButton = ({ value, side, label, comment, children, disabled, c
   const onClick = () => { if (!disabled) onChange(value); };
   const styleTop = {
     display: 'flex', alignContent: 'center', alignItems: 'flex-start', padding: '0px 3px', cursor: 'pointer',
-    userSelect: 'none'
+    userSelect: 'none', margin: 0
   };
   const chkAtLeft = (!side || side === 'left');
   const styleCheck = { textAlign: chkAtLeft ? 'left' : 'right', margin: '0px auto' };
