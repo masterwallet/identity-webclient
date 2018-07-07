@@ -29,28 +29,29 @@ const _t = {
   continue: 'Continue'
 };
 
-const options = [
-  { label: _t.createNew, value: 'encrypted', comment: _t.createNewExplained  },
-  { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
-  { label: _t.accessRemote, value: 'remote', comment: _t.accessRemoteExplained },
-  { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained },
-  { label: _t.restore, value: 'restore', comment: _t.restoreExplained }
-];
-
 export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair }) => {
   // const { serverStatus } = setup;
   // const { isRunning } = serverStatus;
   const { storage, pair, isValidStorage } = install;
+
+  const options = [
+    { label: _t.createNew, value: 'encrypted', comment: _t.createNewExplained  },
+    { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
+    { label: _t.accessRemote, value: 'remote',
+      comment: [
+        <div>{_t.accessRemoteExplained}</div>,
+        (storage === 'remote') ? <TextInput style={{ marginTop: 5, marginBottom: 5 }} value={pair} onChange={onUpdatePair} /> : false
+      ]
+    },
+    { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained },
+    { label: _t.restore, value: 'restore', comment: _t.restoreExplained }
+  ];
   return (
     <WizardPanel title={_t.title}>
       {isValidStorage ? <Next title={_t.continue} to={InstallationMenu[4]} /> : false}
       <p style={{ textAlign: 'center' }}>{_t.thisIsFirstRun}</p>
 
-      <RadioButtonGroup value={storage} options={options} onChange={onUpdate}>
-        {(storage === 'remote') ? (
-          <TextInput style={{ marginTop: 5 }} value={pair} onChange={onUpdatePair} />
-        ) : false}
-      </RadioButtonGroup>
+      <RadioButtonGroup value={storage} options={options} onChange={onUpdate} />
       <Steps {...{ step: 3, menu: InstallationMenu }} />
     </WizardPanel>
   );

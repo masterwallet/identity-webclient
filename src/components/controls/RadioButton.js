@@ -29,12 +29,12 @@ const Lbl = ({ onClick, label, comment, disabled, children }) => {
 export const RadioButton = ({ value, side, label, comment, children, disabled, checked, onChange }) => {
   const onClick = () => { if (!disabled) onChange(value); };
   const styleTop = {
-    display: 'flex', alignContent: 'center', alignItems: 'flex-start', padding: 3, cursor: 'pointer',
+    display: 'flex', alignContent: 'center', alignItems: 'flex-start', padding: '0px 3px', cursor: 'pointer',
     userSelect: 'none'
   };
   const chkAtLeft = (!side || side === 'left');
   const styleCheck = { textAlign: chkAtLeft ? 'left' : 'right', margin: '0px auto' };
-  const styleRadioButtonCont = { marginTop: 3 };
+  const styleRadioButtonCont = { marginTop: 10 };
   const styleRadioButton = { stroke: '#333', strokeWidth: '1px', strokeOpacity: '0.5' };
   if (disabled) {
     styleRadioButton.stroke = '#aaa';
@@ -42,7 +42,12 @@ export const RadioButton = ({ value, side, label, comment, children, disabled, c
   }
   if (checked) {
     styleTop.background = '#ede7f3 linear-gradient(#fff 0%, #ede7f3 80%)';
-    styleTop.borderRadius = 8;
+    styleTop.borderRadius = 4;
+    styleTop.border = '1px #007bff solid';
+    styleTop.borderTop = '1px #6239bf solid';
+    styleTop.borderBottom = '1px #61c38b solid';
+  } else {
+    styleTop.border = '1px transparent solid';
   }
   return (
     <label className='radioButton' style={styleTop}>

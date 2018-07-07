@@ -47,11 +47,11 @@ export const NetworkSelector = ({ value, onChange, isTestNet, onTestNet }) => {
     value: n.value,
     children: [(
       <div key={n.value} style={{ display: 'flex' }}>
-        <div style={{ width: 30 }}>
+        <div style={{ width: 30, lineHeight: '40px' }}>
           <img src={n.icon} alt='' style={{ width: 'auto', height: 25 }} />
         </div>
-        <div style={{ lineHeight: '25px', fontWeight: 'bold', color: '#44c28b', width: 40, textAlign: 'center' }}>{n.value}</div>
-        <div style={{ lineHeight: '25px', color: '#735cbe' }}>{n.name}</div>
+        <div style={{ lineHeight: '40px', fontWeight: 'bold', color: '#44c28b', width: 40, textAlign: 'center' }}>{n.value}</div>
+        <div style={{ lineHeight: '40px', color: '#735cbe' }}>{n.name}</div>
       </div>
     )]
   }));
