@@ -16,7 +16,7 @@ class RadioButtonGroup extends React.Component {
   }
 
   render() {
-    const { style, options, children } = this.props;
+    const { style, options } = this.props;
     return (
       <div style={style} >
         {options.map((option, index) => (

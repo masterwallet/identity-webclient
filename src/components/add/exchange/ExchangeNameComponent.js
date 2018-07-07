@@ -23,7 +23,7 @@ export class ExchangeNameComponent extends React.Component {
         <Next to={`/exchange/${exchange}/account`} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-          <TextInput {...{value, onChange: this.onChange, autofocus: true }} />
+          <TextInput {...{value, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }} />
         </div>
 
         <Steps {...{ step: 1, menu: ExchangeMenu() }} />

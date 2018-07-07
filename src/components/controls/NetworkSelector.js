@@ -45,6 +45,7 @@ const NetSwitcher = ({ isTestNet, onChange }) => {
 export const NetworkSelector = ({ value, onChange, isTestNet, onTestNet }) => {
   const options = Networks.map(n => ({
     value: n.value,
+    shiftTop: 10,
     children: [(
       <div key={n.value} style={{ display: 'flex' }}>
         <div style={{ width: 30, lineHeight: '40px' }}>

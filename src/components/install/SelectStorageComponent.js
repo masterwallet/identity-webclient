@@ -32,15 +32,15 @@ const _t = {
 export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair }) => {
   // const { serverStatus } = setup;
   // const { isRunning } = serverStatus;
-  const { storage, pair, isValidStorage } = install;
+  const { storage, pair, isValidStorage, isValidRemote } = install;
 
   const options = [
     { label: _t.createNew, value: 'encrypted', comment: _t.createNewExplained  },
     { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
     { label: _t.accessRemote, value: 'remote',
       comment: [
-        <div>{_t.accessRemoteExplained}</div>,
-        (storage === 'remote') ? <TextInput style={{ marginTop: 5, marginBottom: 5 }} value={pair} onChange={onUpdatePair} /> : false
+        <div key={1}>{_t.accessRemoteExplained}</div>,
+        (storage === 'remote') ? <TextInput key={2} className={isValidRemote ? '' : 'invalid'} style={{ marginTop: 5, marginBottom: 5 }} value={pair} onChange={onUpdatePair} /> : false
       ]
     },
     { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained },

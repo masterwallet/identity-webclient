@@ -2,6 +2,7 @@ const initialState = {
   storage: '',
   pair: 'http://127.0.0.1:7773',
   isValidStorage: false,
+  isValidRemote: false,
   urlValidationError: '',
   pinCode: '',
   pinCodeConfirm: '',
@@ -27,8 +28,7 @@ const validatedStorage = (state) => {
   const hasStorage = !!storage;
   const isValidRemote = (storage === 'remote' && isValidUrl(pair)) || storage !== 'remote';
   const isValidStorage = hasStorage && isValidRemote;
-  const urlValidationError = (storage === 'remote' && !isValidUrl(pair)) ? 'Invalid URL' : '';
-  return { ...state, isValidStorage, urlValidationError };
+  return { ...state, isValidStorage, isValidRemote };
 };
 
 export default function (state = initialState, action) {

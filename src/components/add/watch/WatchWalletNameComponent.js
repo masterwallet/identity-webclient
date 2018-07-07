@@ -27,7 +27,7 @@ export class WatchWalletNameComponent extends React.Component {
         <Next to={menu[step + 1]} title={_t.continue} />
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-          <TextInput {...{value, onChange: this.onChange, autofocus: true }} />
+          <TextInput {...{value, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }} />
         </div>
 
         <Steps {...{ step, menu }} />
