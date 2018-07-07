@@ -13,7 +13,8 @@ const _t = {
 
 export const ConfirmPinComponent = ({ install, onUpdatePin }) => (
   <WizardPanel title={_t.confirmPin} wide={true}>
-    <Next title={_t.finish} to={InstallationMenu[9]} />
+    {install.pinCodeConfirm.length === 4 ? <Next title={_t.finish} to={InstallationMenu[9]} /> : false}
+
     <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
     <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>
 
