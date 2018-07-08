@@ -1,3 +1,5 @@
+import { SecureRandom } from './../services/SecureRandom';
+
 const initialState = {
   storage: '',
   pair: 'http://127.0.0.1:7773',
@@ -7,11 +9,11 @@ const initialState = {
   pinCodeLength: 6,
   pinCode: '',
   pinCodeConfirm: '',
-  wordsGenerated: [],
-  generated: [],
+  entropy: new SecureRandom(),
   generatedProgress: 0,
-  wordsIndexes: [3, 5, 16],
-  wordsEntered: []
+  wordsIndexes: [],
+  wordsEntered: [],
+  dictionary: []
 };
 
 const isValidUrl = str => {
@@ -46,13 +48,17 @@ export default function (state = initialState, action) {
       case 'UPDATE_PAIR': {
         return validatedStorage({...state, pair: action.payload });
       }
+      case 'INIT_DICTIONARY': {
+        return { ...state, dictionary: action.payload || [] };
+      }
       case 'SHAKE': {
-
         if (state.generatedProgress < 100) {
-          const generated = state.generated.slice();
-          generated.push(action.payload);
-          const generatedProgress = parseInt(generated.length * 100 / 500, 10);
-          return { ...state, generated, generatedProgress };
+          const entropy = state.entropy.copy();
+          entropy.seedInt8(action.payload[0]);
+          entropy.seedInt8(action.payload[1]);
+          const generatedProgress = entropy.getProgress();
+          const wordsIndexes = entropy.getRandomIndexes(3);
+          return { ...state, entropy, generatedProgress, wordsIndexes };
         }
         return state;
       }

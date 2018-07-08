@@ -21,10 +21,10 @@ export const WelcomeComponent = () => {
       <div style={{ marginTop: 30, marginBottom: 30, textAlign: 'center' }}>
         <img style={{ width: 150, height: 163 }} src='/media/temp-wallet.png' alt='' />
       </div>
-      <p style="text-align: center; font-weight: bold;">
+      <p style={{ textAlign: 'center', fontWeight: 'bold' }}>
         {_t.ourMission}
       </p>
-      <p style="text-align: center; margin-top: 30px">
+      <p style={{ textAlign: 'center', marginTop: '30px' }}>
         {_t.pleaseFollowTheSteps}
       </p>
 

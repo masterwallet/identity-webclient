@@ -25,6 +25,13 @@ const InputWord = ({ index }) => (
   </div>
 );
 
+// TODO:
+//componentWillMount() {
+//  const { install } = this.props;
+//  const { dictionary } = install;
+//  if (!dictionary || !dictionary.length) {
+//    this.props.onInit();
+//  }
 export const ConfirmSeedComponent = () => (
   <WizardPanel title={_t.pleaseConfirm}>
     <Next title={_t.checkIt} to={InstallationMenu[7]} />

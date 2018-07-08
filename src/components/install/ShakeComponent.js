@@ -21,8 +21,13 @@ export class ShakeComponent extends React.Component {
   onMouseMove = (e) => {
     const a = [e.pageX, e.pageY];
     this.props.onSeed(a);
-  }
+  };
   componentWillMount() {
+    const { install } = this.props;
+    const { dictionary } = install;
+    if (!dictionary || !dictionary.length) {
+      this.props.onInit();
+    }
     document.addEventListener("mousemove", this.onMouseMove, false);
   }
   componentWillUnmount() {
@@ -42,6 +47,8 @@ export class ShakeComponent extends React.Component {
             <div style={{ textAlign: 'center' }}>{_t.pleaseShakeDesktop}</div>
           </div>
           <ProgressCircle value={install.generatedProgress} />
+          <pre>{JSON.stringify(install.dictionary.length, null, 2)}</pre>
+          <pre>{JSON.stringify(install.entropy.pool)}</pre>
         </Centered>
         <Steps {...{ step, menu }} />
       </WizardPanel>

@@ -59,6 +59,13 @@ const words = [
   'ring', 'crime', 'symptom', 'enough', 'erupt', 'lady', 'behave', 'ramp', 'apart', 'settle', 'citizen', 'junk'
 ];
 
+// TODO:
+// componentWillMount() {
+//  const { install } = this.props;
+//  const { dictionary } = install;
+//  if (!dictionary || !dictionary.length) {
+//    this.props.onInit();
+//  }
 export const SeedComponent = () => (
   <WizardPanel title={_t.pleaseWrite} wide={true}>
     <Next title={_t.iWroteIt} to={InstallationMenu[6]} />

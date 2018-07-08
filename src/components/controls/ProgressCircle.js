@@ -12,7 +12,7 @@ const CircleWrapper = styled.div`
 
   svg circle {
    stroke-dashoffset: 0;
-   transition: stroke-dashoffset 0.3s linear;
+   transition: stroke-dashoffset 0.2s linear;
    stroke: white;
    stroke-width: 1em;
   }
@@ -39,7 +39,7 @@ const CircleWrapper = styled.div`
 
 export const ProgressCircle = ({ value, size = 200 }) => {
   const r = 90;
-  const bounded = (value < 0) ? 0 : (value > 100 ? 100 : value);
+  const bounded = (isNaN(value) || value < 0) ? 0 : (value > 100 ? 100 : value);
   const pct = ((100-bounded)/100)*(Math.PI * r * 2);
   const styleCircle = {
     stroke: '#cececa',
