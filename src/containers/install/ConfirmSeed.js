@@ -3,7 +3,11 @@ import { ConfirmSeedComponent } from './../../components/install/ConfirmSeedComp
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
+  onChange: ({ value, index }) => {
+    dispatch({ type: 'CONFIRM_WORD', payload: { value, index }});
+  },
   onInit: () => {
+    dispatch({ type: 'INIT_CONFIRMATION_WORDS', payload: ['', '', ''] })
     fetch('/locale/en/bip39.json').then(r => r.json())
       .then(json => (dispatch({ type: 'INIT_DICTIONARY', payload: json })));
   }

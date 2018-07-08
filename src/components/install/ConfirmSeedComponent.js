@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import TextInput from './../controls/TextInput';
 import { Steps } from './../controls/Steps';
-import { InstallationMenu } from './../../config/Wizards';
+import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
 
 const _t = {
@@ -18,29 +18,48 @@ const Centered = styled.div`
   margin-bottom: 20px;
 `;
 
-const InputWord = ({ index }) => (
+const Legend = styled.span`
+  background: none;
+  color: darkmagenta;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  width: 90px;
+`;
+
+const InputWord = ({ index, value, onChange }) => (
   <div className="input-group-prepend" style={{ marginBottom: 10 }}>
-    <span className="input-group-text">{_t.word} #{index}:</span>
-    <input type="text" style={{ width: '100%' }}/>
+    <Legend className="input-group-text">{_t.word} #{index}:</Legend>
+    <TextInput maxLength={20} style={{ width: '100%' }} {...{value, onChange}} />
   </div>
 );
 
-// TODO:
-//componentWillMount() {
-//  const { install } = this.props;
-//  const { dictionary } = install;
-//  if (!dictionary || !dictionary.length) {
-//    this.props.onInit();
-//  }
-export const ConfirmSeedComponent = () => (
-  <WizardPanel title={_t.pleaseConfirm}>
-    <Next title={_t.checkIt} to={InstallationMenu[7]} />
-    <Centered>{_t.importance}</Centered>
+export class ConfirmSeedComponent extends React.Component {
+  componentWillMount() {
+    const { install } = this.props;
+    const { dictionary } = install;
+    if (!dictionary || !dictionary.length) {
+      this.props.onInit();
+    }
+  }
+  render() {
+    const { install } = this.props;
+    const { wordsEntered, wordsIndexes } = install;
 
-    <InputWord index="21" />
-    <InputWord index="13" />
-    <InputWord index="10" />
-
-    <Steps {...{ step: 6, menu: InstallationMenu }} />
-  </WizardPanel>
-);
+    const menu = InstallationMenu;
+    const step = findWizardStep(menu, '/confirm/seed');
+    return (
+      <WizardPanel title={_t.pleaseConfirm}>
+        <Next title={_t.checkIt} to={menu[step + 1]}/>
+        <Centered>{_t.importance}</Centered>
+        {wordsIndexes.map((wordIndex, index) => (
+          <InputWord
+            key={wordIndex} index={wordIndex+1} value={wordsEntered[index]}
+            onChange={value => this.props.onChange({ index, value })}
+          />
+        ))}
+        <Steps {...{step, menu}} />
+      </WizardPanel>
+    );
+  }
+}

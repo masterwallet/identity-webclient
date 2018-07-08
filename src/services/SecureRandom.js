@@ -12,7 +12,7 @@ export function SecureRandom() {
   this.numWords = 24;
 
   this.iteration = 0;
-  this.required = 1024;
+  this.required = process.env.REACT_APP_MOCK ? 32 : 1024;
 
   this.copy = function() {
     const co = new SecureRandom();

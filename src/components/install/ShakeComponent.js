@@ -44,11 +44,9 @@ export class ShakeComponent extends React.Component {
         <Centered>
           <div style={{ margin: '20px auto', display: 'flex' }}>
             <img src='/media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />
-            <div style={{ textAlign: 'center' }}>{_t.pleaseShakeDesktop}</div>
+            <div style={{ textAlign: 'center', fontSize: 14 }}>{_t.pleaseShakeDesktop}</div>
           </div>
           <ProgressCircle value={install.generatedProgress} />
-          <pre>{JSON.stringify(install.dictionary.length, null, 2)}</pre>
-          <pre>{JSON.stringify(install.entropy.pool)}</pre>
         </Centered>
         <Steps {...{ step, menu }} />
       </WizardPanel>

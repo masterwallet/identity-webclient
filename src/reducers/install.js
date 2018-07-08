@@ -11,7 +11,7 @@ const initialState = {
   pinCodeConfirm: '',
   entropy: new SecureRandom(),
   generatedProgress: 0,
-  wordsIndexes: [],
+  wordsIndexes: [5, 4, 16],
   wordsEntered: [],
   dictionary: []
 };
@@ -66,6 +66,10 @@ export default function (state = initialState, action) {
         const { index, value } = action.payload;
         const wordsEntered = state.wordsEntered.slice();
         wordsEntered[index] = value;
+        return { ...state, wordsEntered };
+      }
+      case 'INIT_CONFIRMATION_WORDS' : {
+        const wordsEntered = action.payload.slice()
         return { ...state, wordsEntered };
       }
       default:
