@@ -37,7 +37,12 @@ export class PinCode extends React.Component {
   };
   onKeyPress = (e) => {
     const { length = 4, value, onChange, onComplete } = this.props;
-    if (e.keyCode === 27) {
+    if (e.keyCode === 8 && this.state.focused > 0) {
+      const focused = this.state.focused - 1;
+      onChange(value.substring(0, value.length - 1));
+      this.setState({ focused });
+    }
+    if (e.keyCode === 27 || e.keyCode === 13 || e.keyCode === 32) {
       onChange('');
       this.setState({ focused: 0 });
     }
