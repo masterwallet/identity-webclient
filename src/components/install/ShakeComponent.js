@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
-import { InstallationMenu } from './../../config/Wizards';
+import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
 import { ProgressCircle } from './../controls/ProgressCircle';
 
@@ -30,9 +30,12 @@ export class ShakeComponent extends React.Component {
   }
   render() {
     const { install } = this.props;
+    const menu = InstallationMenu;
+    const step = findWizardStep(menu, '/shake');
+    const canContinue = (install.generatedProgress >= 100);
     return (
       <WizardPanel title={_t.generate}>
-        <Next title={_t.start} to={InstallationMenu[5]} />
+        {canContinue ? <Next title={_t.start} to={menu[step + 1]} />: false}
         <Centered>
           <div style={{ margin: '20px auto', display: 'flex' }}>
             <img src='/media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />
@@ -40,7 +43,7 @@ export class ShakeComponent extends React.Component {
           </div>
           <ProgressCircle value={install.generatedProgress} />
         </Centered>
-        <Steps {...{ step: 4, menu: InstallationMenu }} />
+        <Steps {...{ step, menu }} />
       </WizardPanel>
     );
   }
