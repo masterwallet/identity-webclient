@@ -25,6 +25,10 @@ const PinWrapper = styled.div`
     border-color: rgb(134, 98, 252);
     background: white;
   }
+  &.invalid .digit {
+    border: 1px red solid !important;
+    background: #fff0f0;
+  }
 `;
 
 export class PinCode extends React.Component {
@@ -61,11 +65,11 @@ export class PinCode extends React.Component {
     }
   }
   render() {
-    const { length = 4, value } = this.props;
+    const { length = 4, error, value } = this.props;
     const { focused } = this.state;
     const list = Array.apply(null, { length }).map(Function.call, Number);
     return (
-      <PinWrapper title={value}>
+      <PinWrapper title={value} className={error ? 'invalid': ''}>
         {list.map(n => {
           const className = `digit ${(focused) === n ? 'focused' : ''}`;
           const v = (value && n < value.length) ? <span>&bull;</span> : '';
