@@ -6,6 +6,7 @@ const section = 'import';
 
 const mapDispatchToProps = dispatch => ({
   onUpdateNetworkId: (value) => {
+    console.info('onUpdateNetworkId', section, value);
     dispatch({ type: 'UPDATE_NETWORK_ID', payload: { section, value } });
   },
   onUpdateRpcRoot: (value) => {

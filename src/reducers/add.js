@@ -66,6 +66,7 @@ export default function (state = initialState, action) {
     case 'UPDATE_NETWORK_ID': {
       const { section, value } = action.payload;
       const copy = { ...state[section], networkId: value };
+      console.log('update network id', copy);
       return saved(updatedWalletNames({ ...state, [section]: copy }));
     }
     case 'UPDATE_TESTNET': {

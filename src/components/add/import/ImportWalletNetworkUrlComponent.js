@@ -3,36 +3,58 @@ import { Steps } from './../../controls/Steps';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
+import RadioButtonGroup from './../../controls/RadioButtonGroup';
 
 const _t = {
   customRpcUrl: 'Custom RPC URL',
-  useCustomNetwork: 'Use custom network RPC URL:',
+  useCustomNetworkRPC: 'Use custom network RPC URL:',
+  pleaseUseOwnEndpoint: 'Please provide own endpoint',
   continue: 'Continue'
 };
 
+const getOptions = (list) => ([
+  ...list.map(option => (
+    { value: option.value, label: option.name, comment: option.explorer }
+  )),
+  { value: '', label: _t.customRpcUrl, comment: _t.pleaseUseOwnEndpoint }
+]);
+
 const TestnetSelector = (props) => {
-  const { network, rpcRoot, testnet, testnets } = props;
+  const { network, testnet, networkId, rpcRoot, selectedNetwork } = props;
+  const { testnets } = selectedNetwork;
   const { onUpdateNetworkId, onUpdateRpcRoot } = props;
 
+  const bShowCustomUrl = !networkId;
+  const options = getOptions(testnets);
   return(
     <div style={{ margin: '50px auto'}}>
-      <p style={{ textAlign: 'center', margin: 0 }}>{_t.useCustomNetwork}</p>
-      <TextInput {...{value: rpcRoot, onChange: onUpdateRpcRoot, autofocus: true }} />
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+      {testnets ? (
+        <RadioButtonGroup
+          onChange={val => (onUpdateNetworkId(val))}
+          value={networkId || ''} options={options} />
+      ): false}
+      {bShowCustomUrl ? [
+        <p key={1} style={{ textAlign: 'center', margin: 0, marginTop: 20 }}>{_t.useCustomNetworkRPC}</p>,
+        <TextInput
+          key={2} {...{value: rpcRoot, autofocus: true }}
+          onChange={onUpdateRpcRoot}
+        />
+      ] : false}
     </div>
   );
 };
 
 // in this control - we know we are in the test
+const section = 'import';
 export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
-    const { network, testnet } = add.import;
+    const { network, testnet } = add[section];
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
       <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
 
-        <TestnetSelector {...add.import} {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+        <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
 
         <Steps {...{ step, menu }} />
       </WizardPanel>
