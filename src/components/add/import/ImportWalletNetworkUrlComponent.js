@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { WatchMenu, findWizardStep } from './../../../config/Wizards';
+import { ImportMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import { TestnetSelector } from './../../assets/TestnetSelector';
 
@@ -15,7 +15,7 @@ const _t = {
 const section = 'import';
 export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
     const { network, testnet } = add[section];
-    const menu = WatchMenu(network, testnet);
+    const menu = ImportMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
       <WizardPanel title={_t.customRpcUrl}>
