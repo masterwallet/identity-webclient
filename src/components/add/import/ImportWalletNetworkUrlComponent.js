@@ -2,6 +2,7 @@ import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
+import { NetworkIcon } from './../../assets/NetworkIcon';
 import TextInput from './../../controls/TextInput';
 import RadioButtonGroup from './../../controls/RadioButtonGroup';
 
@@ -13,21 +14,23 @@ const _t = {
 };
 
 const getOptions = (list) => ([
+  { value: '', label: _t.customRpcUrl, comment: _t.pleaseUseOwnEndpoint },
   ...list.map(option => (
     { value: option.value, label: option.name, comment: option.explorer }
-  )),
-  { value: '', label: _t.customRpcUrl, comment: _t.pleaseUseOwnEndpoint }
+  ))
+
 ]);
 
-const TestnetSelector = (props) => {
-  const { network, testnet, networkId, rpcRoot, selectedNetwork } = props;
+export const TestnetSelector = (props) => {
+  const { network, networkId, rpcRoot, selectedNetwork } = props;
   const { testnets } = selectedNetwork;
   const { onUpdateNetworkId, onUpdateRpcRoot } = props;
 
   const bShowCustomUrl = !networkId;
   const options = getOptions(testnets);
   return(
-    <div style={{ margin: '50px auto'}}>
+    <div>
+      <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
       {testnets ? (
         <RadioButtonGroup
           onChange={val => (onUpdateNetworkId(val))}

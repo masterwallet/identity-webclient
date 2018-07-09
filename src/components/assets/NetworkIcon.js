@@ -14,11 +14,18 @@ const IconDiv = styled.div`
     text-align: center;
     margin-top: 5px;
   }
+  .title {
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 0px;
+  }
 `;
 
-export const NetworkIcon = ({ network, icon, style }) => (
+export const NetworkIcon = ({ network, icon, style, title = '' }) => (
   <IconDiv style={style}>
     {icon ? (<div className="icon"><img style={{ width: 32, height: 'auto' }} src={icon} alt="" /></div>) : false}
     <div className="network">{ network }</div>
+    {title ? <div className="title">{ title }</div> : false}
   </IconDiv>
 );
