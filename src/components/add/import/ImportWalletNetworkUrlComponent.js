@@ -10,20 +10,31 @@ const _t = {
   continue: 'Continue'
 };
 
-export const ImportWalletNetworkUrlComponent = ({ add, onUpdate }) => {
-    const { network, testnet, rpcRoot } = add.watch;
-    // const { network } = this.props.match.params;
+const TestnetSelector = (props) => {
+  const { network, rpcRoot, testnet, testnets } = props;
+  const { onUpdateNetworkId, onUpdateRpcRoot } = props;
+
+  return(
+    <div style={{ margin: '50px auto'}}>
+      <p style={{ textAlign: 'center', margin: 0 }}>{_t.useCustomNetwork}</p>
+      <TextInput {...{value: rpcRoot, onChange: onUpdateRpcRoot, autofocus: true }} />
+      <pre>{JSON.stringify(props, null, 2)}</pre>
+    </div>
+  );
+};
+
+// in this control - we know we are in the test
+export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
+    const { network, testnet } = add.import;
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
-        <WizardPanel title={_t.customRpcUrl}>
+      <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
-        <div style={{ margin: '50px auto'}}>
-            <p style={{ textAlign: 'center', margin: 0 }}>{_t.useCustomNetwork}</p>
-            <TextInput {...{value: rpcRoot, onChange: onUpdate, autofocus: true }} />
-        </div>
-        <Steps {...{ step, menu }} />
-        </WizardPanel>
-    );
-}
 
+        <TestnetSelector {...add.import} {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+
+        <Steps {...{ step, menu }} />
+      </WizardPanel>
+    );
+};

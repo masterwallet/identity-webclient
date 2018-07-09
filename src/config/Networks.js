@@ -25,7 +25,7 @@ export const Networks = [
   {
     value: 'EOS', name: 'EOS', terms: true, icon: '/networks/EOS.png',
     local: 'http://localhost:8888',
-    testnet: [
+    testnets: [
       { name: 'Jungle TestNet', explorer: 'http://dev.cryptolions.io/' },
       { name: 'Scholar TestNet', explorer: 'https://scholar.eosnation.io/' }
     ]
@@ -37,7 +37,7 @@ export const Networks = [
   {
     value: 'ETH', name: 'Ethereum', icon: '/networks/ETH.png', EIP55: true,
     local: 'http://localhost:8545',
-    testnet: [
+    testnets: [
       { name: 'Rinkeby', explorer: 'https://rinkeby.etherscan.io/' },
       { name: 'Ropsten', explorer: 'https://ropsten.etherscan.io/' },
       { name: 'Kovan', explorer: 'https://kovan.etherscan.io/' },
