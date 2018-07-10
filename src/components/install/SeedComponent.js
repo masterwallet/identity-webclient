@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
-import { InstallationMenu } from './../../config/Wizards';
-import { WizardPanel, Next } from './../panel/index';
+import { InstallationMenu, findWizardStep } from './../../config/Wizards';
+import { WizardPanel, Next, Prev } from './../panel/index';
 
 const _t = {
   pleaseWrite: 'Please Write Seed Phrase',
   importance: 'This is the most important step. ' +
     'Please write down your 24 words and keep them in safe place where no one can access them.' +
     'These seed phrase should be used to restore access to your funds.',
-  iWroteIt: 'I wrote it'
+  iWroteIt: 'I wrote it',
+  back: 'Back'
 };
 
 const Centered = styled.div`
@@ -66,15 +67,23 @@ const words = [
 //  if (!dictionary || !dictionary.length) {
 //    this.props.onInit();
 //  }
-export const SeedComponent = () => (
-  <WizardPanel title={_t.pleaseWrite} wide={true}>
-    <Next title={_t.iWroteIt} to={InstallationMenu[6]} />
-    <Centered>{_t.importance}</Centered>
-    <WordList>
-      {words.map((word, index) => (
-        <Word key={index}><span className="index">{index + 1}.</span> {word}</Word>
-      ))}
-    </WordList>
-    <Steps {...{ step: 5, menu: InstallationMenu }} />
-  </WizardPanel>
-);
+export const SeedComponent = () => {
+  const menu = InstallationMenu;
+  const step = findWizardStep(menu, '/seed/24');
+
+  return (
+    <WizardPanel title={_t.pleaseWrite} wide={true}>
+      <Next title={_t.iWroteIt} to={menu[step + 1]} />
+      <Prev title={_t.back} to={menu[step - 1]} />
+      <Centered>{_t.importance}</Centered>
+      <WordList>
+        {words.map((word, index) => (
+          <Word key={index}>
+            <span className="index">{index + 1}.</span> {word}
+          </Word>
+        ))}
+      </WordList>
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
+}

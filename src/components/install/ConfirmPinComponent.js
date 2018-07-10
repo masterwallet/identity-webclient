@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { PinCode } from './../controls/PinCode';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
-import { WizardPanel, Next } from './../panel/index';
+import { WizardPanel, Next, Prev } from './../panel/index';
 
 const _t = {
   confirmPin: 'Confirm PIN',
   please: 'Please confirm that you\'ve remembered the PIN.',
   itWillBeRequired: 'It will be required for quick access to your funds.',
   finish: 'Finish',
-  pinMismatch: 'PIN confirmation doesn\'t match original'
+  pinMismatch: 'PIN confirmation doesn\'t match original',
+  back: 'Back'
 };
 
 const ErrorTitle = styled.div`
@@ -34,6 +35,7 @@ export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue }) => {
       {pinCodeConfirm.length === pinCodeLength ? (
         <Next title={_t.finish} to={menu[step + 1]} />
       ) : false}
+      <Prev title={_t.back} to={menu[step - 1]} />
 
       <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
       <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>

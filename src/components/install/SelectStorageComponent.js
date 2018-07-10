@@ -1,10 +1,10 @@
 import React from 'react';
 // import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
-import { InstallationMenu } from './../../config/Wizards';
+import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import TextInput from './../controls/TextInput';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
-import { WizardPanel, Next } from './../panel/index';
+import { WizardPanel, Next, Prev } from './../panel/index';
 
 const _t = {
   title: 'Choose Storage Type',
@@ -46,13 +46,18 @@ export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair 
     { label: _t.restoreBackup, value: 'fromBackup', comment: _t.restoreBackupExplained, disabled: true },
     { label: _t.restore, value: 'restore', comment: _t.restoreExplained, disabled: true }
   ];
+
+  const menu = InstallationMenu;
+  const step = findWizardStep( menu, '/storage');
+
   return (
     <WizardPanel title={_t.title}>
-      {isValidStorage ? <Next title={_t.continue} to={InstallationMenu[4]} /> : false}
+      {isValidStorage ? <Next title={_t.continue} to={menu[step + 1]} /> : false}
+      <Prev title={_t.back} to={menu[step - 1]} />
       <p style={{ textAlign: 'center' }}>{_t.thisIsFirstRun}</p>
 
       <RadioButtonGroup value={storage} options={options} onChange={onUpdate} />
-      <Steps {...{ step: 3, menu: InstallationMenu }} />
+      <Steps {...{ step, menu }} />
     </WizardPanel>
   );
 };

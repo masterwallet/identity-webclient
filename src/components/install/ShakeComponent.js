@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
-import { WizardPanel, Next } from './../panel/index';
+import { WizardPanel, Next, Prev } from './../panel/index';
 import { ProgressCircle } from './../controls/ProgressCircle';
 
 const _t = {
   generate: 'Generate Some Randomness',
   pleaseShakeDesktop: 'Please move your mouse cursor to strengthen your future password',
-  start: 'Continue'
+  start: 'Continue',
+  back: 'Back'
 };
 
 const Centered = styled.div`
@@ -22,6 +23,9 @@ export class ShakeComponent extends React.Component {
     const a = [e.pageX, e.pageY];
     this.props.onSeed(a);
   };
+  onKeyPress = (e) => {
+    if (e.keyCode) this.props.onSeed(e.keyCode);
+  }
   componentWillMount() {
     const { install } = this.props;
     const { dictionary } = install;
@@ -29,9 +33,11 @@ export class ShakeComponent extends React.Component {
       this.props.onInit();
     }
     document.addEventListener("mousemove", this.onMouseMove, false);
+    document.addEventListener("keydown", this.onKeyPress, false);
   }
   componentWillUnmount() {
     document.removeEventListener("mousemove", this.onMouseMove, false);
+    document.removeEventListener("keydown", this.onKeyPress, false);
   }
   render() {
     const { install } = this.props;
@@ -41,6 +47,7 @@ export class ShakeComponent extends React.Component {
     return (
       <WizardPanel title={_t.generate}>
         {canContinue ? <Next title={_t.start} to={menu[step + 1]} />: false}
+        <Prev title={_t.back} to={menu[step - 1]} />
         <Centered>
           <div style={{ margin: '20px auto', display: 'flex' }}>
             <img src='/media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />

@@ -54,8 +54,12 @@ export default function (state = initialState, action) {
       case 'SHAKE': {
         if (state.generatedProgress < 100) {
           const entropy = state.entropy.copy();
-          entropy.seedInt8(action.payload[0]);
-          entropy.seedInt8(action.payload[1]);
+          if ( typeof action.payload === 'object' && action.payload.length === 2) {
+            entropy.seedInt8(action.payload[0]);
+            entropy.seedInt8(action.payload[1]);
+          } else {
+            entropy.seedInt8(action.payload);
+          }
           const generatedProgress = entropy.getProgress();
           const wordsIndexes = entropy.getRandomIndexes(3);
           return { ...state, entropy, generatedProgress, wordsIndexes };

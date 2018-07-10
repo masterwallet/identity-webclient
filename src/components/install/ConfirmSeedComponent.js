@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import TextInput from './../controls/TextInput';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
-import { WizardPanel, Next } from './../panel/index';
+import { WizardPanel, Next, Prev } from './../panel/index';
 
 const _t = {
   pleaseConfirm: 'Confirm Your Seed Phrase',
   importance: 'Please confirm you\'ve written down your seed phrase by entering its words:',
   checkIt: 'Check it',
-  word: 'Word'
+  word: 'Word',
+  back: 'Back'
 };
 
 const Centered = styled.div`
@@ -27,10 +28,10 @@ const Legend = styled.span`
   width: 90px;
 `;
 
-const InputWord = ({ index, value, onChange }) => (
+const InputWord = ({ autofocus, index, value, onChange }) => (
   <div className="input-group-prepend" style={{ marginBottom: 10 }}>
     <Legend className="input-group-text">{_t.word} #{index}:</Legend>
-    <TextInput maxLength={20} style={{ width: '100%' }} {...{value, onChange}} />
+    <TextInput maxLength={20} style={{ width: '100%' }} {...{value, autofocus, onChange}} />
   </div>
 );
 
@@ -51,9 +52,12 @@ export class ConfirmSeedComponent extends React.Component {
     return (
       <WizardPanel title={_t.pleaseConfirm}>
         <Next title={_t.checkIt} to={menu[step + 1]}/>
+        <Prev title={_t.back} to={menu[step - 1]} />
+
         <Centered>{_t.importance}</Centered>
         {wordsIndexes.map((wordIndex, index) => (
           <InputWord
+            autofocus={index === 0}
             key={wordIndex} index={wordIndex+1} value={wordsEntered[index]}
             onChange={value => this.props.onChange({ index, value })}
           />
