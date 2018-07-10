@@ -3,8 +3,12 @@ import { ImportWalletNetworkUrlComponent } from './../../../components/add/impor
 
 const mapStateToProps = state => state;
 const section = 'import';
+
 const mapDispatchToProps = dispatch => ({
-  onUpdate: (value) => {
+  onUpdateNetworkId: (value) => {
+    dispatch({ type: 'UPDATE_NETWORK_ID', payload: { section, value } });
+  },
+  onUpdateRpcRoot: (value) => {
     dispatch({ type: 'UPDATE_RPC_ROOT', payload: { section, value } });
   }
 });

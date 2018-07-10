@@ -25,9 +25,9 @@ export const Networks = [
   {
     value: 'EOS', name: 'EOS', terms: true, icon: '/networks/EOS.png',
     local: 'http://localhost:8888',
-    testnet: [
-      { name: 'Jungle TestNet', explorer: 'http://dev.cryptolions.io/' },
-      { name: 'Scholar TestNet', explorer: 'https://scholar.eosnation.io/' }
+    testnets: [
+      { value: 'jungle', name: 'Jungle TestNet', explorer: 'http://dev.cryptolions.io/' },
+      { value: 'scholar', name: 'Scholar TestNet', explorer: 'https://scholar.eosnation.io/' }
     ]
   },
   {
@@ -37,11 +37,14 @@ export const Networks = [
   {
     value: 'ETH', name: 'Ethereum', icon: '/networks/ETH.png', EIP55: true,
     local: 'http://localhost:8545',
-    testnet: [
-      { name: 'Rinkeby', explorer: 'https://rinkeby.etherscan.io/' },
-      { name: 'Ropsten', explorer: 'https://ropsten.etherscan.io/' },
-      { name: 'Kovan', explorer: 'https://kovan.etherscan.io/' },
-      { name: 'Tobalaba', explorer: 'https://tobalaba.etherscan.com/' }
+    testnets: [
+      // https://ethereum.stackexchange.com/questions/27048/comparison-of-the-different-testnets
+      // https://github.com/paritytech/parity/tree/master/ethcore/res/ethereum
+      { value: 4, name: 'Rinkeby', explorer: 'https://rinkeby.etherscan.io/' },
+      { value: 3, name: 'Ropsten', explorer: 'https://ropsten.etherscan.io/' },
+      { value: 42, name: 'Kovan', explorer: 'https://kovan.etherscan.io/' },
+      { value: 0x62121, name: 'Tobalaba', explorer: 'https://tobalaba.etherscan.com/' },
+      { value: 77, name: 'Sokol', explorer: 'https://sokol-explorer.poa.network/'}
     ]
   },
   {

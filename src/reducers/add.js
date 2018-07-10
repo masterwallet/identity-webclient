@@ -1,26 +1,44 @@
 import { Networks } from './../config/Networks';
+import { getSessionState, saveSessionState } from './../services/SessionState';
 
 const defaultNetwork = 'ETH';
-const updatedName = (obj, network, subject) => ({ ...obj, name: `My ${network} ${subject}` });
 
-const initialState = {
+const getTestNetName = (list, id) => {
+  if (list && list.length) {
+    const filtered = list.map(obj => ((obj.value === id) ? obj.name : false)).filter(x => !!x);
+    console.info('filtered= ', filtered);
+    if (filtered.length > 0) return filtered[0];
+  }
+  return 'Testnet';
+};
+
+const updatedName = (obj, subject) => {
+  const network = obj.network;
+  const selectedNetwork = Networks.filter(n => (n.value === network))[0];
+  const test = obj.testnet ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
+  return ({ ...obj, name: `My ${network} ${subject}${test}`, selectedNetwork });
+};
+const saved = (state) => (saveSessionState('masterwallet_add', state));
+const initialState = getSessionState('masterwallet_add', {
   operation: '',
-  selectedNetwork: Networks.filter(n => (n.value === defaultNetwork))[0],
   create: updatedName({
       name: '',
       network: defaultNetwork,
       testnet: false,
+      networkId: '',
       rpcRoot: ''
   }, defaultNetwork, 'Wallet'),
   import: updatedName({
       name: '',
       network: defaultNetwork,
+      networkId: '',
       testnet: false,
       rpcRoot: ''
   }, defaultNetwork, 'Wallet'),
   watch: updatedName({
       name: '',
       network: defaultNetwork,
+      networkId: '',
       testnet: false,
       rpcRoot: ''
   }, defaultNetwork, 'Wallet'),
@@ -28,14 +46,13 @@ const initialState = {
       name: '',
       exchange: ''
   }, defaultNetwork, 'Account')
-};
+}, {});
 
 const updatedWalletNames = (state) => {
-  const network = state.selectedNetwork.name;
-  const updatedCreate = updatedName(state.create, network, 'Wallet');
-  const updatedImport = updatedName(state.import, network, 'Wallet');
-  const updatedWatch = updatedName(state.watch, network, 'Wallet');
-  const updatedExchange = updatedName(state.exchange, network, 'Account');
+  const updatedCreate = updatedName(state.create, 'Wallet');
+  const updatedImport = updatedName(state.import, 'Wallet');
+  const updatedWatch = updatedName(state.watch, 'Wallet');
+  const updatedExchange = updatedName(state.exchange, 'Account');
   return {
     ...state,
     create: updatedCreate,
@@ -50,27 +67,30 @@ export default function (state = initialState, action) {
     case 'UPDATE_NAME': {
         const { section, value } = action.payload;
         const copy = { ...state[section], name: value };
-        return { ...state, [section]: copy };
+        return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_NETWORK': {
         const { section, value } = action.payload;
         const copy = { ...state[section], network: value };
-        const selectedNetwork = Networks.filter(n => (n.value === value))[0];
-        // TODO: preserve selectedNetwork in session storage?
-        return updatedWalletNames({ ...state, [section]: copy, selectedNetwork });
+        return saved(updatedWalletNames({ ...state, [section]: copy }));
+    }
+    case 'UPDATE_NETWORK_ID': {
+      const { section, value } = action.payload;
+      const copy = { ...state[section], networkId: value };
+      return saved(updatedWalletNames({ ...state, [section]: copy }));
     }
     case 'UPDATE_TESTNET': {
         const { section, value } = action.payload;
         const copy = { ...state[section], testnet: !!value };
-        return { ...state, [section]: copy };
+        return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_RPC_ROOT': {
         const { section, value } = action.payload;
         const copy = { ...state[section], rpcRoot: value };
-        return { ...state, [section]: copy };
+        return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_ADD_OPERATION': {
-        return {...state, operation: action.payload };
+        return saved({...state, operation: action.payload });
     }
     default:
   }

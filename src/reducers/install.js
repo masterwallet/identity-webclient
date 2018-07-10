@@ -1,6 +1,8 @@
 import { SecureRandom } from './../services/SecureRandom';
+import { getSessionState, saveSessionState } from './../services/SessionState';
 
-const initialState = {
+const saved = (state) => (saveSessionState('masterwallet_install', state));
+const initialState = getSessionState('masterwallet_install', {
   storage: '',
   pair: 'http://127.0.0.1:7773',
   isValidStorage: false,
@@ -9,12 +11,13 @@ const initialState = {
   pinCodeLength: 6,
   pinCode: '',
   pinCodeConfirm: '',
-  entropy: new SecureRandom(),
   generatedProgress: 0,
   wordsIndexes: [5, 4, 16],
   wordsEntered: [],
   dictionary: []
-};
+}, {
+  entropy: new SecureRandom()
+});
 
 const isValidUrl = str => {
   var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -31,16 +34,16 @@ const validatedStorage = (state) => {
   const hasStorage = !!storage;
   const isValidRemote = (storage === 'remote' && isValidUrl(pair)) || storage !== 'remote';
   const isValidStorage = hasStorage && isValidRemote;
-  return { ...state, isValidStorage, isValidRemote };
+  return saved({ ...state, isValidStorage, isValidRemote });
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
       case 'UPDATE_PIN': {
-        return {...state, pinCode: action.payload, pinCodeConfirm: '' };
+        return saved({...state, pinCode: action.payload, pinCodeConfirm: '' });
       }
       case 'UPDATE_PIN_CONFIRM': {
-        return {...state, pinCodeConfirm: action.payload };
+        return saved({...state, pinCodeConfirm: action.payload });
       }
       case 'UPDATE_STORAGE': {
         return validatedStorage({...state, storage: action.payload });
@@ -49,7 +52,7 @@ export default function (state = initialState, action) {
         return validatedStorage({...state, pair: action.payload });
       }
       case 'INIT_DICTIONARY': {
-        return { ...state, dictionary: action.payload || [] };
+        return saved({ ...state, dictionary: action.payload || [] });
       }
       case 'SHAKE': {
         if (state.generatedProgress < 100) {
@@ -62,7 +65,7 @@ export default function (state = initialState, action) {
           }
           const generatedProgress = entropy.getProgress();
           const wordsIndexes = entropy.getRandomIndexes(3);
-          return { ...state, entropy, generatedProgress, wordsIndexes };
+          return saved({ ...state, entropy, generatedProgress, wordsIndexes });
         }
         return state;
       }
@@ -70,11 +73,11 @@ export default function (state = initialState, action) {
         const { index, value } = action.payload;
         const wordsEntered = state.wordsEntered.slice();
         wordsEntered[index] = value;
-        return { ...state, wordsEntered };
+        return saved({ ...state, wordsEntered });
       }
       case 'INIT_CONFIRMATION_WORDS' : {
-        const wordsEntered = action.payload.slice()
-        return { ...state, wordsEntered };
+        const wordsEntered = action.payload.slice();
+        return saved({ ...state, wordsEntered });
       }
       default:
     }

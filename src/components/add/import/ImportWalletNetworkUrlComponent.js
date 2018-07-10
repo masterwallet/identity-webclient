@@ -1,29 +1,29 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { WatchMenu, findWizardStep } from './../../../config/Wizards';
+import { ImportMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
-import TextInput from './../../controls/TextInput';
+import { TestnetSelector } from './../../assets/TestnetSelector';
 
 const _t = {
   customRpcUrl: 'Custom RPC URL',
-  useCustomNetwork: 'Use custom network RPC URL:',
+  useCustomNetworkRPC: 'Use custom network RPC URL:',
+  pleaseUseOwnEndpoint: 'Please provide own endpoint',
   continue: 'Continue'
 };
 
-export const ImportWalletNetworkUrlComponent = ({ add, onUpdate }) => {
-    const { network, testnet, rpcRoot } = add.watch;
-    // const { network } = this.props.match.params;
-    const menu = WatchMenu(network, testnet);
+// in this control - we know we are in the test
+const section = 'import';
+export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
+    const { network, testnet } = add[section];
+    const menu = ImportMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
-        <WizardPanel title={_t.customRpcUrl}>
+      <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
-        <div style={{ margin: '50px auto'}}>
-            <p style={{ textAlign: 'center', margin: 0 }}>{_t.useCustomNetwork}</p>
-            <TextInput {...{value: rpcRoot, onChange: onUpdate, autofocus: true }} />
-        </div>
-        <Steps {...{ step, menu }} />
-        </WizardPanel>
-    );
-}
 
+        <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+
+        <Steps {...{ step, menu }} />
+      </WizardPanel>
+    );
+};
