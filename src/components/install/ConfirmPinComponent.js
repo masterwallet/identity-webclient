@@ -30,10 +30,13 @@ export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue }) => {
     const match = pinCode !== value;
     if (!match) onContinue(menu[step + 1]);
   };
+  const disabled = pinCodeConfirm.length !== pinCodeLength ||
+                   pinCode !== pinCodeConfirm;
+
   return (
     <WizardPanel title={_t.confirmPin} wide={true}>
-      {pinCodeConfirm.length === pinCodeLength ? (
-        <Next title={_t.finish} to={menu[step + 1]} />
+      {!disabled ? (
+        <Next title={_t.finish} to={menu[step + 1]} disabled={disabled} />
       ) : false}
       <Prev title={_t.back} to={menu[step - 1]} />
 
