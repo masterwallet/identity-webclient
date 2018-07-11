@@ -14,7 +14,6 @@ const getOptions = (list) => ([
   ...list.map(option => (
   { value: option.value, label: option.name, comment: option.explorer }
   ))
-
 ]);
 
 export const TestnetSelector = (props) => {
@@ -23,7 +22,7 @@ export const TestnetSelector = (props) => {
   const { onUpdateNetworkId, onUpdateRpcRoot } = props;
 
   const bShowCustomUrl = !networkId;
-  const options = getOptions(testnets);
+  const options = testnets ? getOptions(testnets)  : [];
   return(
     <div>
       <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
