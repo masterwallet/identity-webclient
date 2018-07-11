@@ -16,7 +16,8 @@ const initialState = getSessionState('masterwallet_install', {
   wordsEntered: [],
   dictionary: []
 }, {
-  entropy: new SecureRandom()
+  entropy: new SecureRandom(),
+  generatedProgress: 0
 });
 
 const isValidUrl = str => {

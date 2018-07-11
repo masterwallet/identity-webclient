@@ -55,6 +55,7 @@ export class ShakeComponent extends React.Component {
           </div>
           <ProgressCircle value={install.generatedProgress} />
         </Centered>
+        <pre>{JSON.stringify(install.entropy.pool)}</pre>
         <Steps {...{ step, menu }} />
       </WizardPanel>
     );

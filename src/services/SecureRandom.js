@@ -8,11 +8,11 @@ export function SecureRandom() {
   this.pptr = 0;
   // Pool size must be a multiple of 4 and greater than 32.
   // An array of bytes the size of the pool will be passed to init()
-  this.poolSize = 256;
+  this.poolSize = 128; // 32*4
   this.numWords = 24;
 
   this.iteration = 0;
-  this.required = process.env.REACT_APP_MOCK ? 32 : 1024;
+  this.required = 1024;
 
   this.copy = function() {
     const co = new SecureRandom();
@@ -65,6 +65,24 @@ export function SecureRandom() {
       if (arr.indexOf(rand) === -1) arr.push(rand);
     } while (arr.length < n);
     return arr;
+  }
+
+  this.getWordArray = function() {
+    const a = [];
+    const data = this.pool;
+    if (data.length === this.poolSize) {
+      console.log('this.pool = ', this.pool);
+      for (let i = 0; i<data.length/4; i++) {
+          let v = 0;
+          v += data[i*4 + 0] << 8 * 3;
+          v += data[i*4 + 1] << 8 * 2;
+          v += data[i*4 + 2] << 8 * 1;
+          v += data[i*4 + 3] << 8 * 0;
+          a.push(v);
+      }
+      console.warn('a=', a);
+    }
+    return a;
   }
 
 }
