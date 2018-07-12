@@ -78,7 +78,7 @@ export default function (state = initialState, action) {
     }
     case 'UPDATE_NETWORK': {
         const { section, value } = action.payload;
-        const copy = { ...state[section], network: value, rpcRoot: getRpcRoot(value) };
+        const copy = { ...state[section], network: value, networkId: '', rpcRoot: getRpcRoot(value) };
         return saved(updatedWalletNames({ ...state, [section]: copy }));
     }
     case 'UPDATE_NETWORK_ID': {
@@ -88,7 +88,7 @@ export default function (state = initialState, action) {
     }
     case 'UPDATE_TESTNET': {
         const { section, value } = action.payload;
-        const copy = { ...state[section], testnet: !!value };
+        const copy = { ...state[section], testnet: !!value, networkId: '' };
         return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_RPC_ROOT': {
