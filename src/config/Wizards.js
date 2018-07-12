@@ -17,32 +17,32 @@ export const InstallationMenu = [
 
 export const CreateMenu = (network, testnet) => {
   const props = network ? findNetwork(network) : {};
-  const terms = props.terms ? [`/create/${network}/terms`] : [];
-  const net = testnet ? [`/create/${network}/url`]: [];
-  return ['create'].concat(net).concat(terms).concat([
-    `/create/${network}/name`,
-    `/create/${network}/wallet`,
-    `/create/${network}/paper`
+  const terms = props.terms ? [`/create/terms`] : [];
+  const net = testnet ? [`/create/url`]: [];
+  return ['/create'].concat(net).concat(terms).concat([
+    `/create/name`,
+    `/create/wallet`,
+    `/create/paper`
   ]);
 }
 
 export const ImportMenu = (network, testnet) => {
   const props = network ? findNetwork(network) : {};
-  const terms = props.terms ? [`import/${network}/terms`] : [];
-  const net = testnet ? [`/import/${network}/url`] : [];
-  return ['import'].concat(net).concat(terms).concat([
-    `/import/${network}/name`,
-    `/import/${network}/wallet`,
-    `/import/${network}/complete`
+  const terms = props.terms ? [`import/terms`] : [];
+  const net = testnet ? [`/import/url`] : [];
+  return ['/import'].concat(net).concat(terms).concat([
+    `/import/name`,
+    `/import/wallet`,
+    `/import/complete`
   ]);
 }
 
 export const WatchMenu = (network, testnet) => {
-  const net = testnet ? [`/import/${network}/url`] : [];
-  return [ 'watch'].concat(net).concat([
-    `/watch/${network}/name`,
-    `/watch/${network}/wallet`,
-    `/watch/${network}/complete`
+  const net = testnet ? [`/import/url`] : [];
+  return [ '/watch'].concat(net).concat([
+    `/watch/name`,
+    `/watch/wallet`,
+    `/watch/complete`
   ]);
 };
 

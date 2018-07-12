@@ -47,29 +47,31 @@ const App = () => (
       <Route exact path='/add' component={CreateMenu} />
       {/* Addition of Wallet to Manage */}
       <Route exact path='/create' component={CreateWalletNetwork} />
-      <Route path='/create/:network/url' component={CreateWalletNetworkUrl} />
-      <Route path='/create/:network/name' component={CreateWalletName} />
-      <Route path='/create/:network/terms' component={CreateWalletTerms} />
-      <Route path='/create/:network/wallet' component={CreateWalletInput} />
-      <Route path='/create/:network/paper' component={CreateWalletPaper} />
+      <Route path='/create/url' component={CreateWalletNetworkUrl} />
+      <Route path='/create/name' component={CreateWalletName} />
+      <Route path='/create/terms' component={CreateWalletTerms} />
+      <Route path='/create/wallet' component={CreateWalletInput} />
+      <Route path='/create/paper' component={CreateWalletPaper} />
       {/* Addition of Wallet to Watch */}
       <Route exact path='/watch' component={WatchWalletNetwork} />
-      <Route path='/watch/:network/url' component={WatchWalletNetworkUrl} />
-      <Route path='/watch/:network/name' component={WatchWalletName} />
-      <Route path='/watch/:network/wallet' component={WatchWalletAddress} />
-      <Route path='/watch/:network/complete' component={WatchWalletComplete} />
+      <Route path='/watch/url' component={WatchWalletNetworkUrl} />
+      <Route path='/watch/name' component={WatchWalletName} />
+      <Route path='/watch/wallet' component={WatchWalletAddress} />
+      <Route path='/watch/complete' component={WatchWalletComplete} />
+
+      {/* Addition of Wallet by Importing */}
+      <Route exact path='/import' component={ImportWalletNetwork} />
+      <Route path='/import/url' component={ImportWalletNetworkUrl} />
+      <Route path='/import/name' component={ImportWalletName} />
+      <Route path='/import/terms' component={ImportWalletTerms} />
+      <Route path='/import/wallet' component={ImportWalletInput} />
+      <Route path='/import/complete' component={ImportWalletComplete} />
+
       {/* Addition of Exchange Account to Watch */}
       <Route exact path='/exchange' component={ExchangeSelect} />
       <Route path='/exchange/:exchange/name' component={ExchangeName} />
       <Route path='/exchange/:exchange/account' component={ExchangeInput} />
       <Route path='/exchange/:exchange/complete' component={ExchangeComplete} />
-      {/* Addition of Wallet by Importing */}
-      <Route exact path='/import' component={ImportWalletNetwork} />
-      <Route path='/import/:network/url' component={ImportWalletNetworkUrl} />
-      <Route path='/import/:network/name' component={ImportWalletName} />
-      <Route path='/import/:network/terms' component={ImportWalletTerms} />
-      <Route path='/import/:network/wallet' component={ImportWalletInput} />
-      <Route path='/import/:network/complete' component={ImportWalletComplete} />
 
       {/* Wallet Managmeent */}
       <Route path='/wallets/:walletId/balance' component={WalletBalance} />
