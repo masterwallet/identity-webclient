@@ -20,7 +20,6 @@ export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpda
     return (
       <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
-
         <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
 
         <Steps {...{ step, menu }} />

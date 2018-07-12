@@ -18,6 +18,11 @@ const updatedName = (obj, subject) => {
   const test = obj.testnet ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
   return ({ ...obj, name: `My ${network} ${subject}${test}`, selectedNetwork });
 };
+
+const getRpcRoot = (network) => (
+  Networks.filter(n => (n.value === network))[0].local
+);
+
 const saved = (state) => (saveSessionState('masterwallet_add', state));
 const initialState = getSessionState('masterwallet_add', {
   operation: '',
@@ -26,21 +31,21 @@ const initialState = getSessionState('masterwallet_add', {
       network: defaultNetwork,
       testnet: false,
       networkId: '',
-      rpcRoot: ''
+      rpcRoot: getRpcRoot(defaultNetwork)
   }, defaultNetwork, 'Wallet'),
   import: updatedName({
       name: '',
       network: defaultNetwork,
       networkId: '',
       testnet: false,
-      rpcRoot: ''
+      rpcRoot: getRpcRoot(defaultNetwork)
   }, defaultNetwork, 'Wallet'),
   watch: updatedName({
       name: '',
       network: defaultNetwork,
       networkId: '',
       testnet: false,
-      rpcRoot: ''
+      rpcRoot: getRpcRoot(defaultNetwork)
   }, defaultNetwork, 'Wallet'),
   exchange: updatedName({
       name: '',
@@ -71,7 +76,7 @@ export default function (state = initialState, action) {
     }
     case 'UPDATE_NETWORK': {
         const { section, value } = action.payload;
-        const copy = { ...state[section], network: value };
+        const copy = { ...state[section], network: value, rpcRoot: getRpcRoot(value) };
         return saved(updatedWalletNames({ ...state, [section]: copy }));
     }
     case 'UPDATE_NETWORK_ID': {
