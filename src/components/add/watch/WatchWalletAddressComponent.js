@@ -2,14 +2,15 @@ import React from 'react';
 import { Steps } from './../../controls/Steps';
 import TextInput from './../../controls/TextInput';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
 const _t = {
   walletAddress: 'Wallet Address',
   pleaseProvide: 'please specify public address of the wallet',
   verifyTheImage: 'image for verification:',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
 export class WatchWalletAddressComponent extends React.Component {
@@ -28,6 +29,7 @@ export class WatchWalletAddressComponent extends React.Component {
     return (
       <WizardPanel title={_t.walletAddress}>
         <Next to={menu[step + 1]} title={_t.continue}/>
+        <Prev to={menu[step - 1]} title={_t.back}/>
         <div style={{ margin: '50px auto', textAlign: 'center' }}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true}} />

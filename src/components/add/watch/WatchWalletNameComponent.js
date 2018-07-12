@@ -1,13 +1,14 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 
 const _t = {
   nameYourAccount: 'Please Name Your Account',
   thisIsInternal: 'Unique internal wallet name:',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
 export class WatchWalletNameComponent extends React.Component {
@@ -25,6 +26,8 @@ export class WatchWalletNameComponent extends React.Component {
     return (
       <WizardPanel title={_t.nameYourAccount}>
         <Next to={menu[step + 1]} title={_t.continue} />
+        <Prev to={menu[step - 1]} title={_t.back} />
+
         <div style={{ margin: '50px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }} />
