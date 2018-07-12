@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { ImportWalletNameComponent } from './../../../components/add/import/ImportWalletNameComponent';
 
-const mapStateToProps = state => state;
+const section = 'import';
+
+const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
   onChange: (value) => {
     dispatch({ type: 'UPDATE_NAME', payload: { section: 'import', value } });

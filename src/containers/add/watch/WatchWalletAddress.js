@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { WatchWalletAddressComponent } from './../../../components/add/watch/WatchWalletAddressComponent';
 
-const mapStateToProps = state => state;
+const section = 'watch';
+const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({});
 
 export const WatchWalletAddress = connect(mapStateToProps, mapDispatchToProps)(WatchWalletAddressComponent);

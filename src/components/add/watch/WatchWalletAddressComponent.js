@@ -13,6 +13,8 @@ const _t = {
   back: 'Back'
 };
 
+
+const section = 'watch';
 export class WatchWalletAddressComponent extends React.Component {
   state = { value: '' };
 
@@ -21,9 +23,9 @@ export class WatchWalletAddressComponent extends React.Component {
   };
 
   render() {
-    const { match } = this.props;
-    const { network } = match.params;
-    const menu = WatchMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/wallet');
     const { value } = this.state;
     return (

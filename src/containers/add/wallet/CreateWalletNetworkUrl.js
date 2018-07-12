@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { CreateWalletNetworkUrlComponent } from './../../../components/add/wallet/CreateWalletNetworkUrlComponent';
 
-const mapStateToProps = state => state;
 const section = 'create';
+const mapStateToProps = state => ({ ...state, section });
+
 const mapDispatchToProps = dispatch => ({
   onUpdate: (value) => {
     dispatch({ type: 'UPDATE_RPC_ROOT', payload: { section, value } });

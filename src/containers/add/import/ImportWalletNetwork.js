@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { ImportWalletNetworkComponent } from './../../../components/add/import/ImportWalletNetworkComponent';
 
-const mapStateToProps = state => state;
 const section = 'import';
+const mapStateToProps = state => ({...state, section });
+
 const mapDispatchToProps = dispatch => ({
   onUpdateNetwork: (value) => {
     dispatch({ type: 'UPDATE_NETWORK', payload: { section, value } });

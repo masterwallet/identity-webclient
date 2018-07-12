@@ -9,9 +9,10 @@ const _t = {
   assets: 'My Wallets'
 };
 
-export const WatchWalletCompleteComponent = ({ match }) => {
-  const { network } = match.params;
-  const menu = WatchMenu(network);
+const section = 'watch';
+export const WatchWalletCompleteComponent = ({ add }) => {
+  const { network, testnet } = add[section];
+  const menu = WatchMenu(network, testnet);
   const step = findWizardStep(menu, '/complete');
   return (
     <WizardPanel title={_t.finished}>

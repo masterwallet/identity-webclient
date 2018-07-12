@@ -38,7 +38,7 @@ export const ImportMenu = (network, testnet) => {
 }
 
 export const WatchMenu = (network, testnet) => {
-  const net = testnet ? [`/import/url`] : [];
+  const net = testnet ? [`/watch/url`] : [];
   return [ '/watch'].concat(net).concat([
     `/watch/name`,
     `/watch/wallet`,

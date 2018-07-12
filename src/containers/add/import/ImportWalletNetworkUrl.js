@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { ImportWalletNetworkUrlComponent } from './../../../components/add/import/ImportWalletNetworkUrlComponent';
 
-const mapStateToProps = state => state;
 const section = 'import';
+const mapStateToProps = state => ({ ...state, section });
+
 
 const mapDispatchToProps = dispatch => ({
   onUpdateNetworkId: (value) => {

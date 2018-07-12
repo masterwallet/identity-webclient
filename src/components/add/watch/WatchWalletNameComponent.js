@@ -11,6 +11,7 @@ const _t = {
   back: 'Back'
 };
 
+const section = 'watch';
 export class WatchWalletNameComponent extends React.Component {
   state = { value: '' };
 
@@ -20,8 +21,9 @@ export class WatchWalletNameComponent extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { network } = this.props.match.params;
-    const menu = WatchMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/name');
     return (
       <WizardPanel title={_t.nameYourAccount}>

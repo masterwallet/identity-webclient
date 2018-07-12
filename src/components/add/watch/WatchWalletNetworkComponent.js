@@ -10,8 +10,10 @@ const _t = {
   back: 'Back'
 };
 
+
+const section = 'watch';
 export const WatchWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
-  const { network, testnet } = add.watch;
+  const { network, testnet } = add[section];
   const menu = WatchMenu(network, testnet);
   const step = 0;
   return (
