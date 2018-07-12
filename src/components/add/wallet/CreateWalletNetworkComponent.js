@@ -1,12 +1,13 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import { NetworkSelector } from './../../controls/NetworkSelector';
 
 const _t = {
   selectNetwork: 'New Wallet: Select Network',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
 export const CreateWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
@@ -17,6 +18,7 @@ export const CreateWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTes
   return (
     <WizardPanel title={_t.selectNetwork}>
       {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <Prev to={'/add'} title={_t.back} />
       <NetworkSelector
         value={network} onChange={onUpdateNetwork} 
         isTestNet={testnet}

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 
 const _t = {
   networkTerms: 'Accept Network Terms',
-  accept: 'Accept'
+  accept: 'Accept',
+  back: 'Back'
 };
 
 export class CreateWalletTermsComponent extends React.Component {
@@ -17,6 +18,7 @@ export class CreateWalletTermsComponent extends React.Component {
     return (
       <WizardPanel title={_t.networkTerms} wide={true}>
         <Next to={menu[step + 1]} title={_t.accept} />
+        <Prev to={menu[step - 1]} title={_t.back} />
         <div style={{ margin: '50px auto'}}>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dolor felis, quis feugiat libero luctus vitae. Phasellus non dolor eu nisi venenatis imperdiet quis sagittis ante. Donec eleifend lacus non fermentum dignissim. Praesent mollis aliquam mauris, nec aliquet justo accumsan imperdiet. Integer tincidunt, arcu in tincidunt condimentum, orci sem elementum tortor, ut ornare nulla justo eget ligula. Pellentesque rutrum vulputate magna sed imperdiet. Nullam egestas dictum magna sit amet placerat. Vestibulum rutrum rutrum sapien at eleifend. Nam fermentum viverra nisl rutrum tristique. Cras tristique aliquam feugiat. Donec sed pulvinar mauris, id rhoncus dolor. Pellentesque nec egestas sapien. Nunc rhoncus nulla mauris. Pellentesque vel nisi turpis.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
 const _t = {
@@ -9,7 +9,8 @@ const _t = {
   continue: 'Continue',
   generatedText: 'New wallet was generated and added to the watch list.',
   thisIsTheAddress: 'Here is public address of this wallet',
-  itWillBeHelpful: 'It will be helpfull to check this image on transactions'
+  itWillBeHelpful: 'It will be helpfull to check this image on transactions',
+  back: 'Back'
 };
 
 const Address = ({ value }) => (
@@ -33,6 +34,8 @@ export class CreateWalletInputComponent extends React.Component {
     return (
       <WizardPanel title={_t.accountWasGenerated}>
         <Next to={menu[step + 1]} title={_t.continue} />
+        <Prev to={menu[step - 1]} title={_t.back} />
+        
         <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
         <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
         <Address value={address} />
