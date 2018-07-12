@@ -3,7 +3,11 @@ import { ExchangeSelectComponent } from './../../../components/add/exchange/Exch
 
 const section = 'exchange';
 const mapStateToProps = state => ({ ...state, section });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onUpdateNetwork: (value) => {
+        dispatch({ type: 'UPDATE_NETWORK', payload: { section, value } });
+    }
+});
 
 export const ExchangeSelect = connect(mapStateToProps, mapDispatchToProps)(ExchangeSelectComponent);
 export default { ExchangeSelect };

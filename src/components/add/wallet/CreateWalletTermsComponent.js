@@ -2,6 +2,7 @@ import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../../panel/index';
+import { NetworkIcon } from './../../assets/NetworkIcon';
 
 const _t = {
   networkTerms: 'Accept Network Terms',
@@ -14,7 +15,7 @@ export class CreateWalletTermsComponent extends React.Component {
 
   render() {
     const { add } = this.props;
-    const { network, testnet } = add[section];
+    const { network, testnet, selectedNetwork } = add[section];
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/terms');
     
@@ -22,8 +23,8 @@ export class CreateWalletTermsComponent extends React.Component {
       <WizardPanel title={_t.networkTerms} wide={true}>
         <Next to={menu[step + 1]} title={_t.accept} />
         {menu[step - 1] ? <Prev to={menu[step - 1]} title={_t.back} /> : false}
-        <div style={{ margin: '50px auto'}}>
-          <p>{JSON.stringify([network, testnet, menu, step], null, 2)}</p>
+        <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
+        <div style={{ margin: '10px auto'}}>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dolor felis, quis feugiat libero luctus vitae. Phasellus non dolor eu nisi venenatis imperdiet quis sagittis ante. Donec eleifend lacus non fermentum dignissim. Praesent mollis aliquam mauris, nec aliquet justo accumsan imperdiet. Integer tincidunt, arcu in tincidunt condimentum, orci sem elementum tortor, ut ornare nulla justo eget ligula. Pellentesque rutrum vulputate magna sed imperdiet. Nullam egestas dictum magna sit amet placerat. Vestibulum rutrum rutrum sapien at eleifend. Nam fermentum viverra nisl rutrum tristique. Cras tristique aliquam feugiat. Donec sed pulvinar mauris, id rhoncus dolor. Pellentesque nec egestas sapien. Nunc rhoncus nulla mauris. Pellentesque vel nisi turpis.
           </p>

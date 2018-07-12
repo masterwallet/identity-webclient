@@ -6,7 +6,7 @@ const section = 'import';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
   onChange: (value) => {
-    dispatch({ type: 'UPDATE_NAME', payload: { section: 'import', value } });
+    dispatch({ type: 'UPDATE_NAME', payload: { section, value } });
   }
 });
 

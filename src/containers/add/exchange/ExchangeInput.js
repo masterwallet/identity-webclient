@@ -3,7 +3,11 @@ import { ExchangeInputComponent } from './../../../components/add/exchange/Excha
 
 const section = 'exchange';
 const mapStateToProps = state => ({ ...state, section });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onUpdateKey: (name, value) => {
+        dispatch({ type: 'UPDATE_SECRET', payload: { section, name, value } });
+    }
+});
 
 export const ExchangeInput = connect(mapStateToProps, mapDispatchToProps)(ExchangeInputComponent);
 export default { ExchangeInput };

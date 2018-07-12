@@ -5,7 +5,10 @@ const section = 'create';
 const mapStateToProps = state => ({ ...state, section });
 
 const mapDispatchToProps = dispatch => ({
-  onUpdate: (value) => {
+  onUpdateNetworkId: (value) => {
+    dispatch({ type: 'UPDATE_NETWORK_ID', payload: { section, value } });
+  },
+  onUpdateRpcRoot: (value) => {
     dispatch({ type: 'UPDATE_RPC_ROOT', payload: { section, value } });
   }
 });

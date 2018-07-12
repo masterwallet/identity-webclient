@@ -3,7 +3,12 @@ import { ImportWalletInputComponent } from './../../../components/add/import/Imp
 
 const section = 'import';
 const mapStateToProps = state => ({ ...state, section });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    onUpdateSecret: (name, value) => {
+        dispatch({ type: 'UPDATE_SECRET', payload: { section, name, value } });
+    },
+
+});
 
 export const ImportWalletInput = connect(mapStateToProps, mapDispatchToProps)(ImportWalletInputComponent);
 export default { ImportWalletInput };
