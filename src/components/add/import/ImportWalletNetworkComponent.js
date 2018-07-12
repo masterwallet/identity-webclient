@@ -10,8 +10,7 @@ const _t = {
   back: 'Back'
 };
 
-const section = 'import';
-export const ImportWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
+export const ImportWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
   const step = 0;

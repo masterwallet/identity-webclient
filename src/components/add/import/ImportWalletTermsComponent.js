@@ -9,32 +9,29 @@ const _t = {
   back: 'Back'
 };
 
-const section = 'import';
-export class ImportWalletTermsComponent extends React.Component {
+export const ImportWalletTermsComponent = ({ add, section }) => {
 
-  render() {
-    const { add } = this.props; 
-    const { network, testnet } = add[section];
-    const menu = ImportMenu(network, testnet);
-    const step = findWizardStep(menu, '/terms');
+  const { network, testnet } = add[section];
+  const menu = ImportMenu(network, testnet);
+  const step = findWizardStep(menu, '/terms');
 
-    return (
-      <WizardPanel title={_t.networkTerms} wide={true}>
-        <Next to={menu[step + 1]} title={_t.accept} />
-        <Prev to={menu[step - 1]} title={_t.back} />
-        <div style={{ margin: '50px auto'}}>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dolor felis, quis feugiat libero luctus vitae. Phasellus non dolor eu nisi venenatis imperdiet quis sagittis ante. Donec eleifend lacus non fermentum dignissim. Praesent mollis aliquam mauris, nec aliquet justo accumsan imperdiet. Integer tincidunt, arcu in tincidunt condimentum, orci sem elementum tortor, ut ornare nulla justo eget ligula. Pellentesque rutrum vulputate magna sed imperdiet. Nullam egestas dictum magna sit amet placerat. Vestibulum rutrum rutrum sapien at eleifend. Nam fermentum viverra nisl rutrum tristique. Cras tristique aliquam feugiat. Donec sed pulvinar mauris, id rhoncus dolor. Pellentesque nec egestas sapien. Nunc rhoncus nulla mauris. Pellentesque vel nisi turpis.
-          </p>
-          <p>
-            Donec consectetur neque sit amet aliquet dignissim. Proin metus ligula, semper sit amet metus nec, porttitor ultricies metus. Vivamus nec diam posuere, laoreet sem ut, dignissim nisi. Nam aliquet orci in nunc ultrices sodales. Vestibulum mi libero, blandit id dolor sed, volutpat volutpat odio. Vivamus vehicula felis eget urna blandit consectetur. In condimentum diam scelerisque cursus auctor.
-          </p>
-          <p>
-            Nullam pellentesque sodales varius. Integer non maximus dui. Donec pellentesque lectus accumsan euismod sagittis. Aliquam eget sollicitudin turpis. Praesent ornare tempus risus a fermentum. Sed cursus nunc justo, sit amet suscipit libero sagittis ac. Sed ultrices et arcu in auctor. Fusce mattis purus eget purus ultricies suscipit. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-          </p>
-        </div>
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    )
-  }
+  return (
+    <WizardPanel title={_t.networkTerms} wide={true}>
+      <Next to={menu[step + 1]} title={_t.accept} />
+      <Prev to={menu[step - 1]} title={_t.back} />
+      <div style={{ margin: '50px auto'}}>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dolor felis, quis feugiat libero luctus vitae. Phasellus non dolor eu nisi venenatis imperdiet quis sagittis ante. Donec eleifend lacus non fermentum dignissim. Praesent mollis aliquam mauris, nec aliquet justo accumsan imperdiet. Integer tincidunt, arcu in tincidunt condimentum, orci sem elementum tortor, ut ornare nulla justo eget ligula. Pellentesque rutrum vulputate magna sed imperdiet. Nullam egestas dictum magna sit amet placerat. Vestibulum rutrum rutrum sapien at eleifend. Nam fermentum viverra nisl rutrum tristique. Cras tristique aliquam feugiat. Donec sed pulvinar mauris, id rhoncus dolor. Pellentesque nec egestas sapien. Nunc rhoncus nulla mauris. Pellentesque vel nisi turpis.
+        </p>
+        <p>
+          Donec consectetur neque sit amet aliquet dignissim. Proin metus ligula, semper sit amet metus nec, porttitor ultricies metus. Vivamus nec diam posuere, laoreet sem ut, dignissim nisi. Nam aliquet orci in nunc ultrices sodales. Vestibulum mi libero, blandit id dolor sed, volutpat volutpat odio. Vivamus vehicula felis eget urna blandit consectetur. In condimentum diam scelerisque cursus auctor.
+        </p>
+        <p>
+          Nullam pellentesque sodales varius. Integer non maximus dui. Donec pellentesque lectus accumsan euismod sagittis. Aliquam eget sollicitudin turpis. Praesent ornare tempus risus a fermentum. Sed cursus nunc justo, sit amet suscipit libero sagittis ac. Sed ultrices et arcu in auctor. Fusce mattis purus eget purus ultricies suscipit. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+        </p>
+      </div>
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
+
 }

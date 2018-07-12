@@ -11,32 +11,21 @@ const _t = {
   back: 'Back'
 };
 
-const section = 'watch';
-export class WatchWalletNameComponent extends React.Component {
-  state = { value: '' };
+export const WatchWalletNameComponent = ({ section, add, onChange }) => {
+  const { name, network, testnet } = add[section];
+  const menu = WatchMenu(network, testnet);
+  const step = findWizardStep(menu, '/name');
+  return (
+    <WizardPanel title={_t.nameYourAccount}>
+      <Next to={menu[step + 1]} title={_t.continue} />
+      <Prev to={menu[step - 1]} title={_t.back} />
 
-  onChange = (value) => {
-    this.setState({value});
-  };
+      <div style={{ margin: '50px auto'}}>
+        <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
+        <TextInput {...{ name, onChange, autofocus: true }} style={{ textAlign: 'center' }} />
+      </div>
 
-  render() {
-    const { value } = this.state;
-    const { add } = this.props;
-    const { network, testnet } = add[section];
-    const menu = WatchMenu(network, testnet);
-    const step = findWizardStep(menu, '/name');
-    return (
-      <WizardPanel title={_t.nameYourAccount}>
-        <Next to={menu[step + 1]} title={_t.continue} />
-        <Prev to={menu[step - 1]} title={_t.back} />
-
-        <div style={{ margin: '50px auto'}}>
-          <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-          <TextInput {...{value, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }} />
-        </div>
-
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    )
-  }
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  )
 }

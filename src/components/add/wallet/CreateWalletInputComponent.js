@@ -23,31 +23,27 @@ const Address = ({ value }) => (
   </div>
 );
 
-const section = 'create';
-export class CreateWalletInputComponent extends React.Component {
+export const CreateWalletInputComponent = ({ section, add }) => {
 
-  render() {
-    const { add } = this.props;
-    const address = '0x1303494949494949494949949494940031233949';
-    const { network, testnet } = add[section]
-    const menu = CreateMenu(network, testnet);
-    const step = findWizardStep(menu, '/wallet')
-    return (
-      <WizardPanel title={_t.accountWasGenerated}>
-        <Next to={menu[step + 1]} title={_t.continue} />
-        <Prev to={menu[step - 1]} title={_t.back} />
+  const address = '0x1303494949494949494949949494940031233949';
+  const { network, testnet } = add[section]
+  const menu = CreateMenu(network, testnet);
+  const step = findWizardStep(menu, '/wallet')
+  return (
+    <WizardPanel title={_t.accountWasGenerated}>
+      <Next to={menu[step + 1]} title={_t.continue} />
+      <Prev to={menu[step - 1]} title={_t.back} />
 
-        <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
-        <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
-        <Address value={address} />
-        <div style={{ textAlign: 'center', background: 'white', width: 150, margin: '0px auto' }}>
-          <JDentIcon size={150} value={address} />
-        </div>
-        <p style={{ textAlign: 'center' }}>{_t.itWillBeHelpful}</p>
+      <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
+      <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
+      <Address value={address} />
+      <div style={{ textAlign: 'center', background: 'white', width: 150, margin: '0px auto' }}>
+        <JDentIcon size={150} value={address} />
+      </div>
+      <p style={{ textAlign: 'center' }}>{_t.itWillBeHelpful}</p>
 
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    );
-  }
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
 
 }

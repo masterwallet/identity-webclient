@@ -12,32 +12,23 @@ const _t = {
   back: 'Back'
 };
 
-const section = 'create';
-export class CreateWalletNameComponent extends React.Component {
-  state = { value: '' };
-  onChange = (value) => {
-    this.setState({ value });
-  };
+export const CreateWalletNameComponent = ({ section, add, onChange }) => {
+  const { name, network, testnet, selectedNetwork } = add[section];
+  const menu = CreateMenu(network, testnet);
+  const step = findWizardStep( menu, '/name' );
+  return (
+    <WizardPanel title={_t.nameYourAccount}>
+      <Next to={menu[step + 1]} title={_t.continue} />
+      <Prev to={menu[step - 1]} title={_t.back} />
 
-  render() {
-    const { value } = this.state;
-    const { add } = this.props;
-    const { network, testnet, selectedNetwork } = add[section];
-    const menu = CreateMenu(network, testnet);
-    const step = findWizardStep( menu, '/name' );
-    return (
-      <WizardPanel title={_t.nameYourAccount}>
-        <Next to={menu[step + 1]} title={_t.continue} />
-        <Prev to={menu[step - 1]} title={_t.back} />
-
+      <div style={{ margin: '20px auto'}}>
         <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
 
-        <div style={{ margin: '50px auto'}}>
-          <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-          <TextInput {...{value, onChange: this.onChange, autofocus: true }} style={{ textAlign: 'center' }} />
-        </div>
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    )
-  }
+        <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
+        <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
+      </div>
+
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
 }

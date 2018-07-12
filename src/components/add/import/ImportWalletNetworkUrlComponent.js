@@ -10,8 +10,7 @@ const _t = {
 };
 
 // in this control - we know we are in the test
-const section = 'import';
-export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
+export const ImportWalletNetworkUrlComponent = ({ section, add, onUpdateNetworkId, onUpdateRpcRoot }) => {
     const { network, testnet } = add[section];
     const menu = ImportMenu(network, testnet);
     const step = findWizardStep(menu, '/url');

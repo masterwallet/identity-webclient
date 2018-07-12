@@ -12,10 +12,9 @@ const _t = {
   back: 'Back'
 };
 
-const section = 'import';
-export const ImportWalletNameComponent = ({ add, onChange }) => {
-  const { name, network, selectedNetwork } = add[section];
-  const menu = ImportMenu(network);
+export const ImportWalletNameComponent = ({ section, add, onChange }) => {
+  const { name, network, testnet, selectedNetwork } = add[section];
+  const menu = ImportMenu(network, testnet);
   const step = findWizardStep(menu, '/name');
 
   return (
