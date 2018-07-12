@@ -10,8 +10,9 @@ const _t = {
   back: 'Back'
 };
 
+const section = 'create';
 export const CreateWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
-  const { network, testnet } = add.create;
+  const { network, testnet } = add[section];
   const menu = CreateMenu(network, testnet);
   const step = 0;
 

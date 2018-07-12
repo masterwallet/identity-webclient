@@ -28,7 +28,7 @@ export const CreateMenu = (network, testnet) => {
 
 export const ImportMenu = (network, testnet) => {
   const props = network ? findNetwork(network) : {};
-  const terms = props.terms ? [`import/terms`] : [];
+  const terms = props.terms ? [`/import/terms`] : [];
   const net = testnet ? [`/import/url`] : [];
   return ['/import'].concat(net).concat(terms).concat([
     `/import/name`,

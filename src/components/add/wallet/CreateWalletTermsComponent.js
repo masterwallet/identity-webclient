@@ -9,17 +9,21 @@ const _t = {
   back: 'Back'
 };
 
+const section = 'create';
 export class CreateWalletTermsComponent extends React.Component {
 
   render() {
-    const { network } = this.props.match.params;
-    const menu = CreateMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/terms');
+    
     return (
       <WizardPanel title={_t.networkTerms} wide={true}>
         <Next to={menu[step + 1]} title={_t.accept} />
-        <Prev to={menu[step - 1]} title={_t.back} />
+        {menu[step - 1] ? <Prev to={menu[step - 1]} title={_t.back} /> : false}
         <div style={{ margin: '50px auto'}}>
+          <p>{JSON.stringify([network, testnet, menu, step], null, 2)}</p>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dolor felis, quis feugiat libero luctus vitae. Phasellus non dolor eu nisi venenatis imperdiet quis sagittis ante. Donec eleifend lacus non fermentum dignissim. Praesent mollis aliquam mauris, nec aliquet justo accumsan imperdiet. Integer tincidunt, arcu in tincidunt condimentum, orci sem elementum tortor, ut ornare nulla justo eget ligula. Pellentesque rutrum vulputate magna sed imperdiet. Nullam egestas dictum magna sit amet placerat. Vestibulum rutrum rutrum sapien at eleifend. Nam fermentum viverra nisl rutrum tristique. Cras tristique aliquam feugiat. Donec sed pulvinar mauris, id rhoncus dolor. Pellentesque nec egestas sapien. Nunc rhoncus nulla mauris. Pellentesque vel nisi turpis.
           </p>

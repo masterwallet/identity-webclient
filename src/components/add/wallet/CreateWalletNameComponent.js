@@ -11,6 +11,7 @@ const _t = {
   back: 'Back'
 };
 
+const section = 'create';
 export class CreateWalletNameComponent extends React.Component {
   state = { value: '' };
   onChange = (value) => {
@@ -19,8 +20,9 @@ export class CreateWalletNameComponent extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { network } = this.props.match.params;
-    const menu = CreateMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = CreateMenu(network, testnet);
     const step = findWizardStep( menu, '/name' );
     return (
       <WizardPanel title={_t.nameYourAccount}>

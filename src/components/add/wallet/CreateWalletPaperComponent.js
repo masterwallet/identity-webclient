@@ -13,6 +13,8 @@ const _t = {
   yourPassword: 'Secret Wallet Password'
 };
 
+
+const section = 'create';
 export class CreateWalletPaperComponent extends React.Component {
   state = { value: '' };
 
@@ -22,8 +24,9 @@ export class CreateWalletPaperComponent extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { network } = this.props.match.params;
-    const menu = CreateMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/paper')
     return (
       <WizardPanel title={_t.paperWallet}>

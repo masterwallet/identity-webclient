@@ -1,14 +1,12 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { ImportMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import { TestnetSelector } from './../../assets/TestnetSelector';
 
 const _t = {
-  customRpcUrl: 'Custom RPC URL',
-  useCustomNetworkRPC: 'Use custom network RPC URL:',
-  pleaseUseOwnEndpoint: 'Please provide own endpoint',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
 // in this control - we know we are in the test
@@ -20,6 +18,7 @@ export const ImportWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpda
     return (
       <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
+        <Prev to={menu[step - 1]} title={_t.back} />
         <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
 
         <Steps {...{ step, menu }} />

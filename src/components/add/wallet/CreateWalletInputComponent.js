@@ -23,19 +23,20 @@ const Address = ({ value }) => (
   </div>
 );
 
+const section = 'create';
 export class CreateWalletInputComponent extends React.Component {
 
   render() {
-    // const { add } = this.props;
+    const { add } = this.props;
     const address = '0x1303494949494949494949949494940031233949';
-    const { network } = this.props.match.params;
-    const menu = CreateMenu(network);
+    const { network, testnet } = add[section]
+    const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/wallet')
     return (
       <WizardPanel title={_t.accountWasGenerated}>
         <Next to={menu[step + 1]} title={_t.continue} />
         <Prev to={menu[step - 1]} title={_t.back} />
-        
+
         <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
         <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
         <Address value={address} />

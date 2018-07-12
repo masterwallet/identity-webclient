@@ -1,7 +1,7 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { ImportMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 import TextArea from './../../controls/TextArea';
 
@@ -9,9 +9,11 @@ const _t = {
   enterPrivateKey: 'Enter Private Key',
   providePrivateKey: 'Please provide your Private Key to import your Wallet:',
   orCopyPasteKeyStore: 'or Paste Key Store File Contents',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
+const section = 'import';
 export class ImportWalletInputComponent extends React.Component {
   state = {
     privateKey: '',
@@ -26,14 +28,16 @@ export class ImportWalletInputComponent extends React.Component {
   };
 
   render() {
-    const { network } = this.props.match.params;
-    const menu = ImportMenu(network);
+    const { add } = this.props;
+    const { network, testnet } = add[section];
+    const menu = ImportMenu(network, testnet);
     const step = findWizardStep(menu, '/wallet');
     const { privateKey, keyStore } = this.state;
 
     return (
       <WizardPanel title={_t.enterPrivateKey} wide={true}>
-        <Next to={ menu[step + 1] } title={_t.continue}/>
+        <Next to={menu[step + 1]} title={_t.continue}/>
+        <Prev to={menu[step - 1]} title={_t.back} />
 
         <div style={{ margin: '20px auto'}}>
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>

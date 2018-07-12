@@ -9,13 +9,15 @@ const _t = {
   assets: 'My Wallets'
 };
 
-export const ImportWalletCompleteComponent = ({ match }) => {
-  const { network } = match.params;
-  const menu = ImportMenu(network);
+const section = 'import';
+export const ImportWalletCompleteComponent = ({ add }) => {
+  const { network, testnet } = add[section];
+  const menu = ImportMenu(network, testnet);
   const step = findWizardStep(menu, '/complete');
   return (
     <WizardPanel title={_t.finished}>
       <Next to={`/wallets`} title={_t.assets}/>
+  
       <div style={{ textAlign: 'center', margin: '50px auto' }}>{_t.readyToUse}</div>
       <Steps {...{step, menu}} />
     </WizardPanel>
