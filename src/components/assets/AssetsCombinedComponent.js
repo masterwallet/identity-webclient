@@ -90,7 +90,7 @@ const AssetTable = styled.table`
 
 export const AssetsCombinedComponent = ({ assets }) => (
   <WizardPanel title={_t.assetsCombined}>
-    <SettingsButton />
+    <SettingsButton add={true} />
     <LockButton />
     <Totals value={assets.total} currency={assets.currency}>
       <Link to='/wallets'><MyWallets>{_t.wallets}</MyWallets></Link>

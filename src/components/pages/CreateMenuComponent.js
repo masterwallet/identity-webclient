@@ -1,10 +1,11 @@
 import React from 'react';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
-import { WizardPanel, Next } from './../panel/index';
+import { WizardPanel, Next, Prev } from './../panel/index';
 
 const _t = {
   choose: 'Please Choose Your Action',
-  next: 'Next'
+  next: 'Next',
+  myWallets: 'My Wallets'
 };
 
 const options = [
@@ -51,6 +52,8 @@ export class CreateMenuComponent extends React.Component {
     return (
       <WizardPanel title={_t.choose}>
         {to ? <Next to={`/${to}`} title={_t.next} /> : false }
+        <Prev to='/wallets' title={_t.myWallets} />
+        
         <div style={{ marginTop: 20 }}></div>
         <RadioButtonGroup options={adjustedOptions} onChange={this.onChange} />
       </WizardPanel>

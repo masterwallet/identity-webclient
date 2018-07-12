@@ -45,7 +45,7 @@ const MyAssets = styled.button`
 
 export const AssetsOverviewComponent = ({ assets }) => (
   <WizardPanel title={_t.walletsOverview}>
-    <SettingsButton />
+    <SettingsButton add={true} />
     <LockButton />
     <Totals value={assets.total} currency="USD">
       <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
