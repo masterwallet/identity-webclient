@@ -2,7 +2,7 @@ import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../../panel/index';
-import TextInput from './../../controls/TextInput';
+import { TestnetSelector } from './../../assets/TestnetSelector';
 
 const _t = {
   customRpcUrl: 'Custom RPC URL',
@@ -12,7 +12,7 @@ const _t = {
 };
 
 const section = 'watch';
-export const WatchWalletNetworkUrlComponent = ({ add, onUpdate }) => {
+export const WatchWalletNetworkUrlComponent = ({ add, onUpdateNetworkId, onUpdateRpcRoot }) => {
     const { network, testnet, rpcRoot } = add[section];
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
@@ -20,10 +20,9 @@ export const WatchWalletNetworkUrlComponent = ({ add, onUpdate }) => {
         <WizardPanel title={_t.customRpcUrl}>
         <Next to={menu[step + 1]} title={_t.continue} />
         <Prev to={menu[step - 1]} title={_t.back} />
-        <div style={{ margin: '50px auto'}}>
-            <p style={{ textAlign: 'center', margin: 0 }}>{_t.useCustomNetwork}</p>
-            <TextInput {...{value: rpcRoot, onChange: onUpdate, autofocus: true }} />
-        </div>
+
+        <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+
         <Steps {...{ step, menu }} />
         </WizardPanel>
     );

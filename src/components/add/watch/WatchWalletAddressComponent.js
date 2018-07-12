@@ -4,6 +4,7 @@ import TextInput from './../../controls/TextInput';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
+import { NetworkIcon } from './../../assets/NetworkIcon';
 
 const _t = {
   walletAddress: 'Wallet Address',
@@ -24,7 +25,7 @@ export class WatchWalletAddressComponent extends React.Component {
 
   render() {
     const { add } = this.props;
-    const { network, testnet } = add[section];
+    const { network, testnet, selectedNetwork } = add[section];
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/wallet');
     const { value } = this.state;
@@ -32,7 +33,9 @@ export class WatchWalletAddressComponent extends React.Component {
       <WizardPanel title={_t.walletAddress}>
         <Next to={menu[step + 1]} title={_t.continue}/>
         <Prev to={menu[step - 1]} title={_t.back}/>
-        <div style={{ margin: '50px auto', textAlign: 'center' }}>
+        <div style={{ margin: '20px auto'}}>
+          <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
+
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
           <TextInput {...{value, onChange: this.onChange, autofocus: true}} />
           {value ? (
