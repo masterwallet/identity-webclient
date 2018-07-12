@@ -9,6 +9,7 @@ const _t = {
   generate: 'Generate Some Randomness',
   pleaseShakeDesktop: 'Please move your mouse cursor to strengthen your future password',
   start: 'Continue',
+  restart: 'Restart',
   back: 'Back'
 };
 
@@ -16,6 +17,20 @@ const Centered = styled.div`
   text-align:center;
   margin-top: 20px;
   margin-bottom: 20px;
+`;
+
+const ResetButton = styled.button`
+  margin: 0px auto;
+  background: transparent;
+  font-weight: bold;
+  color: #262327;
+  border-top: 1px #6239bf solid;
+  border-bottom: 1px #61c38b solid;
+  border-radius: 0px;
+
+  cursor: pointer;
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 export class ShakeComponent extends React.Component {
@@ -27,10 +42,10 @@ export class ShakeComponent extends React.Component {
     if (e.keyCode) this.props.onSeed(e.keyCode);
   }
   componentWillMount() {
-    const { install } = this.props;
+    const { install, onInit } = this.props;
     const { dictionary } = install;
     if (!dictionary || !dictionary.length) {
-      this.props.onInit();
+      onInit();
     }
     document.addEventListener("mousemove", this.onMouseMove, false);
     document.addEventListener("keydown", this.onKeyPress, false);
@@ -40,7 +55,7 @@ export class ShakeComponent extends React.Component {
     document.removeEventListener("keydown", this.onKeyPress, false);
   }
   render() {
-    const { install } = this.props;
+    const { install, onReset } = this.props;
     const menu = InstallationMenu;
     const step = findWizardStep(menu, '/shake');
     const canContinue = (install.generatedProgress >= 100);
@@ -54,8 +69,10 @@ export class ShakeComponent extends React.Component {
             <div style={{ textAlign: 'center', fontSize: 14 }}>{_t.pleaseShakeDesktop}</div>
           </div>
           <ProgressCircle value={install.generatedProgress} />
+          {(install.generatedProgress > 1) ? (
+            <ResetButton onClick={onReset}>{_t.restart}</ResetButton>
+          ) : false }
         </Centered>
-        <pre>{JSON.stringify(install.entropy.pool)}</pre>
         <Steps {...{ step, menu }} />
       </WizardPanel>
     );

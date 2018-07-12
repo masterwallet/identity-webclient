@@ -12,7 +12,7 @@ export function SecureRandom() {
   this.numWords = 24;
 
   this.iteration = 0;
-  this.required = 1024;
+  this.required = 512;
 
   this.copy = function() {
     const co = new SecureRandom();

@@ -70,6 +70,13 @@ export default function (state = initialState, action) {
         }
         return state;
       }
+      case 'RESET_ENTROPY': {
+        return saved({
+          ...state,
+          entropy: new SecureRandom(),
+          generatedProgress: 0
+        });     
+      }
       case 'CONFIRM_WORD': {
         const { index, value } = action.payload;
         const wordsEntered = state.wordsEntered.slice();
