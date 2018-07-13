@@ -3,21 +3,28 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+const ButtonLink = ({ disabled = false, children, to, onClick }) => {
+  const className = `btn btn-primary btn-sm ${disabled ? 'disabled': ''}`;
+  return disabled ? 
+    <span {...{className}}>{children}</span> : 
+    <Link {...{className, to, onClick}}>{children}</Link>;
+};
+
 const Wrapper = styled.div`
   position: fixed;
   z-index: 1001;
   &.right {
     right: 5px;
     top: 5px;
-    a .title { margin-right: 15px; }
+    a .title, span .title { margin-right: 15px; }
   }
   &.left {
     left: 5px;
     top: 5px;
-    a .title { margin-left: 15px; }
+    a .title, span .title { margin-left: 15px; }
   }
 
-  a.btn {
+  a.btn, span.btn {
     display: flex;
     align-items: center;
 
@@ -36,9 +43,12 @@ const Wrapper = styled.div`
     border-top: 1px #61c38b solid;
     border-bottom: 1px #6239bf solid;
   }
-
+  span.btn.disabled {    
+    border: gray !important;
+    color: gray !important;
+  }
   @media(max-width: 480px) {
-    a .title {
+    a .title, span .title {
       display: none;
     }
   }
@@ -73,10 +83,10 @@ export class Next extends React.Component {
     }
     return (
       <Wrapper className="right">
-        <Link disabled={disabled} to={to} className="btn btn-primary btn-sm">
+        <ButtonLink {...{disabled, to}}>
           <span className="title">{title}</span>
           <ChevronRight />
-        </Link>
+        </ButtonLink>
       </Wrapper>
     );
   }
@@ -108,10 +118,10 @@ export class Prev extends React.Component {
     }
     return (
       <Wrapper className="left">
-        <Link ref={c => (this.link = c)} disabled={disabled} to={to} className="btn btn-primary btn-sm">
+        <ButtonLink {...{disabled, to}}>
           <ChevronLeft />
           <span className="title">{title}</span>
-        </Link>
+        </ButtonLink>
       </Wrapper>
     )
   }
