@@ -1,42 +1,44 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
-import { ExchangeMenu } from './../../../config/Wizards';
+import { ExchangeMenu, findWizardStep } from './../../../config/Wizards';
 import { Exchanges } from './../../../config/Exchanges';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
+import { NetworkIcon } from './../../assets/NetworkIcon';
 
 const _t = {
   enterYourKeys: 'Please Enter API Keys',
-  checkKeys: 'Check Keys'
+  checkKeys: 'Check Keys',
+  back: 'Back'
 };
 
-export class ExchangeInputComponent extends React.Component {
-  onChange = (value) => {
-    // this.setState({network: value});
-  };
+export const ExchangeInputComponent = ({ add, section, onUpdateKey }) => {
+  const { network, selectedNetwork, secret } = add[section];
+  const menu = ExchangeMenu(network);
+  const step = findWizardStep(menu, '/account');
+  const exchangeConfig = Exchanges.filter(x => (x.value === network))[0];
 
-  render() {
-    const value = '';
-    const { exchange } = this.props.match.params;
-    return (
-      <WizardPanel title={_t.enterYourKeys}>
-        <Next to={`/exchange/${exchange}/complete`} title={_t.checkKeys} />
-        <div style={{ margin: '50px auto'}}>
-          {Exchanges.filter(x => (x.value === exchange)).map(x => (
-            <div key={x.value}>
-            {x.keys.map(item => (
-              <div key={item.id}>
-                {item.label}:
-                <br />
-                <TextInput {...{value, onChange: this.onChange }} />
-              </div>
-            ))}
-            </div>
-          ))}
-        </div>
+  const keys = exchangeConfig.keys.map(item => (item.id));
+  const missingValues = keys.filter(key =>!secret[key]);
+  const canContinue = missingValues.length === 0;
 
-        <Steps {...{ step: 2, menu: ExchangeMenu() }} />
-      </WizardPanel>
-    )
-  }
+  return (
+    <WizardPanel title={_t.enterYourKeys}>
+      <Next to={menu[step + 1]} title={_t.checkKeys} disabled={!canContinue} />
+      <Prev to={menu[step - 1]} title={_t.back} />
+
+      <div style={{ margin: '20px auto'}}>
+        <NetworkIcon {...selectedNetwork} title={network} style={{ margin: 20 }}/>
+        {exchangeConfig.keys.map(item => (
+          <div key={item.id}>
+            {item.label}:
+            <br />
+            <TextInput {...{value: secret[item.id] || '', onChange: (v => (onUpdateKey(item.id, v))) }} />
+          </div>
+        ))}
+      </div>
+
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
 }

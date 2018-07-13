@@ -13,12 +13,13 @@ const _t = {
 };
 
 export const ExchangeNameComponent = ({ section, add, onChange }) => {
-  const { network, name, selectedNetwork } = add[section];
+  const { network, name, selectedNetwork } = add[section]; // name is unique
   const menu = ExchangeMenu(network);
   const step = findWizardStep(menu, '/name');
+  const canContinue = !!name;
   return (
     <WizardPanel title={_t.nameYourAccount}>
-      <Next to={menu[step + 1]} title={_t.continue} />
+      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={menu[step - 1]} title={_t.back} />
       <div style={{ margin: '20px auto'}}>
         <NetworkIcon {...selectedNetwork} title={network} style={{ margin: 20 }}/>
