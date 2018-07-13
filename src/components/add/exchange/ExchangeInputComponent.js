@@ -29,11 +29,15 @@ export const ExchangeInputComponent = ({ add, section, onUpdateKey }) => {
 
       <div style={{ margin: '20px auto'}}>
         <NetworkIcon {...selectedNetwork} title={network} style={{ margin: 20 }}/>
-        {exchangeConfig.keys.map(item => (
+        {exchangeConfig.keys.map((item, index) => (
           <div key={item.id}>
             {item.label}:
             <br />
-            <TextInput {...{value: secret[item.id] || '', onChange: (v => (onUpdateKey(item.id, v))) }} />
+            <TextInput {...{
+              value: secret[item.id] || '', 
+              onChange: (v => (onUpdateKey(item.id, v))),
+              autofocus: index === 0
+            }} />
           </div>
         ))}
       </div>

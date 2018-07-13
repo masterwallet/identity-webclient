@@ -29,9 +29,10 @@ export const CreateWalletInputComponent = ({ section, add }) => {
   const { network, testnet } = add[section]
   const menu = CreateMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet')
+  const canContinue = !!address;
   return (
     <WizardPanel title={_t.accountWasGenerated}>
-      <Next to={menu[step + 1]} title={_t.continue} />
+      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={menu[step - 1]} title={_t.back} />
 
       <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
