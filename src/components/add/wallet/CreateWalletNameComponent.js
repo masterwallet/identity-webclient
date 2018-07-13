@@ -13,26 +13,35 @@ const _t = {
   notUnique: 'Name must be unique'
 };
 
-export const CreateWalletNameComponent = ({ section, add, assets, onChange }) => {
-  const { name, network, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
-  const menu = CreateMenu(network, testnet);
-  const step = findWizardStep( menu, '/name' );
-  const isUnique = assets.verifyWallet.isUnique;
-  const canContinue = !!name && isUnique;
-  return (
-    <WizardPanel title={_t.nameYourAccount}>
-      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
-      <Prev to={menu[step - 1]} title={_t.back} />
+export class CreateWalletNameComponent extends React.Component {
+  componentWillMount() {
+    // trigger verification of the name that was entered
+    // required for restoring from the session
+    const { section, add, onChange } = this.props;
+    onChange(add[section].name);
+  }
+  render() {
+    const{ section, add, assets, onChange } = this.props;
+    const { name, network, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
+    const menu = CreateMenu(network, testnet);
+    const step = findWizardStep( menu, '/name' );
+    const isUnique = assets.verifyWallet.isUnique;
+    const canContinue = !!name && isUnique;
+    return (
+      <WizardPanel title={_t.nameYourAccount}>
+        <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
+        <Prev to={menu[step - 1]} title={_t.back} />
 
-      <div style={{ margin: '20px auto'}}>
-        <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
+        <div style={{ margin: '20px auto'}}>
+          <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
 
-        <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-        <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
-        {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
-      </div>
+          <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
+          <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
+          {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
+        </div>
 
-      <Steps {...{ step, menu }} />
-    </WizardPanel>
-  );
+        <Steps {...{ step, menu }} />
+      </WizardPanel>
+    );
+  }
 }

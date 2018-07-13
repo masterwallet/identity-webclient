@@ -12,7 +12,7 @@ const _t = {
 };
 
 export const WatchWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId, onUpdateRpcRoot }) => {
-    const { network, testnet, rpcRoot } = add[section];
+    const { network, testnet } = add[section];
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
     return (
