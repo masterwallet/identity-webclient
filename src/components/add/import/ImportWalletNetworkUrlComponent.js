@@ -5,7 +5,6 @@ import { WizardPanel, Next, Prev } from './../../panel/index';
 import { TestnetSelector } from './../../assets/TestnetSelector';
 import { isValidUrl } from './../../../services/Url';
 
-
 const _t = {
   customRpcUrl: 'Select Network',
   continue: 'Continue',

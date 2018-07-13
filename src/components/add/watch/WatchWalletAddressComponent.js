@@ -14,17 +14,25 @@ const _t = {
   back: 'Back'
 };
 
+const Eip55 = ({ address }) => {
+  return false;
+};
 
-const section = 'watch';
 export class WatchWalletAddressComponent extends React.Component {
   state = { address: '' };
 
   onChange = (v) => {
-    this.setState({ address: v })
+    this.setState({ address: v });
+    // this.props.dispatch({ type: 'UPDATE_PUBLIC_KEY', value: v })
   };
+  componentWillMount = () => {
+    // const { add, section } = this.props;
+    // const { publicKey } = add[section];
+    // this.props.dispatch({ type: 'UPDATE_PUBLIC_KEY', value: publicKey })
+  }
 
   render() {
-    const { add } = this.props;
+    const { add, section } = this.props;
     const { network, testnet, selectedNetwork } = add[section];
     const menu = WatchMenu(network, testnet);
     const step = findWizardStep(menu, '/wallet');
@@ -40,6 +48,7 @@ export class WatchWalletAddressComponent extends React.Component {
 
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
           <TextInput {...{value: address, onChange: this.onChange, autofocus: true}} />
+          {selectedNetwork.EIP55 ? <Eip55 address={address}/> : false}
           {address ? (
             <div style={{ textAlign: 'center', marginTop: 20}}>
               <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.verifyTheImage}</p>
