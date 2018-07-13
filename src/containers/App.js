@@ -69,9 +69,9 @@ const App = () => (
 
       {/* Addition of Exchange Account to Watch */}
       <Route exact path='/exchange' component={ExchangeSelect} />
-      <Route path='/exchange/:exchange/name' component={ExchangeName} />
-      <Route path='/exchange/:exchange/account' component={ExchangeInput} />
-      <Route path='/exchange/:exchange/complete' component={ExchangeComplete} />
+      <Route path='/exchange/name' component={ExchangeName} />
+      <Route path='/exchange/account' component={ExchangeInput} />
+      <Route path='/exchange/complete' component={ExchangeComplete} />
 
       {/* Wallet Managmeent */}
       <Route path='/wallets/:walletId/balance' component={WalletBalance} />

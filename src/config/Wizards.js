@@ -46,11 +46,11 @@ export const WatchMenu = (network, testnet) => {
   ]);
 };
 
-export const ExchangeMenu = exchange => [
+export const ExchangeMenu = network => [
   '/exchange',
-  `/exchange/${exchange}/name`,
-  `/exchange/${exchange}/account`,
-  `/exchange/${exchange}/complete`
+  `/exchange/name`,
+  `/exchange/account`,
+  `/exchange/complete`
 ];
 
 export const findWizardStep = (menu, needle) => {

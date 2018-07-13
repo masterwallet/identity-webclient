@@ -1,4 +1,5 @@
 import { Networks } from './../config/Networks';
+import { Exchanges } from './../config/Exchanges';
 import { getSessionState, saveSessionState } from './../services/SessionState';
 
 const defaultNetwork = 'ETH';
@@ -6,17 +7,20 @@ const defaultNetwork = 'ETH';
 const getTestNetName = (list, id) => {
   if (list && list.length) {
     const filtered = list.map(obj => ((obj.value === id) ? obj.name : false)).filter(x => !!x);
-    console.info('filtered= ', filtered);
     if (filtered.length > 0) return filtered[0];
   }
   return 'Testnet';
 };
 
-const updatedName = (obj, subject) => {
+const updatedName = (obj, subject, exchange = false) => {
   const network = obj.network;
-  const selectedNetwork = Networks.filter(n => (n.value === network))[0];
-  const test = obj.testnet ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
-  return ({ ...obj, name: `My ${network} ${subject}${test}`, selectedNetwork });
+  const selectedNetwork = exchange ? 
+    (Exchanges.filter(n => (n.value === network))[0]) :
+    (Networks.filter(n => (n.value === network))[0]);
+
+  const networkName = exchange && selectedNetwork ? selectedNetwork.name : network;
+  const test = obj.testnet && !exchange ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
+  return ({ ...obj, name: `My ${networkName} ${subject}${test}`, selectedNetwork });
 };
 
 const getRpcRoot = (network) => (
@@ -32,7 +36,7 @@ const initialState = getSessionState('masterwallet_add', {
       testnet: false,
       networkId: '',
       rpcRoot: getRpcRoot(defaultNetwork)
-  }, defaultNetwork, 'Wallet'),
+  }, 'Wallet'),
   import: updatedName({
       name: '',
       network: defaultNetwork,
@@ -40,26 +44,26 @@ const initialState = getSessionState('masterwallet_add', {
       testnet: false,
       rpcRoot: getRpcRoot(defaultNetwork),
       secret: {}
-  }, defaultNetwork, 'Wallet'),
+  }, 'Wallet'),
   watch: updatedName({
       name: '',
       network: defaultNetwork,
       networkId: '',
       testnet: false,
       rpcRoot: getRpcRoot(defaultNetwork)
-  }, defaultNetwork, 'Wallet'),
+  }, 'Wallet'),
   exchange: updatedName({
       name: '',
-      exchange: '',
+      network: '',
       secret: {}
-  }, defaultNetwork, 'Account')
+  }, 'Account', true)
 }, {});
 
 const updatedWalletNames = (state) => {
   const updatedCreate = updatedName(state.create, 'Wallet');
   const updatedImport = updatedName(state.import, 'Wallet');
   const updatedWatch = updatedName(state.watch, 'Wallet');
-  const updatedExchange = updatedName(state.exchange, 'Account');
+  const updatedExchange = updatedName(state.exchange, 'Account', true);
   return {
     ...state,
     create: updatedCreate,
@@ -78,7 +82,8 @@ export default function (state = initialState, action) {
     }
     case 'UPDATE_NETWORK': {
         const { section, value } = action.payload;
-        const copy = { ...state[section], network: value, networkId: '', rpcRoot: getRpcRoot(value) };
+        const copy = { ...state[section], network: value, networkId: '' };
+        if (section !== 'exchange') copy.rpcRoot = getRpcRoot(value);
         return saved(updatedWalletNames({ ...state, [section]: copy }));
     }
     case 'UPDATE_NETWORK_ID': {

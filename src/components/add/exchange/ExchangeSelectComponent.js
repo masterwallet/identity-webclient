@@ -1,32 +1,28 @@
 import React from 'react';
 import { Steps } from './../../controls/Steps';
 import { ExchangeMenu } from './../../../config/Wizards';
-import { WizardPanel, Next } from './../../panel/index';
+import { WizardPanel, Next, Prev } from './../../panel/index';
 import { ExchangeSelector } from './../../controls/ExchangeSelector';
 
 const _t = {
   selectExchange: 'Select Exchange to Watch',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
-export class ExchangeSelectComponent extends React.Component {
-  state = {
-    exchange: ''
-  };
-
-  onChange = (value) => {
-    this.setState({exchange: value});
-  };
-
-  render() {
-    const { exchange } = this.state;
+export const ExchangeSelectComponent = ({ add, section, onUpdateNetwork }) => {
+    const { network } = add[section];
+    const menu = ExchangeMenu(network);
+    const step = 0;
     return (
       <WizardPanel title={_t.selectExchange}>
-        {exchange ? <Next to={`/exchange/${exchange}/name`} title={_t.continue} /> : false}
-        <ExchangeSelector value={exchange} onChange={this.onChange} />
+        {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+        <Prev to='/add' title={_t.back} />
 
-        <Steps {...{ step: 0, menu: ExchangeMenu() }} />
+        <ExchangeSelector value={network} onChange={onUpdateNetwork} />
+        
+        <Steps {...{ step, menu }} />
       </WizardPanel>
-    )
-  }
+    );
+  
 }
