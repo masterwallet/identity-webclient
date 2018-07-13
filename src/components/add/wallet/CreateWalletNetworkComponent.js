@@ -14,10 +14,10 @@ export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, on
   const { network, testnet } = add[section];
   const menu = CreateMenu(network, testnet);
   const step = 0;
-
+  const canContinue = !!network;
   return (
     <WizardPanel title={_t.selectNetwork}>
-      {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={'/add'} title={_t.back} />
       <NetworkSelector
         value={network} onChange={onUpdateNetwork} 

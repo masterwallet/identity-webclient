@@ -9,14 +9,16 @@ const _t = {
   nameYourAccount: 'Please Name Your Account',
   thisIsInternal: 'Unique internal account name:',
   continue: 'Continue',
-  back: 'Back'
+  back: 'Back',
+  notUnique: 'The name must be unique'
 };
 
-export const ExchangeNameComponent = ({ section, add, onChange }) => {
+export const ExchangeNameComponent = ({ section, add, assets, onChange }) => {
   const { network, name, selectedNetwork } = add[section]; // name is unique
   const menu = ExchangeMenu(network);
   const step = findWizardStep(menu, '/name');
-  const canContinue = !!name;
+  const isUnique = assets.verifyWallet.isUnique;
+  const canContinue = !!name && isUnique;
   return (
     <WizardPanel title={_t.nameYourAccount}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
@@ -25,8 +27,8 @@ export const ExchangeNameComponent = ({ section, add, onChange }) => {
         <NetworkIcon {...selectedNetwork} title={network} style={{ margin: 20 }}/>
 
         <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
-
         <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }} />
+        {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
       </div>
       <Steps {...{ step, menu }} />
     </WizardPanel>

@@ -68,11 +68,19 @@ const initialState = {
   currency: 'USD',
   showPrices: true,
   wallets: mockWallets || [],
-  assets: mockAssets || []
+  assets: mockAssets || [],
+  verifyWallet: { name: '', isUnique: true }
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case 'UPDATE_NAME': {
+      const { value } = action.payload;
+      const namesUsed = state.wallets.map(w => w.name);
+      const verifyWallet = { name: value, isUnique: namesUsed.indexOf(value) === -1 };
+      return { ...state, verifyWallet };
+    }
+
     default:
   }
   return state

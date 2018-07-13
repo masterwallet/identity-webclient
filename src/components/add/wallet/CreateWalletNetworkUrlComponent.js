@@ -16,9 +16,10 @@ export const CreateWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkI
     
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/url');
+    const canContinue = false;
     return (
         <WizardPanel title={_t.customRpcUrl}>
-        <Next to={menu[step + 1]} title={_t.continue} />
+        <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
         <Prev to={menu[step - 1]} title={_t.back} />
 
         <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
