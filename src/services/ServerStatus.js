@@ -2,7 +2,7 @@ import { fetchJson } from './ApiRequest';
 
 export const dispatchServerStatus = (dispatch) => {
   dispatch({ type: 'SERVER_STATUS_REQUEST' });
-  fetchJson('/status')
+  fetchJson('/api/status')
   .then(status => {
       dispatch({ type: 'SERVER_STATUS_RECEIVED', payload: status });
   }).catch(err => {

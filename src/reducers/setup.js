@@ -1,11 +1,12 @@
 import { getRoot, getLanguage } from './../services/ApiRequest';
 const initialState = {
   language: getLanguage(),
-  apiRoot: getRoot(),
+  apiRoot: getRoot(), // root of the current pair
+  pairs: [], // todo: load pairs from the session storage
   
   isFirstRun: false,
   termsAccepted: false,
-  privaceAccepted: false,
+  privacyAccepted: false,
 
   serverStatus: {
     isLoading: true,

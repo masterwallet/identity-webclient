@@ -14,6 +14,7 @@ import { CreateWalletNetwork, CreateWalletNetworkUrl, CreateWalletName, CreateWa
 import { WatchWalletNetwork, WatchWalletNetworkUrl, WatchWalletName, WatchWalletAddress, WatchWalletComplete } from './add/watch/index';
 import { ImportWalletNetwork, ImportWalletNetworkUrl, ImportWalletName, ImportWalletInput, ImportWalletTerms, ImportWalletComplete } from './add/import/index';
 import { ExchangeSelect, ExchangeName, ExchangeInput, ExchangeComplete } from './add/exchange/index';
+import AppStatus from './AppStatus';
 
 // Temporary: remove in production
 import { MockMenu } from './../components/MockMenu';
@@ -30,6 +31,7 @@ const App = () => (
   <div className="App">
     <ReduxToastr {...toastr} progressBar />
     {process.env.REACT_APP_MOCK ? <MockMenu /> : false}
+    <AppStatus />
     <Switch>
       {/* Installation */}
       <Route exact path='/welcome' component={Welcome} />
