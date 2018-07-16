@@ -67,7 +67,7 @@ export class ConfirmSeedComponent extends React.Component {
     const { wordsEntered, wordsIndexes } = install;
     const canContinue = wordsIndexes
         .filter((wordIndex, index) => (words[wordIndex] !== wordsEntered[index]))
-        .length == 0;
+        .length === 0;
 
     const menu = InstallationMenu;
     const step = findWizardStep(menu, '/confirm/seed');

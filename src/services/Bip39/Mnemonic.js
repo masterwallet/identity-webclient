@@ -46,7 +46,7 @@ function Mnemonic() {
   };
 
   function init() {
-    if (wordlist.length != RADIX) {
+    if (wordlist.length !== RADIX) {
       throw new Error('Wordlist should contain ' + RADIX + ' words, but it contains ' + wordlist.length + ' words.');
     }
   }
@@ -99,16 +99,16 @@ function Mnemonic() {
   }
 
   self.check = function(mnemonic) {
-    var mnemonic = self.splitWords(mnemonic);
-    if (mnemonic.length == 0 || mnemonic.length % 3 > 0) {
+    var mnemonic_ = self.splitWords(mnemonic);
+    if (mnemonic_.length === 0 || mnemonic_.length % 3 > 0) {
       return false
     }
     // idx = map(lambda x: bin(self.wordlist.index(x))[2:].zfill(11), mnemonic)
     var idx = [];
-    for (var i=0; i<mnemonic.length; i++) {
-      var word = mnemonic[i];
+    for (var i=0; i<mnemonic_.length; i++) {
+      var word = mnemonic_[i];
       var wordIndex = wordlist.indexOf(word);
-      if (wordIndex == -1) {
+      if (wordIndex === -1) {
         return false;
       }
       var binaryIndex = zfill(wordIndex.toString(2), 11);
@@ -127,7 +127,7 @@ function Mnemonic() {
     var ndHex = sjcl.codec.hex.fromBits(ndHash);
     var ndBstr = zfill(hexStringToBinaryString(ndHex), 256);
     var nh = ndBstr.substring(0,l/33);
-    return h == nh;
+    return h === nh;
   }
 
   self.toSeed = function(mnemonic, passphrase) {
@@ -151,7 +151,7 @@ function Mnemonic() {
     // Set space correctly depending on the language
     // see https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md#japanese
     var space = " ";
-    if (language == "jp") {
+    if (language === "jp") {
       space = "\u3000"; // ideographic space
     }
     return words.join(space);

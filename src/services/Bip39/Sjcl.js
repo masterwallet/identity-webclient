@@ -1,7 +1,6 @@
 // Select components from sjcl to suit the crypto operations bip39 requires.
 
-//// base.js
-
+/* eslint-disable no-mixed-operators */
 /** @fileOverview Javascript cryptography implementation.
  *
  * Crush to remove comments, shorten variable names and
@@ -12,12 +11,11 @@
  * @author Dan Boneh
  */
 
-"use strict";
 /*jslint indent: 2, bitwise: false, nomen: false, plusplus: false, white: false, regexp: false */
 /*global document, window, escape, unescape, module, require, Uint32Array */
 
 /** @namespace The Stanford Javascript Crypto Library, top-level namespace. */
-var sjcl = {
+const sjcl = {
   /** @namespace Symmetric ciphers. */
   cipher: {},
 

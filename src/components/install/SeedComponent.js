@@ -66,7 +66,7 @@ export const SeedComponent = ({ install }) => {
   const step = findWizardStep(menu, '/seed/24');
   
   if (!install.entropy.isValid()) return <Redirect to='/shake' />;
-  const words = install.entropy.getWords().split(" ");
+  // const words = install.entropy.getWords().split(" ");
 
   return (
     <WizardPanel title={_t.pleaseWrite} wide={true}>
