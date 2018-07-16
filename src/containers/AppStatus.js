@@ -1,16 +1,21 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
+import Loader from './../components/controls/Loader';
+import { ErrorStatus } from './../components/panel/ErrorBox';
+import { InstallationMenu, findWizardStep } from './../config/Wizards';
 
-const AppStatus = ({ router, setup }) => {
-  console.log('AppStatus:', router, setup);
-  const { serverStatus } = setup;
-  const { data, error } = serverStatus;
-  
-  const installation = setup.serverStatus.data.installation;
+const AppStatus = ({ router, setup, children }) => {
+  const path = router.location.pathname;
+  const notInInstall = findWizardStep(InstallationMenu, path) === -1;
 
-  // !installation = server is not running
-  
-  return (<pre>{JSON.stringify(installation, null, 2)}</pre>);
+  const { serverStatus, isFirstRun } = setup;
+  const { data, error, isLoading } = serverStatus;
+  if (isLoading) return <Loader />;
+  if (error) return <ErrorStatus message={error} />;
+  if (notInInstall && isFirstRun) return <Redirect to='/welcome' />
+
+  return <div>{children}</div>;
 };
 
 const mapStateToProps = state => (state);
