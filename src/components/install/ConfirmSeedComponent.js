@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import TextInput from './../controls/TextInput';
 import { Steps } from './../controls/Steps';
@@ -45,6 +46,8 @@ export class ConfirmSeedComponent extends React.Component {
   }
   render() {
     const { install } = this.props;
+    if (!install.entropy.isValid()) return <Redirect to='/shake' />;
+    const words = install.entropy.getWords().split(" ");
     const { wordsEntered, wordsIndexes } = install;
 
     const menu = InstallationMenu;
@@ -59,9 +62,14 @@ export class ConfirmSeedComponent extends React.Component {
           <InputWord
             autofocus={index === 0}
             key={wordIndex} index={wordIndex+1} value={wordsEntered[index]}
+            expectedValue={words[wordIndex]}
             onChange={value => this.props.onChange({ index, value })}
           />
         ))}
+
+        <div style={{ fontSize: 10, wordBreak: 'break-word' }}>
+          {JSON.stringify(words)}
+        </div>
         <Steps {...{step, menu}} />
       </WizardPanel>
     );

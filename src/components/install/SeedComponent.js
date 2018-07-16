@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
@@ -60,16 +61,12 @@ const words = [
   'ring', 'crime', 'symptom', 'enough', 'erupt', 'lady', 'behave', 'ramp', 'apart', 'settle', 'citizen', 'junk'
 ];
 
-// TODO:
-// componentWillMount() {
-//  const { install } = this.props;
-//  const { dictionary } = install;
-//  if (!dictionary || !dictionary.length) {
-//    this.props.onInit();
-//  }
-export const SeedComponent = () => {
+export const SeedComponent = ({ install }) => {
   const menu = InstallationMenu;
   const step = findWizardStep(menu, '/seed/24');
+  
+  if (!install.entropy.isValid()) return <Redirect to='/shake' />;
+  const words = install.entropy.getWords().split(" ");
 
   return (
     <WizardPanel title={_t.pleaseWrite} wide={true}>

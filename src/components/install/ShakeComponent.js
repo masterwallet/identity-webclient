@@ -70,13 +70,6 @@ export class ShakeComponent extends React.Component {
           </div>
           <ProgressCircle value={install.generatedProgress} />
 
-          {install.entropy.isValid() ? (
-            <div style={{ fontSize: 10 }}>
-              {JSON.stringify(install.entropy.getWords())}
-              {JSON.stringify(install.entropy.getWords().split(" ").length)}
-            </div>
-          ): false}
-
           {(install.generatedProgress > 1) ? (
             <ResetButton onClick={onReset}>{_t.restart}</ResetButton>
           ) : false }
