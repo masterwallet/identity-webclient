@@ -20,21 +20,37 @@ const Centered = styled.div`
   margin-bottom: 20px;
 `;
 
-const Legend = styled.span`
-  background: none;
-  color: darkmagenta;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  width: 90px;
+const Inp = styled.div`
+  span.input-group-text {
+    background: none;
+    color: darkmagenta;
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    width: 90px;
+  }
+  &.mismatch span.input-group-text {
+    color: red;
+  }
+  &.match span.input-group-text {
+    color: green;
+  }
+  margin-bottom: 10px;
 `;
 
-const InputWord = ({ autofocus, index, value, onChange }) => (
-  <div className="input-group-prepend" style={{ marginBottom: 10 }}>
-    <Legend className="input-group-text">{_t.word} #{index}:</Legend>
-    <TextInput maxLength={20} style={{ width: '100%' }} {...{value, autofocus, onChange}} />
-  </div>
-);
+const InputWord = ({ autofocus, index, value, expectedValue, onChange }) => {
+  const className = value ? 
+    `input-group-prepend ${expectedValue === value ? 'match': 'mismatch'}`: 
+    'input-group-prepend';
+  return (
+    <Inp className={className}>
+      <span className="input-group-text">{_t.word} #{index}:</span>
+      <TextInput 
+        maxLength={20} style={{ width: '100%' }} {...{value, autofocus, onChange}} 
+        />
+    </Inp>  
+  );
+};
 
 export class ConfirmSeedComponent extends React.Component {
   componentWillMount() {
@@ -49,12 +65,15 @@ export class ConfirmSeedComponent extends React.Component {
     if (!install.entropy.isValid()) return <Redirect to='/shake' />;
     const words = install.entropy.getWords().split(" ");
     const { wordsEntered, wordsIndexes } = install;
+    const canContinue = wordsIndexes
+        .filter((wordIndex, index) => (words[wordIndex] !== wordsEntered[index]))
+        .length == 0;
 
     const menu = InstallationMenu;
     const step = findWizardStep(menu, '/confirm/seed');
     return (
       <WizardPanel title={_t.pleaseConfirm}>
-        <Next title={_t.checkIt} to={menu[step + 1]}/>
+        <Next disabled={!canContinue} title={_t.checkIt} to={menu[step + 1]}/>
         <Prev title={_t.back} to={menu[step - 1]} />
 
         <Centered>{_t.importance}</Centered>
@@ -68,7 +87,7 @@ export class ConfirmSeedComponent extends React.Component {
         ))}
 
         <div style={{ fontSize: 10, wordBreak: 'break-word' }}>
-          {JSON.stringify(words)}
+          {JSON.stringify(words.map((word, index) => ({[index+1]: word})))}
         </div>
         <Steps {...{step, menu}} />
       </WizardPanel>
