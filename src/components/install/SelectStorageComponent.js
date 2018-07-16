@@ -26,7 +26,8 @@ const _t = {
   accessRemote: 'Pair with ...',
   accessRemoteExplained: 'Connect to another device or service that is responsible for storing private keys and which will be signing transactions. ' +
     'Private keys will never be exchanged over the network',
-  continue: 'Continue'
+  continue: 'Continue',
+  back: 'Back'
 };
 
 export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair }) => {
@@ -37,7 +38,7 @@ export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair 
   const options = [
     { label: _t.createNew, value: 'encrypted', comment: _t.createNewExplained  },
     { label: _t.createNewHd, value: 'hdwallet', comment: _t.createNewHdExplained },
-    { label: _t.accessRemote, value: 'remote',
+    { label: _t.accessRemote, value: 'remote', disabled: true,
       comment: [
         <div key={1}>{_t.accessRemoteExplained}</div>,
         (storage === 'remote') ? <TextInput key={2} className={isValidRemote ? '' : 'invalid'} style={{ marginTop: 5, marginBottom: 5 }} value={pair} onChange={onUpdatePair} /> : false

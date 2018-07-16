@@ -1,5 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const Comment = styled.div`
+  font-size: 0.8em;
+  font-weight: normal;
+  color: #444;
+  white-space: normal;
+  padding-right: 10px;
+
+  &.disabled {
+    color: #ccc;
+  }
+`;
 
 const Lbl = ({ onClick, label, comment, disabled, children }) => {
   const styleLabel = {
@@ -10,17 +23,10 @@ const Lbl = ({ onClick, label, comment, disabled, children }) => {
     styleLabel.color = '#aaa';
     styleLabel.cursor = 'default';
   }
-  const styleComment = {
-    fontSize: '0.8em',
-    fontWeight: 'normal',
-    color: '#444',
-    whiteSpace: 'normal',
-    paddingRight: 10
-  };
   return (
     <div onMouseDown={onClick} style={styleLabel}>
       {label}
-      <div style={styleComment}>{comment}</div>
+      <Comment className={disabled ? 'disabled' : ''}>{comment}</Comment>
       {children}
     </div>);
 };
