@@ -12,8 +12,8 @@ const AppStatus = ({ router, setup, children }) => {
   const { serverStatus, isFirstRun } = setup;
   const { data, error, isLoading } = serverStatus;
   if (isLoading) return <Loader />;
-  if (error) return <ErrorStatus message={error} />;
   if (notInInstall && isFirstRun) return <Redirect to='/welcome' />
+  if (error) return <ErrorStatus message={error} />;
 
   return <div>{children}</div>;
 };

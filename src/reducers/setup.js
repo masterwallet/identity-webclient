@@ -3,8 +3,8 @@ const initialState = {
   language: getLanguage(),
   apiRoot: getRoot(), // root of the current pair
   pairs: [], // todo: load pairs from the session storage
-  
-  isFirstRun: false,
+
+  isFirstRun: !localStorage.getItem('masterwallet_pair'),
   termsAccepted: false,
   privacyAccepted: false,
 
@@ -24,7 +24,8 @@ export default function (state = initialState, action) {
       return { ...state, serverStatus };
     }
     case 'SERVER_STATUS_RECEIVED': {
-      const serverStatus = { isLoading: false, isRunning: true, data: payload, error: '' };
+      const error = payload.reason === 'first_run' ? '' : payload.error;
+      const serverStatus = { isLoading: false, isRunning: true, data: payload.data, error };
       return { ...state, serverStatus };
     }
     case 'SERVER_STATUS_ERROR': {
