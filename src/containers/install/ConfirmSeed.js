@@ -7,9 +7,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'CONFIRM_WORD', payload: { value, index }});
   },
   onInit: () => {
-    dispatch({ type: 'INIT_CONFIRMATION_WORDS', payload: ['', '', ''] })
-    fetch('/locale/en/bip39.json').then(r => r.json())
-      .then(json => (dispatch({ type: 'INIT_DICTIONARY', payload: json })));
+    // dispatch({ type: 'INIT_CONFIRMATION_WORDS', payload: ['', '', ''] })
+    //fetch('/locale/en/bip39.json').then(r => r.json())
+    //  .then(json => (dispatch({ type: 'INIT_DICTIONARY', payload: json })));
   }
 });
 

@@ -69,6 +69,14 @@ export class ShakeComponent extends React.Component {
             <div style={{ textAlign: 'center', fontSize: 14 }}>{_t.pleaseShakeDesktop}</div>
           </div>
           <ProgressCircle value={install.generatedProgress} />
+
+          {install.entropy.isValid() ? (
+            <div style={{ fontSize: 10 }}>
+              {JSON.stringify(install.entropy.getWords())}
+              {JSON.stringify(install.entropy.getWords().split(" ").length)}
+            </div>
+          ): false}
+
           {(install.generatedProgress > 1) ? (
             <ResetButton onClick={onReset}>{_t.restart}</ResetButton>
           ) : false }

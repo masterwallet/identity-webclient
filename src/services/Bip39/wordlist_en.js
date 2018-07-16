@@ -1,4 +1,4 @@
-[
+export const EN = [
   "abandon",
   "ability",
   "able",
@@ -2047,4 +2047,4 @@
   "zero",
   "zone",
   "zoo"
-]
+];

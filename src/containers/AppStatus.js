@@ -10,7 +10,7 @@ const AppStatus = ({ router, setup, children }) => {
   const notInInstall = findWizardStep(InstallationMenu, path) === -1;
 
   const { serverStatus, isFirstRun } = setup;
-  const { data, error, isLoading } = serverStatus;
+  const { error, isLoading } = serverStatus;
   if (isLoading) return <Loader />;
   if (notInInstall && isFirstRun) return <Redirect to='/welcome' />
   if (error) return <ErrorStatus message={error} />;
