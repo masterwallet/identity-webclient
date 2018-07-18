@@ -57,17 +57,12 @@ const WordList = styled.div`
   justify-content: center;
 `;
 
-const words = [
-  'ring', 'crime', 'symptom', 'enough', 'erupt', 'lady', 'behave', 'ramp', 'apart', 'settle', 'citizen', 'junk',
-  'ring', 'crime', 'symptom', 'enough', 'erupt', 'lady', 'behave', 'ramp', 'apart', 'settle', 'citizen', 'junk'
-];
-
 export const SeedComponent = ({ install }) => {
   const menu = InstallationMenu;
   const step = findWizardStep(menu, '/seed/24');
 
   if (!install.entropy.isValid()) return <Redirect to='/shake' />;
-  // const words = install.entropy.getWords().split(" ");
+  const words = install.entropy.getWords().split(" ");
 
   return (
     <WizardPanel title={_t.pleaseWrite} wide={true}>
