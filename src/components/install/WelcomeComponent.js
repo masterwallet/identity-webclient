@@ -2,6 +2,7 @@ import React from 'react';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu } from './../../config/Wizards';
 import { WizardPanel, Next } from './../panel/index';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   welcome: 'Welcome to Master Wallet',
@@ -16,6 +17,7 @@ export const WelcomeComponent = ({ setup }) => {
 
   return (
     <WizardPanel title={_t.welcome}>
+      <ReadyRedirect />
       <Next title={_t.start} to={menu[step + 1]} />
 
       <div style={{ marginTop: 30, marginBottom: 30, textAlign: 'center' }}>

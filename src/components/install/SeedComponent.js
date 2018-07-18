@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   pleaseWrite: 'Please Write Seed Phrase',
@@ -64,12 +65,13 @@ const words = [
 export const SeedComponent = ({ install }) => {
   const menu = InstallationMenu;
   const step = findWizardStep(menu, '/seed/24');
-  
+
   if (!install.entropy.isValid()) return <Redirect to='/shake' />;
   // const words = install.entropy.getWords().split(" ");
 
   return (
     <WizardPanel title={_t.pleaseWrite} wide={true}>
+      <ReadyRedirect />
       <Next title={_t.iWroteIt} to={menu[step + 1]} />
       <Prev title={_t.back} to={menu[step - 1]} />
       <Centered>{_t.importance}</Centered>

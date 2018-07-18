@@ -5,6 +5,7 @@ import TextInput from './../controls/TextInput';
 import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   pleaseConfirm: 'Confirm Your Seed Phrase',
@@ -75,6 +76,7 @@ export class ConfirmSeedComponent extends React.Component {
     const step = findWizardStep(menu, '/confirm/seed');
     return (
       <WizardPanel title={_t.pleaseConfirm}>
+        <ReadyRedirect />
         <Next disabled={!canContinue} title={_t.checkIt} to={menu[step + 1]}/>
         <Prev title={_t.back} to={menu[step - 1]} />
 

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { PinCode } from './../controls/PinCode';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   createPin: 'Create PIN',
@@ -23,6 +24,7 @@ export const PinComponent = ({ install, onUpdatePin, onContinue }) => {
 
   return (
     <WizardPanel title={_t.createPin} wide={true}>
+      <ReadyRedirect />
       <Next title={_t.continue} to={menu[step + 1]} disabled={!canContinue} />
       <Prev title={_t.back} to={menu[step - 1]} />
 

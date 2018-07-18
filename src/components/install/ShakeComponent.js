@@ -4,6 +4,7 @@ import { Steps } from './../controls/Steps';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
 import { ProgressCircle } from './../controls/ProgressCircle';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   generate: 'Generate Some Randomness',
@@ -61,7 +62,8 @@ export class ShakeComponent extends React.Component {
     const canContinue = (install.generatedProgress >= 100);
     return (
       <WizardPanel title={_t.generate}>
-        {canContinue ? <Next title={_t.start} to={menu[step + 1]} />: false}
+        <ReadyRedirect />
+        <Next title={_t.start} to={menu[step + 1]} disabled={!canContinue} />
         <Prev title={_t.back} to={menu[step - 1]} />
         <Centered>
           <div style={{ margin: '20px auto', display: 'flex' }}>

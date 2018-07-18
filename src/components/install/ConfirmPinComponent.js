@@ -6,6 +6,8 @@ import { PinCode } from './../controls/PinCode';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
 // import { ErrorBox } from './../panel/ErrorBox';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
+
 
 const _t = {
   confirmPin: 'Confirm PIN',
@@ -40,6 +42,7 @@ export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue, onSubmit
 
   return (
     <WizardPanel title={_t.confirmPin} wide={true}>
+      <ReadyRedirect />
       <Next
         title={_t.finish} to={menu[step + 1]} {...{ disabled, isLoading }}
         onClick={() => onSubmit(install)}

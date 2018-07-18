@@ -5,6 +5,7 @@ import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import TextInput from './../controls/TextInput';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
 import { WizardPanel, Next, Prev } from './../panel/index';
+import ReadyRedirect from './../../containers/layout/ReadyRedirect';
 
 const _t = {
   title: 'Choose Storage Type',
@@ -53,7 +54,8 @@ export const SelectStorageComponent = ({ setup, install, onUpdate, onUpdatePair 
 
   return (
     <WizardPanel title={_t.title}>
-      {isValidStorage ? <Next title={_t.continue} to={menu[step + 1]} /> : false}
+      <ReadyRedirect />
+      <Next title={_t.continue} disabled={!isValidStorage} to={menu[step + 1]} />
       <Prev title={_t.back} to={menu[step - 1]} />
       <p style={{ textAlign: 'center' }}>{_t.thisIsFirstRun}</p>
 
