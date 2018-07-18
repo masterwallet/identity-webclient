@@ -26,7 +26,8 @@ export default function (state = initialState, action) {
     case 'SERVER_STATUS_RECEIVED': {
       const error = payload.reason === 'first_run' ? '' : payload.error;
       const serverStatus = { isLoading: false, isRunning: true, data: payload.data, error };
-      return { ...state, serverStatus };
+      const isFirstRun = !!(payload.reason === 'first_run');
+      return { ...state, serverStatus, isFirstRun };
     }
     case 'SERVER_STATUS_ERROR': {
       const isRunning = (payload !== 'TypeError: Failed to fetch');

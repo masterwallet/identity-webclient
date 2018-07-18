@@ -10,7 +10,7 @@ const _t = {
   pleaseFollowTheSteps: 'Please follow the steps for initializing this wallet software'
 };
 
-export const WelcomeComponent = () => {
+export const WelcomeComponent = ({ setup }) => {
   const menu = InstallationMenu;
   const step = 0;
 

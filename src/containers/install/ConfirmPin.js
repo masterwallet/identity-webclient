@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ConfirmPinComponent } from './../../components/install/ConfirmPinComponent';
 import { postJson } from './../../services/ApiRequest';
 import { toastr } from 'react-redux-toastr';
+import { dispatchServerStatus } from './../../services/ServerStatus';
 
 const _t = {
   installationError: 'Installation Error'
@@ -19,14 +20,17 @@ const mapDispatchToProps = dispatch => ({
   },
   onSubmit: ({ storage, pinCode, entropy }) => {
     dispatch({ type: 'SUBMISSION_LOADING_STARTED' });
+    const passphrase = '';
     const payload = {
       format: storage,
       pinCode,
-      seed: entropy.getWords()
+      seed: entropy.getSeed(passphrase),
+      passphrase: ''
     };
     postJson('/api/storage', payload)
       .then((res) => {
         dispatch({ type: 'SUBMISSION_LOADING_DONE', payload: res });
+        dispatchServerStatus(dispatch);
       })
       .catch((e) => {
         dispatch({ type: 'SUBMISSION_LOADING_ERROR', payload: e.toString() });

@@ -78,4 +78,8 @@ export function SecureRandom() {
     return mnemonic.toMnemonic(this.pool);
   };
 
+  this.getSeed = function(passphrase) {
+    const m = new Mnemonic();
+    return m.toSeed(this.getWords(), passphrase || '');
+  };
 }
