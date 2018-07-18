@@ -39,16 +39,16 @@ const Inp = styled.div`
 `;
 
 const InputWord = ({ autofocus, index, value, expectedValue, onChange }) => {
-  const className = value ? 
-    `input-group-prepend ${expectedValue === value ? 'match': 'mismatch'}`: 
+  const className = value ?
+    `input-group-prepend ${expectedValue === value ? 'match': 'mismatch'}`:
     'input-group-prepend';
   return (
     <Inp className={className}>
       <span className="input-group-text">{_t.word} #{index}:</span>
-      <TextInput 
-        maxLength={20} style={{ width: '100%' }} {...{value, autofocus, onChange}} 
+      <TextInput
+        maxLength={20} style={{ width: '100%' }} {...{value, autofocus, onChange}}
         />
-    </Inp>  
+    </Inp>
   );
 };
 
@@ -65,9 +65,11 @@ export class ConfirmSeedComponent extends React.Component {
     if (!install.entropy.isValid()) return <Redirect to='/shake' />;
     const words = install.entropy.getWords().split(" ");
     const { wordsEntered, wordsIndexes } = install;
-    const canContinue = wordsIndexes
+    const canContinue = process.env.REACT_APP_MOCK || (
+      wordsIndexes
         .filter((wordIndex, index) => (words[wordIndex] !== wordsEntered[index]))
-        .length === 0;
+        .length === 0
+      );
 
     const menu = InstallationMenu;
     const step = findWizardStep(menu, '/confirm/seed');
@@ -86,9 +88,11 @@ export class ConfirmSeedComponent extends React.Component {
           />
         ))}
 
-        <div style={{ fontSize: 10, wordBreak: 'break-word' }}>
-          {JSON.stringify(words.map((word, index) => ({[index+1]: word})))}
-        </div>
+        {process.env.REACT_APP_MOCK ? (
+          <div style={{ fontSize: 10, wordBreak: 'break-word', textAlign: 'center' }}>
+            {JSON.stringify(words.map((word, index) => ({[index+1]: word})))}
+          </div>
+        ) : false}
         <Steps {...{step, menu}} />
       </WizardPanel>
     );
