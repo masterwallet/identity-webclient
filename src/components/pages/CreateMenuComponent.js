@@ -1,8 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
 import { WizardPanel, Next, Prev } from './../panel/index';
 
+const Notice = styled.div`
+  text-align: center;
+  font-size: 12px;
+`;
+
 const _t = {
+  yourOptionsAreLimited: 'Your options are limited because of chosen storage type (HD Wallet)',
   choose: 'Please Choose Your Action',
   next: 'Next',
   myWallets: 'My Wallets'
@@ -33,29 +40,34 @@ const options = [
 
 export class CreateMenuComponent extends React.Component {
   state = {
-    to: ''
+    to: 'create'
   }
   onChange = (value) => {
     this.setState({ to: value });
   }
 
-  render() {
-    // const { setup } = this.props;
-    // const { serverStatus } = setup;
-    // const noServer = (serverStatus || !serverStatus.isRunning);
-    // const serverData = (serverStatus && serverStatus.data) ? serverStatus.data : {};
-    const hdWallet = false;
+  isHdWallet = (props) => {
+    const { setup } = props;
+    const { serverStatus } = setup;
+    const { data } = serverStatus;
+    return data.installation === 'hdwallet';
+  }
+  
+  render() {    
+    const hdWallet = this.isHdWallet(this.props);
     const adjustedOptions = hdWallet ? options.map((o, index) =>(
       (index > 0) ? {...o, disabled: true } : o
     )) : options;
     const { to } = this.state;
+    const canContinue = !!to;
     return (
       <WizardPanel title={_t.choose}>
-        {to ? <Next to={`/${to}`} title={_t.next} /> : false }
+        <Next to={`/${to}`} title={_t.next} disabled={!canContinue} />
         <Prev to='/wallets' title={_t.myWallets} />
         
+        {hdWallet ? <Notice>{_t.yourOptionsAreLimited}</Notice> : false}
         <div style={{ marginTop: 20 }}></div>
-        <RadioButtonGroup options={adjustedOptions} onChange={this.onChange} />
+        <RadioButtonGroup value={to} options={adjustedOptions} onChange={this.onChange} />
       </WizardPanel>
     );
   }
