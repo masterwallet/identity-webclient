@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 import { Steps } from './../controls/Steps';
 import { PinCode } from './../controls/PinCode';
 import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../panel/index';
+// import { ErrorBox } from './../panel/ErrorBox';
 
 const _t = {
   confirmPin: 'Confirm PIN',
@@ -21,23 +23,27 @@ const ErrorTitle = styled.div`
   text-align: center;
 `;
 
-export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue }) => {
+export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue, onSubmit }) => {
   const menu = InstallationMenu;
   const step = findWizardStep(menu, '/confirm/pin');
-  const { pinCodeConfirm, pinCodeLength, pinCode } = install;
+  const { pinCodeConfirm, pinCodeLength, pinCode, isLoading, entropy } = install;
   const mismatch = pinCodeConfirm.length === pinCodeLength && pinCode !== pinCodeConfirm;
   const onComplete = value => {
-    const match = pinCode !== value;
-    if (!match) onContinue(menu[step + 1]);
+    const match = pinCode === value;
+    if (match) {
+      // onContinue(menu[step + 1]);
+    }
   };
   const disabled = pinCodeConfirm.length !== pinCodeLength ||
                    pinCode !== pinCodeConfirm;
+  if (!entropy.getWords()) { return <Redirect to={menu[step-1]} />; }
 
   return (
     <WizardPanel title={_t.confirmPin} wide={true}>
-      {!disabled ? (
-        <Next title={_t.finish} to={menu[step + 1]} disabled={disabled} />
-      ) : false}
+      <Next
+        title={_t.finish} to={menu[step + 1]} {...{ disabled, isLoading }}
+        onClick={() => onSubmit(install)}
+      />
       <Prev title={_t.back} to={menu[step - 1]} />
 
       <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
@@ -50,7 +56,6 @@ export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue }) => {
         onComplete={onComplete}
       />
       {mismatch ? (<ErrorTitle>{_t.pinMismatch}</ErrorTitle>) : false}
-
 
       <Steps {...{ step, menu }} />
     </WizardPanel>

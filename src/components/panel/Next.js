@@ -2,11 +2,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { SmallLoader } from './../controls/SmallLoader';
 
 const ButtonLink = ({ disabled = false, children, to, onClick }) => {
   const className = `btn btn-primary btn-sm ${disabled ? 'disabled': ''}`;
-  return disabled ? 
-    <span {...{className}}>{children}</span> : 
+  return disabled ?
+    <span {...{className}}>{children}</span> :
     <Link {...{className, to, onClick}}>{children}</Link>;
 };
 
@@ -43,7 +44,7 @@ const Wrapper = styled.div`
     border-top: 1px #61c38b solid;
     border-bottom: 1px #6239bf solid;
   }
-  span.btn.disabled {    
+  span.btn.disabled {
     border: gray !important;
     color: gray !important;
   }
@@ -65,10 +66,16 @@ export class Next extends React.Component {
     redirected: ''
   };
   onKeyPress = (e) => {
-    if (e.keyCode === 13 && !this.props.disabled) { 
-      this.setState({ redirected: this.props.to });
+    const {to, isLoading, disabled, onClick } = this.props;
+    const isDisabled = disabled || isLoading;
+    if (e.keyCode === 13 && !isDisabled) {
+      if (typeof onClick === 'function') {
+        onClick();
+      } else {
+        this.setState({ redirected: to});
+      }
     }
-  }
+  };
   componentWillMount() {
     document.addEventListener("keydown", this.onKeyPress, false);
   }
@@ -76,16 +83,27 @@ export class Next extends React.Component {
     document.removeEventListener("keydown", this.onKeyPress, false);
   }
   render() {
-    const { title, to, disabled = false } = this.props;
+    const { title, to, isLoading, onClick, disabled = false } = this.props;
     const { redirected } = this.state;
     if (redirected && !disabled) {
       return (<Redirect to={redirected} />);
     }
+    const handleClick = (e) => {
+      if (typeof onClick === 'function') {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }
+    };
     return (
       <Wrapper className="right">
-        <ButtonLink {...{disabled, to}}>
-          <span className="title">{title}</span>
-          <ChevronRight />
+        <ButtonLink {...{disabled: disabled || isLoading, to}} onClick={handleClick}>
+          {!isLoading ? ([
+            <span key={1} className="title">{title}</span>,
+            <ChevronRight key={2} />
+          ]) : (
+            <SmallLoader style={{ marginLeft: 10 }} />
+          )}
         </ButtonLink>
       </Wrapper>
     );
@@ -100,10 +118,10 @@ export class Prev extends React.Component {
   };
   onKeyPress = (e) => {
     const backKeys = [27];
-    if (backKeys.indexOf(e.keyCode) !== -1 && !this.props.disabled) { 
+    if (backKeys.indexOf(e.keyCode) !== -1 && !this.props.disabled) {
       this.setState({ redirected: this.props.to });
     }
-  }
+  };
   componentWillMount() {
     document.addEventListener("keydown", this.onKeyPress, false);
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from "react-redux";
-import { InstallationMenu, findWizardStep } from './../../config/Wizards';
+// import { InstallationMenu, findWizardStep } from './../../config/Wizards';
 
 const _t = {
   pleaseFinishInstall: 'Please follow installation steps'

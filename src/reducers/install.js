@@ -14,11 +14,13 @@ const initialState = getSessionState('masterwallet_install', {
   pinCodeConfirm: '',
   generatedProgress: 0,
   wordsIndexes: [5, 4, 16],
-  wordsEntered: [],
-  dictionary: []
+  wordsEntered: []
 }, {
   entropy: new SecureRandom(),
-  generatedProgress: 0
+  generatedProgress: 0,
+  isLoading: false,
+  error: '',
+  lastResponse: ''
 });
 
 const validatedStorage = (state) => {
@@ -43,8 +45,14 @@ export default function (state = initialState, action) {
       case 'UPDATE_PAIR': {
         return validatedStorage({...state, pair: action.payload });
       }
-      case 'INIT_DICTIONARY': {
-        return saved({ ...state, dictionary: action.payload || [] });
+      case 'SUBMISSION_LOADING_STARTED': {
+        return { ...state, isLoading: true, lastError: '', lastResponse: {} };
+      }
+      case 'SUBMISSION_LOADING_DONE': {
+        return { ...state, isLoading: false, lastError: '', lastResponse: action.payload };
+      }
+      case 'SUBMISSION_LOADING_ERROR': {
+        return { ...state, isLoading: false, lastError: action.payload, lastResponse: {} };
       }
       case 'SHAKE': {
         if (state.generatedProgress < 100) {
@@ -66,7 +74,7 @@ export default function (state = initialState, action) {
           ...state,
           entropy: new SecureRandom(),
           generatedProgress: 0
-        });     
+        });
       }
       case 'CONFIRM_WORD': {
         const { index, value } = action.payload;
