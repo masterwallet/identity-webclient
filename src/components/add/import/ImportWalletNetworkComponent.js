@@ -14,12 +14,14 @@ export const ImportWalletNetworkComponent = ({ section, add, onUpdateNetwork, on
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
   const step = 0;
+  const canContinue = !!network;
   return (
     <WizardPanel title={_t.selectNetwork}>
-      {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <Next to={menu[step + 1]} title={_t.continue} disabled={!canContinue} />
       <Prev to='/add' title={_t.back} />
 
       <NetworkSelector value={network}
+        section={section}
         onChange={onUpdateNetwork}
         isTestNet={testnet}
         onTestNet={onUpdateTestnet} />

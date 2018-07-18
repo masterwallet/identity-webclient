@@ -16,7 +16,7 @@ export const InstallationMenu = [
 ];
 
 export const CreateMenu = (network, testnet) => {
-  const props = network ? findNetwork(network) : {};
+  const props = network ? findNetwork(network) || {} : {};
   const terms = props.terms ? [`/create/terms`] : [];
   const net = testnet ? [`/create/url`]: [];
   return ['/create'].concat(net).concat(terms).concat([
@@ -27,7 +27,7 @@ export const CreateMenu = (network, testnet) => {
 }
 
 export const ImportMenu = (network, testnet) => {
-  const props = network ? findNetwork(network) : {};
+  const props = network ? findNetwork(network) || {} : {};
   const terms = props.terms ? [`/import/terms`] : [];
   const net = testnet ? [`/import/url`] : [];
   return ['/import'].concat(net).concat(terms).concat([

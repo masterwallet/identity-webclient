@@ -20,6 +20,7 @@ export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, on
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={'/add'} title={_t.back} />
       <NetworkSelector
+        section={section}
         value={network} onChange={onUpdateNetwork} 
         isTestNet={testnet}
         onTestNet={onUpdateTestnet}

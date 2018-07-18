@@ -11,16 +11,17 @@ const _t = {
 };
 
 
-const section = 'watch';
-export const WatchWalletNetworkComponent = ({ add, onUpdateNetwork, onUpdateTestnet }) => {
+export const WatchWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = WatchMenu(network, testnet);
   const step = 0;
+  const canContinue = network; // && !disabled?
   return (
     <WizardPanel title={_t.selectNetwork}>
-      {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to='/wallets' title={_t.back} />
       <NetworkSelector 
+        section={section}
         value={network} onChange={onUpdateNetwork} 
         isTestNet={testnet} onTestNet={onUpdateTestnet}
       />
