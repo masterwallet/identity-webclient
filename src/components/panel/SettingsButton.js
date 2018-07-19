@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import { Redirect, Link } from 'react-router-dom';
 
 const TopLeftWrapper = styled.div`
   position: fixed;
   z-index: 1001;
   left: 5px;
   top: 5px;
-  display: flex; 
-  
-  
+  display: flex;
+
+
   a.btn {
     display: flex;
     align-items: center;
@@ -50,17 +49,42 @@ const SvgPlus = () => (
   </svg>
 );
 
-export const SettingsButton = ({ add = false, to, disabled = false }) => (
-  <TopLeftWrapper>
-    <Link disabled={disabled} to={'/settings'} className="btn btn-primary btn-sm">
-      <img src="/media/gears.svg" style={{ width: 20 }} alt={_t.settings} />
-      <span className="title">{_t.settings}</span>
-    </Link>
-    {add ? (
-      <Link to={'/add'} className="btn btn-primary btn-sm">
-        <SvgPlus />
-        <span className="title">{_t.add}</span>
-      </Link>
-    ): false}
-  </TopLeftWrapper>
-);
+export class SettingsButton extends React.Component {
+  state = { redirected: '' };
+
+  onKeyPress = (e) => {
+    console.log('e.keyCode', e.keyCode);
+    if (e.keyCode === 65) { // A
+      this.setState({ redirected : '/add' })
+    } else if (e.keyCode === 83) { // S
+      this.setState({ redirected : '/settings' })
+    }
+  };
+
+  componentWillMount() {
+    window.addEventListener("keydown", this.onKeyPress, false);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.onKeyPress);
+  }
+
+  render() {
+    const { redirected } = this.state;
+    if (redirected) return (<Redirect to={redirected} />);
+    const { add = false, disabled = false } = this.props;
+    return (
+      <TopLeftWrapper>
+        <Link disabled={disabled} to={'/settings'} className="btn btn-primary btn-sm">
+          <img src="/media/gears.svg" style={{ width: 20 }} alt={_t.settings}/>
+          <span className="title">{_t.settings}</span>
+        </Link>
+        {add ? (
+          <Link to={'/add'} className="btn btn-primary btn-sm">
+            <SvgPlus />
+            <span className="title">{_t.add}</span>
+          </Link>
+        ) : false}
+      </TopLeftWrapper>
+    );
+  }
+}

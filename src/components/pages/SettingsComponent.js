@@ -9,7 +9,7 @@ const _t = {
   priceEstimate: 'Price Estimate',
   lockTimeout: 'Auto-Lock timeout',
   currencyForEstimate: 'Currency for Estimate',
-  displayPriceDiff: 'Display Price Difference',
+  displayPriceDiff: 'Price Change and Daily Volume',
   hideBalances: 'Hide Balances Less Than',
   yes: 'Yes',
   no: 'No',

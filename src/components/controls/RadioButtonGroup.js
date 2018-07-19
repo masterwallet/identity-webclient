@@ -49,7 +49,6 @@ class RadioButtonGroup extends React.Component {
       else if (nextIndex >= len) nextIndex = nextIndex % len;
     } while (!this.isValidIndex(nextIndex)); // skipping all disabled
 
-    console.log('select', this.currentIndex(), nextIndex);
     this.selectIndex(nextIndex);
   };
 
