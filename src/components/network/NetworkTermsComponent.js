@@ -1,7 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 import { fetchPlain } from './../../services/ApiRequest';
 import Loader from './../../components/controls/Loader';
 import { ErrorBox } from './../../components/panel/ErrorBox';
+import MarkdownRenderer from 'react-markdown-renderer';
+
+const Wrapper = styled.div`
+  text-align: justify;
+  font-size: 14px;
+  max-width: 960px;
+  margin: 0px auto;
+  h1 { font-size: 1.5em; }
+`;
 
 export class NetworkTermsComponent extends React.Component {
   state = {
@@ -12,16 +22,18 @@ export class NetworkTermsComponent extends React.Component {
 
   componentWillMount() {
     const { network } = this.props;
-    this.setState({ isLoading: true, error: '' })
-    fetchPlain(`/api/networks/${network}/terms`)
-      .then(content => {
-        const { terms } = { ...this.state };
-        terms[network] = content;
-        this.setState({ isLoading: false, error: '', terms })
-      })
-      .catch(e => {
-        this.setState({ isLoading: false, error: e.toString() })
-      });
+    if (!this.state.terms[network]) {
+      this.setState({isLoading: true, error: ''})
+      fetchPlain(`/api/networks/${network}/terms`)
+        .then(content => {
+          const { terms } = {...this.state};
+          terms[network] = content;
+          this.setState({isLoading: false, error: '', terms})
+        })
+        .catch(e => {
+          this.setState({isLoading: false, error: e.toString()})
+        });
+    }
   }
 
   render() {
@@ -31,9 +43,9 @@ export class NetworkTermsComponent extends React.Component {
     if (error) return <ErrorBox style={{ marginTop: 135 }}>{error}</ErrorBox>;
 
     return (
-      <div style={{ textAlign: 'justify', fontSize: 12 }}>
-        {terms[network]}
-      </div>
+      <Wrapper>
+        <MarkdownRenderer markdown={terms[network]} />
+      </Wrapper>
     );
   }
 

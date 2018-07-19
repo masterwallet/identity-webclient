@@ -18,8 +18,6 @@ const updatedName = (obj, subject, exchange = false) => {
     (Exchanges.filter(n => (n.value === network))[0]) :
     (Networks.filter(n => (n.value === network))[0]);
 
-  console.log('updateName:', network, selectedNetwork);
-
   const networkName = exchange && selectedNetwork ? selectedNetwork.name : network;
   const test = obj.testnet && !exchange ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
   return ({ ...obj, name: `My ${networkName} ${subject}${test}`, selectedNetwork });
