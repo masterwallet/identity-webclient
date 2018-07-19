@@ -10,6 +10,7 @@ export const NetworkSelector = ({ value, section, onChange, isTestNet, onTestNet
     return {
       value: n.value,
       shiftTop: 10,
+      disabled,
       children: [(
         <div key={n.value} style={{ display: 'flex' }}>
           <div style={{ width: 30, lineHeight: '40px' }}>

@@ -14,9 +14,11 @@ const getTestNetName = (list, id) => {
 
 const updatedName = (obj, subject, exchange = false) => {
   const network = obj.network;
-  const selectedNetwork = exchange ? 
+  const selectedNetwork = exchange ?
     (Exchanges.filter(n => (n.value === network))[0]) :
     (Networks.filter(n => (n.value === network))[0]);
+
+  console.log('updateName:', network, selectedNetwork);
 
   const networkName = exchange && selectedNetwork ? selectedNetwork.name : network;
   const test = obj.testnet && !exchange ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
