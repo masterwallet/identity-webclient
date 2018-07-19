@@ -16,6 +16,15 @@ export const fetchJson = (url, options = {}) => {
     });
 };
 
+export const fetchPlain  = (url, options = {}) => {
+  return fetch(getRoot() + url, options)
+    .then(async res => {
+      if (res.status === 404) throw new Error('Not Found');
+      // const contentType = res.headers.get('content-type');
+      return res.text();
+    });
+};
+
 const strip = (html) => {
   let returnText = "" + html;
   returnText=returnText.replace(/<head.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/head>/gi, "");
@@ -80,5 +89,6 @@ export default {
   getRoot,
   getLanguage,
   fetchJson,
+  fetchPlain,
   postJson
 };
