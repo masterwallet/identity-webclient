@@ -19,7 +19,7 @@ const initialState = getSessionState('masterwallet_install', {
   entropy: new SecureRandom(),
   generatedProgress: 0,
   isLoading: false,
-  error: '',
+  lastError: '',
   lastResponse: ''
 });
 

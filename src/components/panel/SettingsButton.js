@@ -53,7 +53,6 @@ export class SettingsButton extends React.Component {
   state = { redirected: '' };
 
   onKeyPress = (e) => {
-    console.log('e.keyCode', e.keyCode);
     if (e.keyCode === 65) { // A
       this.setState({ redirected : '/add' })
     } else if (e.keyCode === 83) { // S

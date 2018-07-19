@@ -57,7 +57,11 @@ const initialState = getSessionState('masterwallet_add', {
       network: '',
       secret: {}
   }, 'Account', true)
-}, {});
+}, {
+  isLoading: false,
+  lastError: '',
+  lastResponse: {}
+});
 
 const updatedWalletNames = (state) => {
   const updatedCreate = updatedName(state.create, 'Wallet');
@@ -110,6 +114,17 @@ export default function (state = initialState, action) {
     case 'UPDATE_ADD_OPERATION': {
         return saved({...state, operation: action.payload });
     }
+
+    case 'WALLET_WIZARD_SUBMIT_STARTED': {
+      return { ...state, isLoading: true, lastError: '', lastResponse: {} };
+    }
+    case 'WALLET_WIZARD_SUBMIT_DONE': {
+      return { ...state, isLoading: false, lastError: '', lastResponse: action.payload };
+    }
+    case 'WALLET_WIZARD_SUBMIT_ERROR': {
+      return { ...state, isLoading: false, lastError: action.payload, lastResponse: {} };
+    }
+
     default:
   }
   return state;

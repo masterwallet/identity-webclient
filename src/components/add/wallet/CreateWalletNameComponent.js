@@ -21,15 +21,22 @@ export class CreateWalletNameComponent extends React.Component {
     onChange(add[section].name);
   }
   render() {
-    const{ section, add, assets, onChange } = this.props;
-    const { name, network, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
+    const{ section, add, assets, onChange, onSubmit } = this.props;
+    const { name, network, networkId, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
+    const { isLoading, lastError, lastResponse } = add;
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep( menu, '/name' );
     const isUnique = assets.verifyWallet.isUnique;
     const canContinue = !!name && isUnique;
+    const disabled = isLoading || !canContinue;
+
     return (
       <WizardPanel title={_t.nameYourAccount}>
-        <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
+        <Next
+          to={menu[step + 1]}
+          {...{disabled, isLoading}} title={_t.continue}
+          onClick={() => (onSubmit({ ...selectedNetwork, network, testnet, networkId }))}
+        />
         <Prev to={menu[step - 1]} title={_t.back} />
 
         <div style={{ margin: '20px auto'}}>
@@ -39,6 +46,8 @@ export class CreateWalletNameComponent extends React.Component {
           <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
           {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
         </div>
+
+        <pre>{JSON.stringify({ isLoading, lastError, lastResponse }, null, 2)}</pre>
 
         <Steps {...{ step, menu }} />
       </WizardPanel>
