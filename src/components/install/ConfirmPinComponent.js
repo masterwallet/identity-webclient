@@ -51,13 +51,14 @@ export const ConfirmPinComponent = ({ install, onUpdatePin, onContinue, onSubmit
 
       <p style={{ textAlign: 'center', marginBottom: 0, marginTop: 30 }}>{_t.please}</p>
       <p style={{ textAlign: 'center' }}>{_t.itWillBeRequired}</p>
-
-      <PinCode
-        error={mismatch}
-        value={pinCodeConfirm} length={pinCodeLength}
-        onChange={onUpdatePin}
-        onComplete={onComplete}
-      />
+      {isLoading ? false : (
+        <PinCode
+          error={mismatch}
+          value={pinCodeConfirm} length={pinCodeLength}
+          onChange={onUpdatePin}
+          onComplete={onComplete}
+        />
+      )}
       {mismatch ? (<ErrorTitle>{_t.pinMismatch}</ErrorTitle>) : false}
 
       <Steps {...{ step, menu }} />
