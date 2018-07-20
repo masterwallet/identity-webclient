@@ -29,7 +29,7 @@ export class WatchWalletAddressComponent extends React.Component {
     // const { add, section } = this.props;
     // const { publicKey } = add[section];
     // this.props.dispatch({ type: 'UPDATE_PUBLIC_KEY', value: publicKey })
-  }
+  };
 
   render() {
     const { add, section } = this.props;
@@ -47,12 +47,12 @@ export class WatchWalletAddressComponent extends React.Component {
           <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
 
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
-          <TextInput {...{value: address, onChange: this.onChange, autofocus: true}} />
+          <TextInput {...{value: address, onChange: this.onChange, autofocus: true}} style={{ textAlign: 'center' }} />
           {selectedNetwork.EIP55 ? <Eip55 address={address}/> : false}
           {address ? (
             <div style={{ textAlign: 'center', marginTop: 20}}>
               <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.verifyTheImage}</p>
-              <JDentIcon size={150} value={address} style={{ margin: '0px auto', background: 'white' }} />
+              <JDentIcon size={150} value={address.trim().toLowerCase()} style={{ margin: '0px auto', background: 'white' }} />
             </div>
           ) : false}
         </div>

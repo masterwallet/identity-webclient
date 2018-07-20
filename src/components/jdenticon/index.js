@@ -64,11 +64,12 @@ export class JDentIcon extends React.Component {
     this.root.appendChild(div);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     const { size, padding, value } = this.props;
     if ( nextProps.size !== size || nextProps.padding !== padding || nextProps.value !== value) {
       const div = document.createElement('div');
-      div.innerHTML = value ? toSvg({ value: value.toLowerCase(), size, padding }) : '';
+      div.innerHTML = value ? toSvg({value: value.toLowerCase(), size, padding}) : '';
+      // div.innerHTML += "<br />" + value;
       this.root.innerHTML = "";
       this.root.appendChild(div);
     }
