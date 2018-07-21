@@ -22,8 +22,8 @@ const Wrapper = styled.div`
 
 const FirstRun = ({ setup }) => {
   const { serverStatus, isFirstRun } = setup;
-  const { isLoading } = serverStatus;
-  if (isLoading) return false;
+  const { isLoading, error } = serverStatus;
+  if (isLoading || error) return false;
   if (isFirstRun) return (<Wrapper>{_t.pleaseFinishInstall}</Wrapper>);
   return false;
 };
