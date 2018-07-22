@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
     const payload = { network, networkId, testnet };
-    postJson('/api/wallets', payload)
+    postJson('/api/wallets/create', payload)
       .then((res) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });
       })
