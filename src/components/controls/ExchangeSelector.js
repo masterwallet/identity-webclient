@@ -1,6 +1,4 @@
 import React from 'react';
-// import styled from 'styled-components';
-// import { Exchanges } from './../../config/Exchanges';
 import { fetchJson } from './../../services/ApiRequest';
 import { ErrorBox } from './../../components/panel/ErrorBox';
 import Loader from './Loader';
