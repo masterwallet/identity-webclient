@@ -34,6 +34,7 @@ export const ErrorStatus = ({ message }) => {
   }
   if (typeof message === 'object') {
     if (message.message) return (<ErrorBox>{message.message}</ErrorBox>);
+    if (message.code) return (<ErrorBox>{message.code}</ErrorBox>);
     if (message.reason) return (<ErrorBox>{message.reason}</ErrorBox>);
   }
   return false;
