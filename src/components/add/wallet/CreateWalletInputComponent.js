@@ -13,11 +13,23 @@ const _t = {
   itWillBeHelpful: 'It will be helpfull to check this image on transactions'
 };
 
+const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+
 const Address = ({ value }) => (
   <div style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', display: 'flex', alignItems: 'center' }}>
     {value}
     &nbsp;
-    <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }}>
+    <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }} onClick={() => (copyToClipboard(value))}>
       <img src="/media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
     </button>
   </div>
