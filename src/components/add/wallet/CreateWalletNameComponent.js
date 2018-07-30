@@ -23,7 +23,7 @@ export class CreateWalletNameComponent extends React.Component {
   render() {
     const{ section, add, assets, onChange, onSubmit } = this.props;
     const { name, network, networkId, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
-    const { isLoading, lastError, lastResponse } = add;
+    const { isLoading } = add;
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep( menu, '/name' );
     const isUnique = assets.verifyWallet.isUnique;

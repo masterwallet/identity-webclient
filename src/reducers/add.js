@@ -56,11 +56,11 @@ const initialState = getSessionState('masterwallet_add', {
       name: '',
       network: '',
       secret: {}
-  }, 'Account', true)
+  }, 'Account', true),
+  lastResponse: {}
 }, {
   isLoading: false,
-  lastError: '',
-  lastResponse: {}
+  lastError: ''
 });
 
 const updatedWalletNames = (state) => {
