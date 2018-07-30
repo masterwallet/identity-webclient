@@ -35,7 +35,7 @@ export class CreateWalletNameComponent extends React.Component {
         <Next
           to={menu[step + 1]}
           {...{disabled, isLoading}} title={_t.continue}
-          onClick={() => (onSubmit({ ...selectedNetwork, network, testnet, networkId }))}
+          onClick={() => (onSubmit({ name, ...selectedNetwork, network, testnet, networkId }))}
         />
         <Prev to={menu[step - 1]} title={_t.back} />
 
@@ -46,8 +46,6 @@ export class CreateWalletNameComponent extends React.Component {
           <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
           {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
         </div>
-
-        <pre>{JSON.stringify({ isLoading, lastError, lastResponse }, null, 2)}</pre>
 
         <Steps {...{ step, menu }} />
       </WizardPanel>

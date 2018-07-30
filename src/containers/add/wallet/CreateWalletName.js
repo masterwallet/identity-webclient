@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { postJson } from './../../../services/ApiRequest';
 import { CreateWalletNameComponent } from './../../../components/add/wallet/CreateWalletNameComponent';
 import { toastr } from 'react-redux-toastr';
@@ -10,13 +11,18 @@ const _t = {
 const section = 'create';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ network, networkId, testnet }) => {
+  onSubmit: ({ name, network, networkId, testnet }) => {
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
-    const payload = { network, networkId, testnet };
-    postJson('/api/wallets/create', payload)
+    const payload = { name, network, networkId, testnet };
+    postJson('/api/wallets/generate', payload)
       .then((res) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });
+        if (res && res.data && res.data.address) {
+          // Current wallet data will be used from in state:add.lastResponce.data
+          // but we need to reload list of wallets to have unique names
+          dispatch(push('/create/wallet'));
+        }
       })
       .catch((e) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_ERROR', payload: e.toString() });

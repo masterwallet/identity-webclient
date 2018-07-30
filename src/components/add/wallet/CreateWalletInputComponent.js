@@ -1,7 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
-import { WizardPanel, Next, Prev } from './../../panel/index';
+import { WizardPanel, Next } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
 const _t = {
@@ -9,8 +10,7 @@ const _t = {
   continue: 'Continue',
   generatedText: 'New wallet was generated and added to the watch list.',
   thisIsTheAddress: 'Here is public address of this wallet',
-  itWillBeHelpful: 'It will be helpfull to check this image on transactions',
-  back: 'Back'
+  itWillBeHelpful: 'It will be helpfull to check this image on transactions'
 };
 
 const Address = ({ value }) => (
@@ -24,16 +24,18 @@ const Address = ({ value }) => (
 );
 
 export const CreateWalletInputComponent = ({ section, add }) => {
-
-  const address = '0x1303494949494949494949949494940031233949';
   const { network, testnet } = add[section]
+  const { lastResponse } = add;
   const menu = CreateMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet')
+  if (!lastResponse || !lastResponse.data || !lastResponse.data.address) {
+    return <Redirect to={menu[step - 1]} />
+  }
+  const { address } = lastResponse.data;
   const canContinue = !!address;
   return (
     <WizardPanel title={_t.accountWasGenerated}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
-      <Prev to={menu[step - 1]} title={_t.back} />
 
       <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
       <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
@@ -47,4 +49,4 @@ export const CreateWalletInputComponent = ({ section, add }) => {
     </WizardPanel>
   );
 
-}
+};

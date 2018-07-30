@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
@@ -28,6 +29,11 @@ export class CreateWalletPaperComponent extends React.Component {
     const { network, testnet } = add[section];
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/paper')
+    const { lastResponse } = add;
+    if (!lastResponse || !lastResponse.data || !lastResponse.data.address) {
+      return <Redirect to={menu[step - 1]} />
+    }
+
     return (
       <WizardPanel title={_t.paperWallet}>
         <Next to={`/wallets`} title={_t.myAssets} />
@@ -46,6 +52,8 @@ export class CreateWalletPaperComponent extends React.Component {
             <button className='btn btn-primary'>{_t.printWallet}</button>
           </div>
         </div>
+        <hr />
+        <pre>{JSON.stringify({ lastResponse }, null, 2)}</pre>
         <Steps {...{ step, menu }} />
       </WizardPanel>
     )

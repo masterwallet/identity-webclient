@@ -24,7 +24,7 @@ export const CreateMenu = (network, testnet) => {
     `/create/wallet`,
     `/create/paper`
   ]);
-}
+};
 
 export const ImportMenu = (network, testnet) => {
   const props = network ? findNetwork(network) || {} : {};
@@ -35,7 +35,7 @@ export const ImportMenu = (network, testnet) => {
     `/import/wallet`,
     `/import/complete`
   ]);
-}
+};
 
 export const WatchMenu = (network, testnet) => {
   const net = testnet ? [`/watch/url`] : [];
