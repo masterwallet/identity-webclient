@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
@@ -6,10 +7,11 @@ import { WizardPanel, Next } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
 
 const _t = {
-  accountWasGenerated: 'Account was Generated',
+  accountWasGenerated: 'Wallet was Generated',
   continue: 'Continue',
   generatedText: 'New wallet was generated and added to the watch list.',
   thisIsTheAddress: 'Here is public address of this wallet',
+  thisIsThePublicKey: 'Here is your public key for this wallet',
   itWillBeHelpful: 'It will be helpfull to check this image on transactions'
 };
 
@@ -25,14 +27,26 @@ const copyToClipboard = str => {
   document.body.removeChild(el);
 };
 
+const AddressContainer = styled.div`
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+`;
+
+const AddressLabel = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: bold;
+`;
+
 const Address = ({ value }) => (
-  <div style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', display: 'flex', alignItems: 'center' }}>
-    {value}
-    &nbsp;
+  <AddressContainer>
+    <AddressLabel title={value}>{value}</AddressLabel>
     <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }} onClick={() => (copyToClipboard(value))}>
       <img src="/media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
     </button>
-  </div>
+  </AddressContainer>
 );
 
 export const CreateWalletInputComponent = ({ section, add }) => {
@@ -40,20 +54,20 @@ export const CreateWalletInputComponent = ({ section, add }) => {
   const { lastResponse } = add;
   const menu = CreateMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet')
-  if (!lastResponse || !lastResponse.data || !lastResponse.data.address) {
+  if (!lastResponse || !lastResponse.data || !lastResponse.data.id) {
     return <Redirect to={menu[step - 1]} />
   }
-  const { address } = lastResponse.data;
-  const canContinue = !!address;
+  const { address, publicKey } = lastResponse.data;
+  const canContinue = !!address || !!publicKey;
   return (
     <WizardPanel title={_t.accountWasGenerated}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
 
       <p style={{ textAlign: 'center' }}>{_t.generatedText}</p>
-      <p style={{ textAlign: 'center' }}>{_t.thisIsTheAddress}</p>
-      <Address value={address} />
+      <p style={{ textAlign: 'center' }}>{address ? _t.thisIsTheAddress : _t.thisIsThePublicKey}</p>
+      <Address value={address || publicKey} />
       <div style={{ textAlign: 'center', background: 'white', width: 150, margin: '0px auto' }}>
-        <JDentIcon size={150} value={address} />
+        <JDentIcon size={150} value={address || publicKey} />
       </div>
       <p style={{ textAlign: 'center' }}>{_t.itWillBeHelpful}</p>
 

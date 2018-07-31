@@ -30,7 +30,7 @@ export class CreateWalletPaperComponent extends React.Component {
     const menu = CreateMenu(network, testnet);
     const step = findWizardStep(menu, '/paper')
     const { lastResponse } = add;
-    if (!lastResponse || !lastResponse.data || !lastResponse.data.address) {
+    if (!lastResponse || !lastResponse.data || !lastResponse.data.id) {
       return <Redirect to={menu[step - 1]} />
     }
 

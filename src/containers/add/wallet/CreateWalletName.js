@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch => ({
     postJson('/api/wallets/generate', payload)
       .then((res) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });
-        if (res && res.data && res.data.address) {
+        console.log('res.data=', res.data);
+        if (res && res.data && res.data.id && res.data.publicKey) {
           // Current wallet data will be used from in state:add.lastResponce.data
           // but we need to reload list of wallets to have unique names
           dispatch(push('/create/wallet'));

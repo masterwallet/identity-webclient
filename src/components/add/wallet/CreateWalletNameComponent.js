@@ -6,7 +6,7 @@ import TextInput from './../../controls/TextInput';
 import { NetworkIcon } from './../../assets/NetworkIcon';
 
 const _t = {
-  nameYourAccount: 'Please Name Your Account',
+  nameYourAccount: 'Please Name Your Wallet',
   thisIsInternal: 'Unique internal wallet name:',
   continue: 'Continue',
   back: 'Back',
