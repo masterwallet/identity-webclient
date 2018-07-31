@@ -43,13 +43,30 @@ const MyAssets = styled.button`
 
 // const Ruler = () => (<div style={{ background: '#444', width: '100%', height: 3 }}></div>);
 
-export const AssetsOverviewComponent = ({ assets }) => (
-  <WizardPanel title={_t.walletsOverview}>
-    <SettingsButton add={true} />
-    <LockButton />
-    <Totals value={assets.total} currency="USD">
-      <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
-    </Totals>
-    <WalletsList list={ assets.wallets } title={3 + ' ' + _t.wallets + ', 2 ' + _t.accounts} />
-  </WizardPanel>
-);
+const numWalletsString = (wallets) => {
+  const numWallets = wallets.filter(w => (w.network)).length;
+  const numExchanges = wallets.filter(w => (w.exchange)).length;
+  return [
+    numWallets ? numWallets + ' ' + _t.wallets : '',
+    numExchanges ? numExchanges + ' ' + _t.accounts : ''
+  ].filter(x => !!x).join(', ');
+};
+
+export class AssetsOverviewComponent extends React.Component {
+  componentWillMount() {
+    this.props.onInit();
+  }
+  render() {
+    const { assets } = this.props;
+    return (
+      <WizardPanel title={_t.walletsOverview}>
+        <SettingsButton add={true}/>
+        <LockButton />
+        <Totals value={assets.total} currency="USD">
+          <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
+        </Totals>
+        <WalletsList list={ assets.wallets } title={numWalletsString(assets.wallets)}/>
+      </WizardPanel>
+    );
+  }
+}

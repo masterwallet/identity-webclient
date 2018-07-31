@@ -88,27 +88,49 @@ const AssetTable = styled.table`
   }
 `;
 
-export const AssetsCombinedComponent = ({ assets }) => (
-  <WizardPanel title={_t.assetsCombined}>
-    <SettingsButton add={true} />
-    <LockButton />
-    <Totals value={assets.total} currency={assets.currency}>
-      <Link to='/wallets'><MyWallets>{_t.wallets}</MyWallets></Link>
-    </Totals>
-    <AssetTable>
-      <thead>
-        <tr>
-          <th>{assets.assets.length + ' ' + _t.assets + ' in ' + assets.wallets.length + ' wallets'}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <AssetsList {...assets} />
-          </td>
-        </tr>
-        <tr className="last"><th></th></tr>
-      </tbody>
-    </AssetTable>
-  </WizardPanel>
-);
+
+const numWalletsString = (wallets) => {
+  const numWallets = wallets.filter(w => (w.network)).length;
+  const numExchanges = wallets.filter(w => (w.exchange)).length;
+  return [
+    numWallets ? numWallets + ' ' + _t.wallets : '',
+    numExchanges ? numExchanges + ' ' + _t.accounts : ''
+  ].filter(x => !!x).join(', ');
+};
+
+
+export class AssetsCombinedComponent extends React.Component {
+  componentWillMount() {
+    this.props.onInit();
+  }
+
+  render() {
+    const { assets } = this.props;
+    return (
+      <WizardPanel title={_t.assetsCombined}>
+        <SettingsButton add={true}/>
+        <LockButton />
+        <Totals value={assets.total} currency={assets.currency}>
+          <Link to='/wallets'><MyWallets>{_t.wallets}</MyWallets></Link>
+        </Totals>
+        <AssetTable>
+          <thead>
+          <tr>
+            <th>{assets.assets.length + ' ' + _t.assets + ' in ' + numWalletsString(assets.wallets)}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <AssetsList {...assets} />
+            </td>
+          </tr>
+          <tr className="last">
+            <th></th>
+          </tr>
+          </tbody>
+        </AssetTable>
+      </WizardPanel>
+    );
+  }
+}

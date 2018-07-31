@@ -1,4 +1,4 @@
-
+/*
 const mockWallets = [
   {
     name: 'EOS Default',
@@ -62,15 +62,17 @@ const mockAssets = [
   { id: 'KARMA', name: 'Karma Token', amount: '25' },
   { id: 'WETH', name: 'Wrapped Ethereum', amount: '3.001020', icon: '/icons/weth_28.png' }
 ];
-
+*/
 const initialState = {
-  total: '3,400',
+  total: '0',
   currency: 'USD',
   showPrices: true,
-  wallets: mockWallets || [],
-  assets: mockAssets || [],
+  wallets: [],
+  assets: [],
   verifyWallet: { name: '', isUnique: true }
 };
+
+const fixIcons = (wallets) => (wallets.map(w => ({...w, icon: `/networks/${w.network}.png`})));
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -80,7 +82,9 @@ export default function (state = initialState, action) {
       const verifyWallet = { name: value, isUnique: namesUsed.indexOf(value) === -1 };
       return { ...state, verifyWallet };
     }
-
+    case 'WALLETS_LIST_RECEIVED': {
+      return { ...state, wallets: fixIcons(action.payload) };
+    }
     default:
   }
   return state
