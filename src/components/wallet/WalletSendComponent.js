@@ -21,12 +21,18 @@ export class WalletSendComponent extends React.Component {
   onChange = (field, value) => {
     this.setState({ [field]: value });
   };
+  componentWillMount() {
+    const id = this.props.match.params.walletId;
+    this.props.onInit({id});
+  }
 
   render() {
-    const { id, address, network, name, icon } = this.props.wallet;
+    const { wallet } = this.props;
+    const { object, isLoading, error } = wallet;
+    const { id, address, network, testnet, name, icon } = object;
     const { qty, to } = this.state;
     return (
-      <WalletPanel {...{id, address, name, network, icon}} back={true}>
+      <WalletPanel {...object} back={true}>
         {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}
         <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.send}</h3>
         <div style={{ alignItems: 'center', display: 'flex', width: 200, margin: '0px auto' }}>
