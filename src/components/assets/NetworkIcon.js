@@ -20,12 +20,25 @@ const IconDiv = styled.div`
     font-weight: bold;
     margin-top: 0px;
   }
+  .testnet {
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 0px;
+    background-color: darkred;
+    color: white;
+  }
 `;
 
-export const NetworkIcon = ({ network, icon, style, title = '' }) => (
+const getTestnet = () => {
+  return 'Test Net';
+};
+
+export const NetworkIcon = ({ network, networkId, testnet, icon, style, title = '' }) => (
   <IconDiv style={style}>
     {icon ? (<div className="icon"><img style={{ width: 32, height: 'auto' }} src={icon} alt="" /></div>) : false}
     <div className="network">{ network }</div>
     {title ? <div className="title">{ title }</div> : false}
+    {testnet ? <div className="testnet">{getTestnet({ network, networkId })}</div> : false}
   </IconDiv>
 );

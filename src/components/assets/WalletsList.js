@@ -97,18 +97,18 @@ export const WalletsList = ({ list, title }) => {
       </tr>
       </thead>
       <tbody>
-      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, icon, assets, estimate, currency }) => (
-        <tr key={address}>
+      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, assets, estimate, currency }) => (
+        <tr key={id}>
           <td style={{ verticalAlign: 'top' }}>
-            <NetworkIcon {...{network, icon}} />
+            <NetworkIcon {...{network, icon, networkId, testnet}} />
           </td>
           <td style={{ padding: '2px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <JDentIcon size={48} value={address || publicKey}  style={{ background: '#fff' }}/>
               <div className="main">
                 <div className="name">{name}</div>
-                {address ? 
-                  <div className="address">{shortAddress(address)}</div> : 
+                {address ?
+                  <div className="address">{shortAddress(address)}</div> :
                   <div className="address">{shortAddress(publicKey)}</div>}
               </div>
               <div className="chevron">
