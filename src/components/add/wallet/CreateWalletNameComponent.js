@@ -35,7 +35,7 @@ export class CreateWalletNameComponent extends React.Component {
         <Next
           to={menu[step + 1]}
           {...{disabled, isLoading}} title={_t.continue}
-          onClick={() => (onSubmit({ name, ...selectedNetwork, network, testnet, networkId }))}
+          onClick={() => (onSubmit({ ...selectedNetwork, network, testnet, networkId, name }))}
         />
         <Prev to={menu[step - 1]} title={_t.back} />
 
