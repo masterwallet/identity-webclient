@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { WizardPanel, Totals, SettingsButton, LockButton } from './../panel/index';
@@ -90,8 +91,8 @@ const AssetTable = styled.table`
 
 
 const numWalletsString = (wallets) => {
-  const numWallets = wallets.filter(w => (w.network)).length;
-  const numExchanges = wallets.filter(w => (w.exchange)).length;
+  const numWallets = wallets.filter(w => (w.id && w.network)).length;
+  const numExchanges = wallets.filter(w => (w.id && w.exchange)).length;
   return [
     numWallets ? numWallets + ' ' + _t.wallets : '',
     numExchanges ? numExchanges + ' ' + _t.accounts : ''
@@ -106,6 +107,12 @@ export class AssetsCombinedComponent extends React.Component {
 
   render() {
     const { assets } = this.props;
+    const { wallets, status } = assets;
+    if (!status.isLoading) {
+      const numWallets = wallets.filter(w => (w.id)).length;
+      if (numWallets === 0) return (<Redirect to='/add' />);
+    }
+
     return (
       <WizardPanel title={_t.assetsCombined}>
         <SettingsButton add={true}/>

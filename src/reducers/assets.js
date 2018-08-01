@@ -69,7 +69,8 @@ const initialState = {
   showPrices: true,
   wallets: [],
   assets: [],
-  verifyWallet: { name: '', isUnique: true }
+  verifyWallet: { name: '', isUnique: true },
+  status: { isLoading: true, error: '' }
 };
 
 const fixIcons = (wallets) => (wallets.map(w => ({...w, icon: `/networks/${w.network}.png`})));
@@ -83,7 +84,16 @@ export default function (state = initialState, action) {
       return { ...state, verifyWallet };
     }
     case 'WALLETS_LIST_RECEIVED': {
-      return { ...state, wallets: fixIcons(action.payload) };
+      const status = { isLoading: false, error: '' };
+      return { ...state, wallets: fixIcons(action.payload), status };
+    }
+    case 'WALLETS_LIST_REQUEST': {
+      const status = { isLoading: true, error: '' };
+      return { ...state, status };
+    }
+    case 'WALLETS_LIST_ERROR': {
+      const status = { isLoading: false, error: action.payload  };
+      return { ...state, status };
     }
     default:
   }

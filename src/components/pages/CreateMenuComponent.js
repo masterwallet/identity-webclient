@@ -41,30 +41,39 @@ const options = [
 export class CreateMenuComponent extends React.Component {
   state = {
     to: 'create'
-  }
+  };
   onChange = (value) => {
     this.setState({ to: value });
-  }
+  };
 
   isHdWallet = (props) => {
     const { setup } = props;
     const { serverStatus } = setup;
     const { data } = serverStatus;
     return data.installation === 'hdwallet';
+  };
+
+  componentWillMount() {
+    this.props.onInit();
   }
-  
-  render() {    
+
+  render() {
     const hdWallet = this.isHdWallet(this.props);
     const adjustedOptions = hdWallet ? options.map((o, index) =>(
       (index > 0) ? {...o, disabled: true } : o
     )) : options;
     const { to } = this.state;
     const canContinue = !!to;
+
+    const { assets } = this.props;
+    const { wallets, status } = assets;
+    const numWallets = wallets.filter(w => (w.id)).length;
+    const canGoToWallets = (!status.isLoading && numWallets > 0);
     return (
       <WizardPanel title={_t.choose}>
         <Next to={`/${to}`} title={_t.next} disabled={!canContinue} />
-        <Prev to='/wallets' title={_t.myWallets} />
-        
+        {canGoToWallets ? <Prev to='/wallets' title={_t.myWallets} /> : false}
+
         {hdWallet ? <Notice>{_t.yourOptionsAreLimited}</Notice> : false}
         <div style={{ marginTop: 20 }}></div>
         <RadioButtonGroup value={to} options={adjustedOptions} onChange={this.onChange} />
