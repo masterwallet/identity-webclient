@@ -150,55 +150,67 @@ const AssetTable = styled.table`
   }
 `;
 
-export const WalletBalanceComponent = ({ wallet, assets, transactions }) => {
-  const { id, address, network, name, icon } = wallet;
-  const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
-  return (
-    <WalletPanel {...{ id, address, name, network, icon }}>
-      <MyAssetsButton />
-      <MyWalletsButton />
+export class WalletBalanceComponent extends React.Component {
+ componentWillMount() {
+   const id = this.props.match.params.walletId;
+   this.props.onInit({ id });
+ }
+ render() {
+   const { wallet, assets, transactions } = this.props;
+   const { object, isLoading, error } = wallet;
+   const { id, address, publicKey, network, name, icon } = object;
+   const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
+   return (
+     <WalletPanel {...object}>
+       <MyAssetsButton />
+       <MyWalletsButton />
 
-      <Totals value={'1,144'} currency={'USD'}>
-        <Link to={walletUrl('send')}>
-          <Send>
-            <div><RightArrowIcon /></div>
-            {_t.send}
-          </Send>
-        </Link>
-        <Link to={walletUrl('receive')}>
-          <Receive>
-            <div><QrIcon /></div>
-            {_t.receive}
-          </Receive>
-        </Link>
-      </Totals>
+       <Totals value={'1,144'} currency={'USD'}>
+         <Link to={walletUrl('send')}>
+           <Send>
+             <div><RightArrowIcon /></div>
+             {_t.send}
+           </Send>
+         </Link>
+         <Link to={walletUrl('receive')}>
+           <Receive>
+             <div><QrIcon /></div>
+             {_t.receive}
+           </Receive>
+         </Link>
+       </Totals>
 
-      <AssetTable>
-        <thead>
-        <tr>
-          <th>{assets.assets.length + ' ' + _t.assets}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-            <AssetsList {...assets} />
-          </td>
-        </tr>
-        <tr>
-          <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
-        </tr>
-        {transactions.list.map((tr, index) => (
-          <tr key={index}>
-            <td>
-              <TransactionDetail {...tr} />
-            </td>
-          </tr>
-        ))}
+       <AssetTable>
+         <thead>
+         <tr>
+           <th>{assets.assets.length + ' ' + _t.assets}</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr>
+           <td>
+             <AssetsList {...assets} />
+           </td>
+         </tr>
+         <tr>
+           <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
+         </tr>
+         {transactions.list.map((tr, index) => (
+           <tr key={index}>
+             <td>
+               <TransactionDetail {...tr} />
+             </td>
+           </tr>
+         ))}
 
-        <tr className="last"><th></th></tr>
-        </tbody>
-      </AssetTable>
-    </WalletPanel>
-  );
+         <tr className="last">
+           <th></th>
+         </tr>
+         </tbody>
+       </AssetTable>
+
+       <pre>{JSON.stringify(object, null, 2)}</pre>
+     </WalletPanel>
+   );
+ }
 };

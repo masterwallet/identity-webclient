@@ -1,13 +1,22 @@
 const initialState = {
-  id: '30303030',
-  address: '0xd0d1878cB17C576c236dE000d7e7eFfd550d8344',
-  network: 'ETH',
-  name: 'My ETH Wallet',
-  icon: '/networks/ETH.png'
+  object: {},
+  isLoading: true,
+  error: ''
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+
+    case 'WALLET_DETAILS_RECEIVED': {
+      return { ...state, object: action.payload, isLoading: false, error: '' };
+    }
+    case 'WALLET_DETAILS_REQUEST': {
+      return { ...state, isLoading: true, error: '' };
+    }
+    case 'WALLET_DETAILS_ERROR': {
+      return { ...state, isLoading: false, error: action.payload };
+    }
+
     default:
   }
   return state;
