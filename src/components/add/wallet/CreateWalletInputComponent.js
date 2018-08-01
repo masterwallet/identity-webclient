@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import { JDentIcon } from './../../jdenticon/index';
+import { Address } from './../../controls/Address';
 
 const _t = {
   accountWasGenerated: 'Wallet was Generated',
@@ -14,40 +14,6 @@ const _t = {
   thisIsThePublicKey: 'Here is your public key for this wallet',
   itWillBeHelpful: 'It will be helpfull to check this image on transactions'
 };
-
-const copyToClipboard = str => {
-  const el = document.createElement('textarea');
-  el.value = str;
-  el.setAttribute('readonly', '');
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-};
-
-const AddressContainer = styled.div`
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-`;
-
-const AddressLabel = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 13px;
-  font-weight: bold;
-`;
-
-const Address = ({ value }) => (
-  <AddressContainer>
-    <AddressLabel title={value}>{value}</AddressLabel>
-    <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }} onClick={() => (copyToClipboard(value))}>
-      <img src="/media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
-    </button>
-  </AddressContainer>
-);
 
 export const CreateWalletInputComponent = ({ section, add }) => {
   const { network, testnet } = add[section]
