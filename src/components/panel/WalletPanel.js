@@ -55,6 +55,9 @@ const Wrapper = styled.div`
     top: 0px;
     width: 50px;
   }
+
+  .icon { margin-top: 0px !important; }
+
 `;
 const Spacer = styled.div`
   height: 75px;
@@ -62,7 +65,7 @@ const Spacer = styled.div`
 
 const shortAddress = value => {
   if (!value) return false;
-  if (!value.length <= 12 ) return false;
+  if (value.length <= 12 ) return value;
   return (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
 };
 
@@ -120,7 +123,7 @@ const _t = {
   backToWallet: 'Back to Wallet'
 };
 
-export const WalletPanel = ({ id, name, address, publicKey, network, icon, children, back = false }) => (
+export const WalletPanel = ({ id, name, address, publicKey, network, networkId, testnet, icon, children, back = false }) => (
   <Wrapper>
     <div className="top">
       {back ? (
@@ -133,11 +136,11 @@ export const WalletPanel = ({ id, name, address, publicKey, network, icon, child
       ): false}
       <div style={{ display: 'flex', alignItems: 'center', width: 300, margin: '0px auto' }}>
         <div style={{ width: 50 }}>
-          <NetworkIcon network={network} icon={icon} />
+          <NetworkIcon {...{network, networkId, testnet, icon}} />
         </div>
         <JDentIcon size={40} value={address || publicKey} style={{ background: 'white' }} />
         <div className="main">
-          <div className="name">{name}</div>
+          <div className="name" title={name}>{name}</div>
           <div className="address">{shortAddress(address || publicKey)}</div>
         </div>
       </div>

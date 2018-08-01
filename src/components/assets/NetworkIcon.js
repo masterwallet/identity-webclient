@@ -9,6 +9,8 @@ const IconDiv = styled.div`
     color: #222;
     text-align: center;
     text-shadow: 2px 2px 10px #fff;
+    display: flex;
+    align-items: center;
   }
   .icon {
     text-align: center;
@@ -22,23 +24,26 @@ const IconDiv = styled.div`
   }
   .testnet {
     text-align: center;
-    font-size: 10px;
+    font-size: 7px;
     font-weight: bold;
     margin-top: 0px;
-    background-color: darkred;
+    background-color: black;
     color: white;
+    padding-left: 3px;
+    padding-right: 3px;
   }
 `;
 
-const getTestnet = () => {
-  return 'Test Net';
-};
+const getTestnet = () => { return 'TEST'; };
 
 export const NetworkIcon = ({ network, networkId, testnet, icon, style, title = '' }) => (
   <IconDiv style={style}>
     {icon ? (<div className="icon"><img style={{ width: 32, height: 'auto' }} src={icon} alt="" /></div>) : false}
-    <div className="network">{ network }</div>
+    <div className="network">
+      <div style={{ flex: 1 }}>{ network }</div>
+      {testnet ? <div className="testnet">{getTestnet({ network, networkId })}</div> : false}
+    </div>
     {title ? <div className="title">{ title }</div> : false}
-    {testnet ? <div className="testnet">{getTestnet({ network, networkId })}</div> : false}
+
   </IconDiv>
 );
