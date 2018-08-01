@@ -85,7 +85,7 @@ export default function (state = initialState, action) {
     }
     case 'WALLETS_LIST_RECEIVED': {
       const status = { isLoading: false, error: '' };
-      return { ...state, wallets: fixIcons(action.payload), status };
+      return { ...state, wallets: fixIcons(action.payload).reverse(), status };
     }
     case 'WALLETS_LIST_REQUEST': {
       const status = { isLoading: true, error: '' };
