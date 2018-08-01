@@ -1,6 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import styled from 'styled-components';
+import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
 import { JDentIcon } from './../jdenticon/index';
 import TextInput from './../controls/TextInput';
@@ -29,10 +28,11 @@ export class WalletSendComponent extends React.Component {
   render() {
     const { wallet } = this.props;
     const { object } = wallet; // unused: isLoading, error
-    // const { id, address, network, testnet, name, icon } = object;
+    const { id } = object; // unused: address, network, testnet, name, icon
     const { qty, to } = this.state;
     return (
       <WalletPanel {...object} back={true}>
+        <Esc to={`/wallets/${id}/balance`} />
         {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}
         <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.send}</h3>
         <div style={{ alignItems: 'center', display: 'flex', width: 200, margin: '0px auto' }}>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
+import Esc from './../panel/Esc';
 
 const Send = styled.button`
   position: absolute;
@@ -164,6 +165,7 @@ export class WalletBalanceComponent extends React.Component {
      <WalletPanel {...object}>
        <MyAssetsButton />
        <MyWalletsButton />
+       <Esc to='/wallets' />
 
        <Totals value={0} currency={'USD'}>
          <Link to={walletUrl('send')}>

@@ -3,7 +3,7 @@ import { WalletPanel } from './../panel/index';
 import { JDentIcon } from './../jdenticon/index';
 import { Address } from './../controls/Address';
 import QRCode from 'qrcode.react';
-
+import Esc from './../panel/Esc';
 
 const _t = {
   address: 'Wallet Address',
@@ -22,9 +22,10 @@ export class WalletReceiveComponent extends React.Component {
   render() {
     const { wallet } = this.props;
     const { object} = wallet; // unused: , isLoading, error
-    const { address } = object; // unused: id,network, testnet, name, icon
+    const { id, address } = object; // unused: id,network, testnet, name, icon
     return (
       <WalletPanel {...object} back={true}>
+        <Esc to={`/wallets/${id}/balance`} />
         {address ? (
           <div>
             <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.receive}</h3>
