@@ -157,15 +157,15 @@ export class WalletBalanceComponent extends React.Component {
  }
  render() {
    const { wallet, assets, transactions } = this.props;
-   const { object, isLoading, error } = wallet;
-   const { id, address, publicKey, network, name, icon } = object;
+   const { object } = wallet; // unused: isLoading, error
+   const { id } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
    return (
      <WalletPanel {...object}>
        <MyAssetsButton />
        <MyWalletsButton />
 
-       <Totals value={'1,144'} currency={'USD'}>
+       <Totals value={0} currency={'USD'}>
          <Link to={walletUrl('send')}>
            <Send>
              <div><RightArrowIcon /></div>

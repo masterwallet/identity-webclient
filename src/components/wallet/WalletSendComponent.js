@@ -28,8 +28,8 @@ export class WalletSendComponent extends React.Component {
 
   render() {
     const { wallet } = this.props;
-    const { object, isLoading, error } = wallet;
-    const { id, address, network, testnet, name, icon } = object;
+    const { object } = wallet; // unused: isLoading, error
+    // const { id, address, network, testnet, name, icon } = object;
     const { qty, to } = this.state;
     return (
       <WalletPanel {...object} back={true}>

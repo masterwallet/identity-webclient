@@ -21,8 +21,8 @@ export class WalletReceiveComponent extends React.Component {
 
   render() {
     const { wallet } = this.props;
-    const { object, isLoading, error } = wallet;
-    const { id, address, network, testnet, name, icon } = object;
+    const { object} = wallet; // unused: , isLoading, error
+    const { address } = object; // unused: id,network, testnet, name, icon
     return (
       <WalletPanel {...object} back={true}>
         {address ? (
