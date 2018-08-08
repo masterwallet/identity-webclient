@@ -21,8 +21,12 @@ const mapDispatchToProps = dispatch => ({
       })
       .catch((e) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_ERROR', payload: e.toString() });
-        toastr.error(_t.watchError, e.toString());
+        toastr.error(_t.watchingError, e.toString());
       });
+  },
+  onChange: (value) => {
+    dispatch({ type: 'UPDATE_WALLET_ADDRESS', payload: { section, value } });
+    // TODO: send to server, reduce whether it is valid or not
   }
 
 });

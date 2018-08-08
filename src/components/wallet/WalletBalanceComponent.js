@@ -98,14 +98,14 @@ const _t = {
   recentTransactions: 'Recent Transactions'
 };
 
-const TransactionDetail = ({ asset, icon, hash, date }) => {
-  return (
-    <div>
-      {asset} &nbsp;
-      {date}
-    </div>
-  );
-};
+//const TransactionDetail = ({ asset, icon, hash, date }) => {
+//  return (
+//    <div>
+//      {asset} &nbsp;
+//      {date}
+//    </div>
+//  );
+//};
 
 const AssetTable = styled.table`
   border: 0px transparent solid;
@@ -157,7 +157,7 @@ export class WalletBalanceComponent extends React.Component {
    this.props.onInit({ id });
  }
  render() {
-   const { wallet, assets, transactions } = this.props;
+   const { wallet, assets } = this.props;
    const { object } = wallet; // unused: isLoading, error
    const { id } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
@@ -194,6 +194,7 @@ export class WalletBalanceComponent extends React.Component {
              <AssetsList {...assets} />
            </td>
          </tr>
+         {/*
          <tr>
            <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
          </tr>
@@ -204,6 +205,7 @@ export class WalletBalanceComponent extends React.Component {
              </td>
            </tr>
          ))}
+         */}
 
          <tr className="last">
            <th></th>
@@ -211,7 +213,6 @@ export class WalletBalanceComponent extends React.Component {
          </tbody>
        </AssetTable>
 
-       <pre>{JSON.stringify(object, null, 2)}</pre>
      </WalletPanel>
    );
  }

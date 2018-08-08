@@ -47,6 +47,7 @@ const initialState = getSessionState('masterwallet_add', {
   }, 'Wallet'),
   watch: updatedName({
       name: '',
+      address: '',
       network: defaultNetwork,
       networkId: '',
       testnet: false,
@@ -104,6 +105,16 @@ export default function (state = initialState, action) {
         const { section, value } = action.payload;
         const copy = { ...state[section], rpcRoot: value };
         return saved({ ...state, [section]: copy });
+    }
+    case 'UPDATE_WALLET_ADDRESS': {
+      const { section, value } = action.payload;
+      const copy = { ...state[section], address: value };
+      return saved({ ...state, [section]: copy });
+    }
+    case 'UPDATE_API_ROOT': {
+      const { section, value } = action.payload;
+      const copy = { ...state[section], api: value };
+      return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_SECRET': {
         const { section, name, value } = action.payload;
