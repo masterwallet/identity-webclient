@@ -48,6 +48,10 @@ const initialState = getSessionState('masterwallet_add', {
   watch: updatedName({
       name: '',
       address: '',
+      validation: {
+        isLoading: false,
+        result: {}
+      },
       network: defaultNetwork,
       networkId: '',
       testnet: false,
@@ -111,6 +115,32 @@ export default function (state = initialState, action) {
       const copy = { ...state[section], address: value };
       return saved({ ...state, [section]: copy });
     }
+
+    // 3 cases:
+    // address validation started
+    // address validation finished ok
+    // address validation finished fail
+
+    case 'WALLET_ADDRESS_VALIDATION_STARTED': {
+      const { section } = action.payload;
+      const validation = { isLoading: true, result: {} };
+      const copy = { ...state[section], validation };
+      return saved({ ...state, [section]: copy });
+    }
+
+    case 'WALLET_ADDRESS_VALIDATION_DONE': {
+      const { section, result } = action.payload;
+      const validation = { isLoading: false, result };
+      const copy = { ...state[section], validation };
+      return saved({ ...state, [section]: copy });
+    }
+    case 'WALLET_ADDRESS_VALIDATION_ERROR': {
+      const { section, error } = action.payload;
+      const validation = { isLoading: false, result: { error } };
+      const copy = { ...state[section], validation };
+      return saved({ ...state, [section]: copy });
+    }
+
     case 'UPDATE_API_ROOT': {
       const { section, value } = action.payload;
       const copy = { ...state[section], api: value };

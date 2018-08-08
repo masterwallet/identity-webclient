@@ -16,6 +16,7 @@ const _t = {
 
 const Eip55 = ({ address }) => {
   if (!address) return false;
+  return false;
   //
   //const a = address.toLowerCase().replace(/^0x/, '');
   //const hash = sha3(a).toString('hex');
@@ -28,16 +29,18 @@ const Eip55 = ({ address }) => {
   //  }
   //}
   //if (a === ret) return false;
-  return (<div>ADDRESS CHECKSUM IS NOT MATCHING</div>);
+  // return (<div>ADDRESS CHECKSUM IS NOT MATCHING</div>);
 };
 
 export const WatchWalletAddressComponent = (props) => {
-  const { add, section, onSubmit, onChange } = props;
-  const { address, network, testnet, selectedNetwork } = add[section];
+  const { add, section, onSubmit, onUpdate } = props;
+  const { address, validation, network, networkId, testnet, selectedNetwork } = add[section];
   const menu = WatchMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet');
+  
+  const onChange = value => (onUpdate({ network, networkId, testnet, address: value }));
 
-  const canContinue = !!address;
+  const canContinue = !!address && validation && validation.result && validation.result.valid;
   return (
     <WizardPanel title={_t.walletAddress}>
       <Next to={menu[step + 1]} disabled={!canContinue} onSubmit={onSubmit} title={_t.continue}/>
@@ -46,7 +49,7 @@ export const WatchWalletAddressComponent = (props) => {
         <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
         <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
         <TextInput {...{value: address, onChange, autofocus: true}} style={{ textAlign: 'center' }} />
-        address: {address}
+        <pre>{JSON.stringify(validation, null, 2)}</pre>
         {selectedNetwork.EIP55 ? <Eip55 address={address}/> : false}
         {address ? (
           <div style={{ textAlign: 'center', marginTop: 20}}>
