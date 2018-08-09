@@ -27,30 +27,36 @@ export class WalletSendComponent extends React.Component {
 
   render() {
     const { wallet } = this.props;
-    const { object } = wallet; // unused: isLoading, error
+    const { object, error } = wallet; // unused: isLoading, error
     const { id } = object; // unused: address, network, testnet, name, icon
     const { qty, to } = this.state;
     return (
       <WalletPanel {...object} back={true}>
         <Esc to={`/wallets/${id}/balance`} />
-        {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}
-        <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.send}</h3>
-        <div style={{ alignItems: 'center', display: 'flex', width: 200, margin: '0px auto' }}>
-          <TextInput value={qty} autofocus={true} onChange={v => this.onChange('qty', v)} style={{ width: 150, textAlign: 'center' }}/>
-          <div style={{ fontWeight: 'bold' }}>&nbsp; ETH</div>
-        </div>
-        <h3 style={{ marginTop: 20, fontSize: 18, textAlign: 'center', color: '#8760f6' }}>
-          {_t.toAddress}
-        </h3>
-        <div>
-          <TextInput value={to} onChange={v => this.onChange('to', v)} style={{ width: '100%', textAlign: 'center' }}/>
-        </div>
-        {to ? [
-          <div key={1} style={{ textAlign: 'center', fontSize: 12, color: '#888' }}>{_t.imageForVerification}</div>,
-          <div key={2} style={{ margin: '0px auto', width: 100,  background: '#fff' }}>
-            <JDentIcon value={to} size={100} />
+        {error ? (
+          <div className='error'>{error}</div>
+        ) : (
+          <div>
+            {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}
+            <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.send}</h3>
+            <div style={{ alignItems: 'center', display: 'flex', width: 200, margin: '0px auto' }}>
+              <TextInput value={qty} autofocus={true} onChange={v => this.onChange('qty', v)} style={{ width: 150, textAlign: 'center' }}/>
+              <div style={{ fontWeight: 'bold' }}>&nbsp; ETH</div>
+            </div>
+            <h3 style={{ marginTop: 20, fontSize: 18, textAlign: 'center', color: '#8760f6' }}>
+              {_t.toAddress}
+            </h3>
+            <div>
+              <TextInput value={to} onChange={v => this.onChange('to', v)} style={{ width: '100%', textAlign: 'center' }}/>
+            </div>
+            {to ? [
+              <div key={1} style={{ textAlign: 'center', fontSize: 12, color: '#888' }}>{_t.imageForVerification}</div>,
+              <div key={2} style={{ margin: '0px auto', width: 100,  background: '#fff' }}>
+                <JDentIcon value={to} size={100} />
+              </div>
+            ] : false}
           </div>
-        ] : false}
+        )}
       </WalletPanel>
     );
   }

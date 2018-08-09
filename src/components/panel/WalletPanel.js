@@ -57,7 +57,7 @@ const Wrapper = styled.div`
   }
 
   .icon { margin-top: 0px !important; }
-
+  .error { background: #fff; color: darkred; text-align: center; padding: 10px; font-size: 12px; font-weight: bold; }
 `;
 const Spacer = styled.div`
   height: 75px;
@@ -135,14 +135,18 @@ export const WalletPanel = ({ id, name, address, publicKey, network, networkId, 
         </ButtonWrapper>
       ): false}
       <div style={{ display: 'flex', alignItems: 'center', width: 300, margin: '0px auto' }}>
-        <div style={{ width: 50 }}>
-          <NetworkIcon {...{network, networkId, testnet, icon}} />
-        </div>
-        <JDentIcon size={40} value={address || publicKey} style={{ background: 'white' }} />
-        <div className="main">
-          <div className="name" title={name}>{name}</div>
-          <div className="address">{shortAddress(address || publicKey)}</div>
-        </div>
+        {address || publicKey ? (
+          <div>
+            <div style={{ width: 50 }}>
+              <NetworkIcon {...{network, networkId, testnet, icon}} />
+            </div>
+            <JDentIcon size={40} value={address || publicKey} style={{ background: 'white' }} />
+            <div className="main">
+              <div className="name" title={name}>{name}</div>
+              <div className="address">{shortAddress(address || publicKey)}</div>
+            </div>
+          </div>
+        ): <div style={{ height: 30 }}></div>}
       </div>
     </div>
     <Spacer />

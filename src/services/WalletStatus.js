@@ -1,4 +1,5 @@
 import { fetchJson } from './ApiRequest';
+import { toastr } from 'react-redux-toastr';
 
 export const dispatchWalletsAsset = (dispatch) => {
 };
@@ -21,8 +22,10 @@ export const dispatchWalletDetails = (id, dispatch) => {
   fetchJson(`/api/wallets/${id}`)
     .then(response => {
       dispatch({ type: 'WALLET_DETAILS_RECEIVED', payload: response.data });
+      console.warn('response= ', response.data);
     }).catch(err => {
-      console.warn(err.toString());
+      console.error(err.toString());
       dispatch({ type: 'WALLET_DETAILS_ERROR', payload: err.toString() });
+      toastr.error(err.toString());
     });
 };

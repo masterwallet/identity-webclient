@@ -30,7 +30,6 @@ const WarningBox = styled.div`
 
 export const WatchWalletAddressComponent = (props) => {
   const { add, section, onSubmit, onUpdate } = props;
-  const { lastError } = add;
   const { address, validation, network, networkId, testnet, name, rpcRoot, api, selectedNetwork } = add[section];
   const menu = WatchMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet');
