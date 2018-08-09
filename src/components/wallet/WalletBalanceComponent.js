@@ -162,13 +162,14 @@ export class WalletBalanceComponent extends React.Component {
    const { id } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
+   const errorMessage = error ? error : assets.error;
    return (
-     <WalletPanel {...object} isLoading={isLoading}>
+     <WalletPanel {...object} isLoading={isLoading || assets.isLoading}>
        <MyAssetsButton />
        <MyWalletsButton />
        <Esc to='/wallets' />
-       {error ? (
-         <div className='error'>{error}</div>
+       {errorMessage ? (
+         <div className='error'>{errorMessage}</div>
        ) : (
          <div>
            <Totals value={0} currency={'USD'}>

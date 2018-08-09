@@ -21,13 +21,15 @@ export class WalletReceiveComponent extends React.Component {
 
   render() {
     const { wallet } = this.props;
-    const { object, isLoading, error } = wallet; // unused: , isLoading, error
+    const { object, isLoading, error, assets } = wallet; // unused: , isLoading, error
     const { id, address } = object; // unused: id,network, testnet, name, icon
+
+    const errorMessage = error ? error : assets.error;
     return (
       <WalletPanel {...object} back={true} isLoading={isLoading}>
         <Esc to={`/wallets/${id}/balance`} />
-        {error ? (
-          <div className='error'>{error}</div>
+        {errorMessage ? (
+          <div className='error'>{errorMessage}</div>
         ) : (
           <div>
             {address ? (

@@ -27,14 +27,16 @@ export class WalletSendComponent extends React.Component {
 
   render() {
     const { wallet } = this.props;
-    const { object, isLoading, error } = wallet; // unused: isLoading, error
+    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
     const { id } = object; // unused: address, network, testnet, name, icon
     const { qty, to } = this.state;
+
+    const errorMessage = error ? error : assets.error;
     return (
       <WalletPanel {...object} back={true} isLoading={isLoading}>
         <Esc to={`/wallets/${id}/balance`} />
-        {error ? (
-          <div className='error'>{error}</div>
+        {errorMessage ? (
+           <div className='error'>{errorMessage}</div>
         ) : (
           <div>
             {/* TODO: SEND BUTTON in TOP RIGHT CORNER */}

@@ -12,7 +12,6 @@ export const dispatchWalletsAssets = (walletId, dispatch) => {
         dispatch({ type: 'WALLET_ASSETS_ERROR', payload: response.error });
       } else {
         dispatch({type: 'WALLET_ASSETS_RECEIVED', payload: response.data});
-
         // ok, we have a queue of assets with unknown value, lets download all of them....
       }
     }).catch(err => {
