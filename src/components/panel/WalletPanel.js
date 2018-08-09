@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { SmallLoader } from './../controls/SmallLoader';
 import { JDentIcon } from './../jdenticon/index';
 import { NetworkIcon } from './../assets/NetworkIcon';
 
@@ -123,7 +124,7 @@ const _t = {
   backToWallet: 'Back to Wallet'
 };
 
-export const WalletPanel = ({ id, name, address, publicKey, network, networkId, testnet, icon, children, back = false }) => (
+export const WalletPanel = ({ id, name, address, publicKey, network, networkId, testnet, icon, children, back = false, isLoading }) => (
   <Wrapper>
     <div className="top">
       {back ? (
@@ -150,8 +151,8 @@ export const WalletPanel = ({ id, name, address, publicKey, network, networkId, 
       </div>
     </div>
     <Spacer />
-    <div style={{ width: 300, margin: '0px auto', textAlign: 'justify' }}>
-      {children}
+    <div style={{ width: 300, margin: '0px auto', textAlign: 'center' }}>
+      {isLoading ? <SmallLoader /> : children}
     </div>
     <Spacer />
   </Wrapper>
