@@ -1,7 +1,25 @@
 import { fetchJson } from './ApiRequest';
 import { toastr } from 'react-redux-toastr';
 
-export const dispatchWalletsAsset = (dispatch) => {
+export const dispatchWalletsAssetId = (walletId, assetId, dispatch) => {
+};
+
+export const dispatchWalletsAssets = (walletId, dispatch) => {
+  dispatch({ type: 'WALLET_ASSETS_REQUEST' });
+  fetchJson(`/api/wallets/${walletId}/assets`)
+    .then(response => {
+      if (response.error) {
+        dispatch({ type: 'WALLET_ASSETS_ERROR', payload: response.error });
+      } else {
+        dispatch({type: 'WALLET_ASSETS_RECEIVED', payload: response.data});
+
+        // ok, we have a queue of assets with unknown value, lets download all of them....
+      }
+    }).catch(err => {
+    console.error(err.toString());
+    dispatch({ type: 'WALLET_ASSETS_ERROR', payload: err.toString() });
+    toastr.error(err.toString());
+  });
 };
 
 export const dispatchWalletsStatus = (dispatch) => {
@@ -28,6 +46,7 @@ export const dispatchWalletDetails = (id, dispatch) => {
         dispatch({ type: 'WALLET_DETAILS_ERROR', payload: response.error });
       } else {
         dispatch({type: 'WALLET_DETAILS_RECEIVED', payload: response.data});
+        dispatchWalletsAssets(id, dispatch);
       }
     }).catch(err => {
       console.error(err.toString());

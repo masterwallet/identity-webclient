@@ -157,10 +157,11 @@ export class WalletBalanceComponent extends React.Component {
    this.props.onInit({ id });
  }
  render() {
-   const { wallet, assets } = this.props;
-   const { object, isLoading, error } = wallet; // unused: isLoading, error
+   const { wallet } = this.props;
+   const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
    const { id } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
+
    return (
      <WalletPanel {...object} isLoading={isLoading}>
        <MyAssetsButton />
@@ -179,16 +180,18 @@ export class WalletBalanceComponent extends React.Component {
              </Link>
            </Totals>
 
+           <pre style={{ textAlign: 'left' }}>{JSON.stringify(assets, null, 2)}</pre>
+
            <AssetTable>
              <thead>
              <tr>
-               <th>{assets.assets.length + ' ' + _t.assets}</th>
+               <th>{this.props.assets.assets.length + ' ' + _t.assets}</th>
              </tr>
              </thead>
              <tbody>
              <tr>
                <td>
-                 <AssetsList {...assets} />
+                 <AssetsList {...this.props.assets} />
                </td>
              </tr>
              {/*
