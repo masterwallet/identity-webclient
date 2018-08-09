@@ -135,9 +135,9 @@ export const WalletPanel = ({ id, name, address, publicKey, network, networkId, 
           </Link>
         </ButtonWrapper>
       ): false}
-      <div style={{ display: 'flex', alignItems: 'center', width: 300, margin: '0px auto' }}>
-        {address || publicKey ? (
-          <div>
+      <div>
+        {(address || publicKey) ? (
+          <div style={{ display: 'flex', alignItems: 'center', width: 300, margin: '0px auto' }}>
             <div style={{ width: 50 }}>
               <NetworkIcon {...{network, networkId, testnet, icon}} />
             </div>
