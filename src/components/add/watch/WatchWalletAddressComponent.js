@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Steps } from './../../controls/Steps';
 import TextInput from './../../controls/TextInput';
 import { WatchMenu, findWizardStep } from './../../../config/Wizards';
@@ -10,47 +11,45 @@ const _t = {
   walletAddress: 'Wallet Address',
   pleaseProvide: 'please specify public address of the wallet',
   verifyTheImage: 'image for verification:',
+  invalidChecksum: 'Invalid checksum',
   continue: 'Continue',
   back: 'Back'
 };
 
-const Eip55 = ({ address }) => {
-  if (!address) return false;
-  return false;
-  //
-  //const a = address.toLowerCase().replace(/^0x/, '');
-  //const hash = sha3(a).toString('hex');
-  //let ret = '0x';
-  //for (let i = 0; i < a.length; i++) {
-  //  if (parseInt(hash[i], 16) >= 8) {
-  //    ret += a[i].toUpperCase();
-  //  } else {
-  //    ret += a[i];
-  //  }
-  //}
-  //if (a === ret) return false;
-  // return (<div>ADDRESS CHECKSUM IS NOT MATCHING</div>);
-};
+const WarningBox = styled.div`
+  background: #ffffcc;
+  opacity: 0.75;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: brown;
+  text-align: center;
+`;
 
 export const WatchWalletAddressComponent = (props) => {
   const { add, section, onSubmit, onUpdate } = props;
-  const { address, validation, network, networkId, testnet, selectedNetwork } = add[section];
+  const { lastError } = add;
+  const { address, validation, network, networkId, testnet, name, rpcRoot, api, selectedNetwork } = add[section];
   const menu = WatchMenu(network, testnet);
   const step = findWizardStep(menu, '/wallet');
-  
+
   const onChange = value => (onUpdate({ network, networkId, testnet, address: value }));
+  const onSend = () => (onSubmit({ network, networkId, testnet, address, name, rpcRoot, api }));
 
   const canContinue = !!address && validation && validation.result && validation.result.valid;
+  const invalidChecksum = validation && validation.result && (validation.result.checksum === false);
+  const error = validation && validation.result && validation.result.error ? validation.result.error : false;
   return (
     <WizardPanel title={_t.walletAddress}>
-      <Next to={menu[step + 1]} disabled={!canContinue} onSubmit={onSubmit} title={_t.continue}/>
+      <Next to={menu[step + 1]} disabled={!canContinue} onClick={onSend} title={_t.continue}/>
       <Prev to={menu[step - 1]} title={_t.back}/>
       <div style={{ margin: '20px auto'}}>
         <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
         <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
-        <TextInput {...{value: address, onChange, autofocus: true}} style={{ textAlign: 'center' }} />
-        <pre>{JSON.stringify(validation, null, 2)}</pre>
-        {selectedNetwork.EIP55 ? <Eip55 address={address}/> : false}
+        <TextInput {...{value: address, onChange, autofocus: true}} style={{ textAlign: 'center', fontSize: 12 }} />
+        {invalidChecksum ? <WarningBox>{error || _t.invalidChecksum}</WarningBox> : false}
         {address ? (
           <div style={{ textAlign: 'center', marginTop: 20}}>
             <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.verifyTheImage}</p>
