@@ -50,6 +50,10 @@ const AssetTable = styled.div`
   .icon {
     margin-top: 0px;
   }
+  .symbol {
+    color: #444;
+    margin-right: 5px;
+  }
   .tbl.noerr > div {
     height: 30px;
     line-height: 30px;
@@ -69,20 +73,20 @@ export const AssetsList = ({ assets, currency }) => (
             <img style={{ width: 24, height: 'auto' }} src='/media/noicon.png' alt="" />
           }
         </div>
-        {/*<pre className="asset-error">{JSON.stringify(asset, null, 2)}</pre>*/}
-
         {asset.error ? (
           <div className="asset-error" title={asset.error}>
             {asset.error} <br />
             <strong>{asset.contractAddress}</strong>
           </div>
         ): [
-          <div key={1} className="asset-name">`
+          <div key={1} className="asset-name">
+            {asset.symbol !== asset.name ? <span className="symbol">{asset.symbol}</span> : false}
             {asset.name}
+            {(!asset.symbol && !asset.name && asset.isLoading) ? <SmallLoader /> : false}
           </div>,
           <div key={2} className="asset-amount">
             {asset.isLoading ? <SmallLoader /> : (
-              <div>{asset.isPending ? '... ... ' : asset.value}</div>
+              <div>{asset.isPending ? <span style={{ color: '#888' }}>... ... ... ...</span> : asset.value}</div>
             )}
           </div>
         ]}
