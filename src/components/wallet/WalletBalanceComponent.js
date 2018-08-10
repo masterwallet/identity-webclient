@@ -163,6 +163,7 @@ export class WalletBalanceComponent extends React.Component {
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
+   const a = assets && assets.assets ? assets.assets : [];
    return (
      <WalletPanel {...object} isLoading={isLoading || assets.isLoading}>
        <MyAssetsButton />
@@ -181,18 +182,16 @@ export class WalletBalanceComponent extends React.Component {
              </Link>
            </Totals>
 
-           <pre style={{ textAlign: 'left' }}>{JSON.stringify(assets, null, 2)}</pre>
-
            <AssetTable>
              <thead>
              <tr>
-               <th>{this.props.assets.assets.length + ' ' + _t.assets}</th>
+               <th>{a.length + ' ' + _t.assets}</th>
              </tr>
              </thead>
              <tbody>
              <tr>
                <td>
-                 <AssetsList {...this.props.assets} />
+                 <AssetsList assets={a} currency={'USD'} />
                </td>
              </tr>
              {/*
