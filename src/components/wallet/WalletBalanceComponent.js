@@ -152,11 +152,14 @@ const AssetTable = styled.table`
 `;
 
 export class WalletBalanceComponent extends React.Component {
- componentWillMount() {
-   const id = this.props.match.params.walletId;
-   this.props.onInit({ id });
- }
- render() {
+  componentWillMount() {
+    const id = this.props.match.params.walletId;
+    this.props.onInit({ id });
+  }
+  componentWillUnmount() {
+    this.props.onAbort();
+  }
+  render() {
    const { wallet } = this.props;
    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
    const { id } = object; // unused: address, publicKey, network, name, icon
@@ -183,21 +186,10 @@ export class WalletBalanceComponent extends React.Component {
            </Totals>
 
            <AssetTable>
-             <thead>
-             <tr>
-               <th>{a.length + ' ' + _t.assets}</th>
-             </tr>
-             </thead>
-             <tbody>
-             <tr>
-               <td>
-                 <AssetsList assets={a} currency={'USD'} />
-               </td>
-             </tr>
+             <thead><tr><th>{a.length + ' ' + _t.assets}</th></tr></thead>
+             <tbody><tr><td><AssetsList assets={a} currency={'USD'} /></td></tr>
              {/*
-             <tr>
-               <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
-             </tr>
+             <tr><th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th></tr>
              {transactions.list.map((tr, index) => (
                <tr key={index}>
                  <td>
@@ -206,14 +198,12 @@ export class WalletBalanceComponent extends React.Component {
                </tr>
              ))}
              */}
-             <tr className="last">
-               <th></th>
-             </tr>
+             <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>
         </div>
        )}
      </WalletPanel>
-   );
- }
+     );
+  }
 };

@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
 import { WalletBalanceComponent } from './../../components/wallet/WalletBalanceComponent';
-import { dispatchWalletDetails } from './../../services/WalletStatus';
+import { controller, dispatchWalletDetails } from './../../services/WalletStatus';
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
+  onAbort: () => {
+    controller.abort()
+  },
   onInit: ({ id }) => {
     dispatchWalletDetails(id, dispatch);
   }

@@ -1,4 +1,3 @@
-
 export const getRoot = () => {
   const root = localStorage.getItem("masterwallet_api_root") ||
     process.env.REACT_APP_API_URL || '/api';

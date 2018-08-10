@@ -1,9 +1,13 @@
 import { fetchJson } from './ApiRequest';
 import { toastr } from 'react-redux-toastr';
 
+export const controller = (typeof window.AbortController === 'function') ? (new window.AbortController()) : { abort: () => {} };
+const signal = controller.signal;
+const abortableRequestOptions = { signal };
+
 export const dispatchWalletsAssetId = (walletId, contractAddress, dispatch) => {
   dispatch({ type: 'WALLET_CONTRACT_REQUEST', payload: { walletId, contractAddress } });
-  return fetchJson(`/api/wallets/${walletId}/assets/${contractAddress}`)
+  return fetchJson(`/api/wallets/${walletId}/assets/${contractAddress}`, abortableRequestOptions)
     .then(response => {
       if (response.error) {
         dispatch({ type: 'WALLET_CONTRACT_ERROR', payload: { walletId, contractAddress, error: response.error } });
@@ -11,10 +15,12 @@ export const dispatchWalletsAssetId = (walletId, contractAddress, dispatch) => {
         dispatch({type: 'WALLET_CONTRACT_RECEIVED', payload: { walletId, contractAddress, data: response.data }});
       }
     }).catch(err => {
-    console.error(err.toString());
-    dispatch({ type: 'WALLET_CONTRACT_ERROR', payload: { walletId, contractAddress, error: err.toString() } });
-    toastr.error(err.toString());
-  });
+      if (err.toString().indexOf('AbortError:') === -1) {
+        console.error(err.toString());
+        dispatch({type: 'WALLET_CONTRACT_ERROR', payload: {walletId, contractAddress, error: err.toString()}});
+        toastr.error(err.toString());
+      }
+    });
 };
 
 export const dispatchWalletsAssetQueue = (walletId, queue, dispatch) => {
@@ -23,7 +29,6 @@ export const dispatchWalletsAssetQueue = (walletId, queue, dispatch) => {
     if (queue.length === 0) return;
 
     const { contractAddress } = queue.shift();
-    console.log("next contract to look: ", contractAddress);
     dispatchWalletsAssetId(walletId, contractAddress, dispatch)
       .then(pickNext);
   };
