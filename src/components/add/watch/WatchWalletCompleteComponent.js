@@ -10,9 +10,10 @@ const _t = {
   assets: 'My Wallets'
 };
 
-export const WatchWalletCompleteComponent = ({ section, add }) => {
+export const WatchWalletCompleteComponent = ({ setup, section, add }) => {
   const { network, testnet, selectedNetwork } = add[section];
-  const menu = WatchMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = WatchMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/complete');
   return (

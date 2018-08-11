@@ -14,7 +14,7 @@ export class NetworkSelector extends React.Component {
 
   componentWillMount() {
     this.setState({ isLoading: true, error: '', list: [] });
-    fetchJson('/api/networks').then(data => {
+    fetchJson('/api/networks?selector=true').then(data => {
       this.setState({ isLoading: false, error: '', list: data.data.networks });
     }).catch(e => {
       this.setState({ isLoading: false, error: e.toString(), list: [] });

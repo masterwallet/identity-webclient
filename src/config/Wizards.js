@@ -1,6 +1,6 @@
-import { Networks } from './Networks';
-
-const findNetwork = (network) => Networks.filter(n => (n.value === network))[0];
+// import { Networks } from './Networks';
+// const findNetwork = (network) => Networks.filter(n => (n.value === network))[0];
+const findNetwork = (network) => (false);
 
 export const InstallationMenu = [
   '/welcome',
@@ -37,7 +37,8 @@ export const ImportMenu = (network, testnet) => {
   ]);
 };
 
-export const WatchMenu = (network, testnet) => {
+export const WatchMenu = ({ network, testnet, networksConfig }) => {
+  console.log('WatchMenu networksConfig=', networksConfig);
   const net = testnet ? [`/watch/url`] : [];
   return [ '/watch'].concat(net).concat([
     `/watch/name`,

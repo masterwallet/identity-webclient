@@ -11,9 +11,10 @@ const _t = {
 };
 
 
-export const WatchWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
+export const WatchWalletNetworkComponent = ({ section, add, setup, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
-  const menu = WatchMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = WatchMenu({ network, testnet, networksConfig });
   if (!menu) return false;
 
   const step = 0;

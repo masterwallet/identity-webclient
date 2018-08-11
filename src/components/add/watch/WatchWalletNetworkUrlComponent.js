@@ -15,6 +15,8 @@ const _t = {
 export const WatchWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId, onUpdateRpcRoot }) => {
   const { network, testnet, networkId, rpcRoot } = add[section];
   const menu = WatchMenu(network, testnet);
+  if (!menu) return false;
+
   const step = findWizardStep(menu, '/url');
   const canContinue = networkId || isValidUrl(rpcRoot);
 
