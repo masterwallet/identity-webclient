@@ -11,7 +11,11 @@ const mapDispatchToProps = dispatch => ({
   },
   onUpdateRpcRoot: (value) => {
     dispatch({ type: 'UPDATE_RPC_ROOT', payload: { section, value } });
+  },
+  onUpdateApiRoot: (value) => {
+    dispatch({ type: 'UPDATE_API_ROOT', payload: { section, value } });
   }
+
 });
 
 export const ImportWalletNetworkUrl = connect(mapStateToProps, mapDispatchToProps)(ImportWalletNetworkUrlComponent);

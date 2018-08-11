@@ -142,7 +142,7 @@ export default function (state = initialState, action) {
 
     case 'UPDATE_API_ROOT': {
       const { section, value } = action.payload;
-      const copy = { ...state[section], api: value };
+      const copy = { ...state[section], apiRoot: value };
       return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_SECRET': {

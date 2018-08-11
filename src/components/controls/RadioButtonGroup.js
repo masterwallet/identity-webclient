@@ -28,7 +28,7 @@ class RadioButtonGroup extends React.Component {
         break;
       }
       default:
-        console.log('keyCode=', e.keyCode);
+        // console.log('keyCode=', e.keyCode);
     }
   };
 

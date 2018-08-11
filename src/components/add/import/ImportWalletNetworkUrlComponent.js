@@ -12,7 +12,9 @@ const _t = {
 };
 
 // in this control - we know we are in the test
-export const ImportWalletNetworkUrlComponent = ({ section, add, onUpdateNetworkId, onUpdateRpcRoot }) => {
+export const ImportWalletNetworkUrlComponent = ({ 
+  section, add, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot
+}) => {
   const { network, networkId, rpcRoot, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
   if (!menu) return false;
@@ -22,7 +24,7 @@ export const ImportWalletNetworkUrlComponent = ({ section, add, onUpdateNetworkI
     <WizardPanel title={_t.customRpcUrl}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={menu[step - 1]} title={_t.back} />
-      <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+      <TestnetSelector {...add[section]}  {...{ onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot }} />
 
       <Steps {...{ step, menu }} />
     </WizardPanel>

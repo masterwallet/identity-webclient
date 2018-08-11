@@ -12,7 +12,9 @@ const _t = {
   back: 'Back'
 };
 
-export const CreateWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId, onUpdateRpcRoot }) => {
+export const CreateWalletNetworkUrlComponent = ({ 
+  add, section, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot
+}) => {
   const { network, testnet, networkId, rpcRoot } = add[section];
 
   const menu = CreateMenu(network, testnet);
@@ -25,7 +27,7 @@ export const CreateWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkI
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={menu[step - 1]} title={_t.back} />
 
-      <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+      <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot}} />
 
       <Steps {...{ step, menu }} />
     </WizardPanel>

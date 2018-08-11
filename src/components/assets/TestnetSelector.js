@@ -17,11 +17,13 @@ const getOptions = (list) => ([
 ]);
 
 export const TestnetSelector = (props) => {
-  const { network, networkId, rpcRoot, selectedNetwork } = props;
+  const { network, networkId, rpcRoot, apiRoot, selectedNetwork } = props;
   const { testnets } = selectedNetwork;
-  const { onUpdateNetworkId, onUpdateRpcRoot } = props;
+  const { onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot } = props;
 
-  const bShowCustomUrl = !networkId;
+  const bShowRpcUrl = !networkId;
+  const bShowApiUrl = bShowRpcUrl && selectedNetwork.apiName;
+
   const options = testnets ? getOptions(testnets)  : [];
   return(
     <div>
@@ -31,11 +33,18 @@ export const TestnetSelector = (props) => {
           onChange={val => (onUpdateNetworkId(val))}
           value={networkId || ''} options={options} />
       ): false}
-      {bShowCustomUrl ? [
+      {bShowRpcUrl ? [
         <p key={1} style={{ textAlign: 'center', margin: 0, marginTop: 20 }}>{_t.useCustomNetworkRPC}</p>,
         <TextInput
           key={2} {...{value: rpcRoot, autofocus: true }}
           onChange={onUpdateRpcRoot}
+        />
+      ] : false}
+      {bShowApiUrl ? [
+        <p key={1} style={{ textAlign: 'center', margin: 0, marginTop: 12 }}>{selectedNetwork.apiName}:</p>,
+        <TextInput
+          key={2} {...{value: apiRoot, autofocus: true }}
+          onChange={onUpdateApiRoot}
         />
       ] : false}
     </div>
