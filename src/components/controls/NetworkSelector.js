@@ -10,19 +10,21 @@ export class NetworkSelector extends React.Component {
     isLoading: true,
     error: '',
     list: []
-  }
+  };
+
   componentWillMount() {
     this.setState({ isLoading: true, error: '', list: [] });
     fetchJson('/api/networks').then(data => {
       this.setState({ isLoading: false, error: '', list: data.data.networks });
     }).catch(e => {
-      this.setState({ isLoading: false, error: e, list: [] });
+      this.setState({ isLoading: false, error: e.toString(), list: [] });
+      console.error(e);
     });
   }
   render() {
     const { isLoading, error, list } = this.state;
     if (isLoading) return (<Loader />);
-    if (error) return <ErrorBox>{error.toString()}</ErrorBox>;
+    if (error) return <ErrorBox style={{ top: 50 }}>{error}</ErrorBox>;
     const { value, section, onChange, isTestNet, onTestNet } = this.props;
     const sortFunc = (v1, v2) => (v1.name.localeCompare(v2.name));
     const options = list.sort(sortFunc).map(n => {

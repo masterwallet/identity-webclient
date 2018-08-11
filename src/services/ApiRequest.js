@@ -8,22 +8,6 @@ export const getLanguage = () => {
   return localStorage.getItem('masterwallet_lang') || process.env.REACT_APP_LANG || 'en';
 };
 
-export const fetchJson = (url, options = {}) => {
-  return fetch(getRoot() + url, options)
-    .then(res => {
-      console.warn(res); return res.json();
-    });
-};
-
-export const fetchPlain  = (url, options = {}) => {
-  return fetch(getRoot() + url, options)
-    .then(async res => {
-      if (res.status === 404) throw new Error('Not Found');
-      // const contentType = res.headers.get('content-type');
-      return res.text();
-    });
-};
-
 const strip = (html) => {
   let returnText = "" + html;
   returnText=returnText.replace(/<head.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/head>/gi, "");
@@ -59,26 +43,59 @@ const strip = (html) => {
   return returnText;
 };
 
+
+// the server might not response with JSON as expected
+// for example, NodeJS server may return error in plain text
+// or it could be NGINX error message
+const handleJsonResponse = async (res) => {
+  const contentType = res.headers.get('content-type');
+  // console.info('Content Type Received:', contentType);
+  if (contentType.indexOf('text/html') !== -1) {
+
+    const text = await res.text();
+    // at this branch, something went wrong on the server
+    // and instead of expected JSON we received HTML page instead.
+    // The intention here - is to convert it to the nice human error
+
+    // case for Express server error
+    const m = /<body>\s*<pre>([^<]*)<\/pre>\s*<\/body>/.exec(text);
+    if (m.length > 1) { console.error('ERROR:', m[1]); throw new Error(m[1]); }
+
+    // take first line from HTML document otherwise
+    const trimmed = strip(text).trim().split("\n")
+    throw new Error(trimmed[0]);
+
+  } else if (contentType.indexOf('text/plain') !== -1) {
+
+    const text = await res.text();
+    throw new Error(text);
+  } else {
+
+    return res.json();
+  }
+};
+
+export const fetchPlain  = (url, options = {}) => {
+  return fetch(getRoot() + url, options)
+    .then(async res => {
+      if (res.status === 404) throw new Error('Not Found');
+      // const contentType = res.headers.get('content-type');
+      return res.text();
+    });
+};
+
+export const fetchJson = (url, options = {}) => {
+  return fetch(getRoot() + url, options)
+    .then(handleJsonResponse);
+};
+
 export const postJson = (url, body) => {
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   const options = { method: 'POST', headers, mode: 'cors', redirect: 'follow', body: JSON.stringify(body) };
   return fetch(getRoot() + url, options)
-    .then(async res => {
-      const contentType = res.headers.get('content-type');
-      console.info('Content Type Received:', contentType);
-      if (contentType.indexOf('text/html') !== -1) {
-        const text = await res.text();
-        console.warn(strip(text).trim().split("\n"));
-        throw new Error(strip(text).trim().split("\n")[0]);
-      } else if (contentType.indexOf('text/plain') !== -1) {
-        const text = await res.text();
-        console.warn(text);
-        throw new Error(text);
-      } else {
-        return res.json();
-      }
-    }).then(obj => {
+    .then(handleJsonResponse)
+    .then(obj => {
       if (obj.status === 'error' && obj.error) throw new Error(obj.error);
       return obj;
     });
