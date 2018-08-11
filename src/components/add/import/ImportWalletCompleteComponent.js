@@ -9,9 +9,10 @@ const _t = {
   assets: 'My Wallets'
 };
 
-export const ImportWalletCompleteComponent = ({ section, add }) => {
+export const ImportWalletCompleteComponent = ({ section, add, setup }) => {
   const { network, testnet } = add[section];
-  const menu = ImportMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = ImportMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/complete');
   return (

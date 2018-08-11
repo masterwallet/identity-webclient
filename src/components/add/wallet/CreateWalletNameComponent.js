@@ -21,9 +21,10 @@ export class CreateWalletNameComponent extends React.Component {
     onChange(add[section].name);
   }
   render() {
-    const{ section, add, assets, onChange, onSubmit } = this.props;
+    const{ section, add, assets, setup, onChange, onSubmit } = this.props;
     const { name, network, networkId, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
-    const menu = CreateMenu(network, testnet);
+    const { networksConfig } = setup;
+    const menu = CreateMenu({ network, testnet, networksConfig });
     if (!menu) return false;
 
     const { isLoading } = add;

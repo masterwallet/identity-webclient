@@ -43,7 +43,7 @@ export const TestnetSelector = (props) => {
       {bShowApiUrl ? [
         <p key={1} style={{ textAlign: 'center', margin: 0, marginTop: 12 }}>{selectedNetwork.apiName}:</p>,
         <TextInput
-          key={2} {...{value: apiRoot, autofocus: true }}
+          key={2} {...{value: apiRoot }}
           onChange={onUpdateApiRoot}
         />
       ] : false}

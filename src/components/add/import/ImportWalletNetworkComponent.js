@@ -12,9 +12,9 @@ const _t = {
 
 export const ImportWalletNetworkComponent = ({ section, add, setup, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
-  const menu = ImportMenu(network, testnet);
-  if (!menu) return false;
   const { networksConfig } = setup;
+  const menu = ImportMenu({ network, testnet, networksConfig });
+  if (!menu) return false;
   const step = 0;
   const canContinue = !!network;
   return (

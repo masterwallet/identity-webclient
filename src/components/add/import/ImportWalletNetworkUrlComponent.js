@@ -13,13 +13,15 @@ const _t = {
 
 // in this control - we know we are in the test
 export const ImportWalletNetworkUrlComponent = ({ 
-  section, add, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot
+  section, add, setup, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot
 }) => {
-  const { network, networkId, rpcRoot, testnet } = add[section];
-  const menu = ImportMenu(network, testnet);
+  const { network, networkId, rpcRoot, apiRoot, testnet, selectedNetwork } = add[section];
+  const { networksConfig } = setup;
+  const menu = ImportMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/url');
-  const canContinue = networkId || isValidUrl(rpcRoot);
+  const hasApi = !selectedNetwork.apiName || (selectedNetwork.apiName && apiRoot);
+  const canContinue = networkId || (isValidUrl(rpcRoot) && hasApi);
   return (
     <WizardPanel title={_t.customRpcUrl}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />

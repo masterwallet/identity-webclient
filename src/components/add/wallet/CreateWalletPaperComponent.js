@@ -25,9 +25,10 @@ export class CreateWalletPaperComponent extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { add } = this.props;
+    const { add, setup } = this.props;
     const { network, testnet } = add[section];
-    const menu = CreateMenu(network, testnet);
+    const { networksConfig } = setup;
+    const menu = CreateMenu({ network, testnet, networksConfig });
     if (!menu) return false;
 
     const step = findWizardStep(menu, '/paper')

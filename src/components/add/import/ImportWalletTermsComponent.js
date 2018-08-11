@@ -10,10 +10,11 @@ const _t = {
   back: 'Back'
 };
 
-export const ImportWalletTermsComponent = ({ add, section }) => {
+export const ImportWalletTermsComponent = ({ add, section, setup }) => {
 
   const { network, testnet } = add[section];
-  const menu = ImportMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = ImportMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/terms');
 

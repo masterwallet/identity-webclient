@@ -12,9 +12,9 @@ const _t = {
 
 export const CreateWalletNetworkComponent = ({ add, section, setup, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
-  const menu = CreateMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = CreateMenu({ network, testnet, networksConfig });
   if (!menu) return false;
-  const { networksConfig } = setup
 
   const step = 0;
   const canContinue = !!network;

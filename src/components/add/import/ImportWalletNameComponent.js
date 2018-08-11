@@ -21,9 +21,10 @@ export class ImportWalletNameComponent extends React.Component {
     onChange(add[section].name);
   }
   render() {
-    const { section, add, assets, onChange } = this.props;
+    const { section, add, setup, assets, onChange } = this.props;
     const { name, network, testnet, selectedNetwork } = add[section];
-    const menu = ImportMenu(network, testnet);
+    const { networksConfig } = setup;
+    const menu = ImportMenu({ network, testnet, networksConfig });
     if (!menu) return false;
     const step = findWizardStep(menu, '/name');
     const isUnique = assets.verifyWallet.isUnique;

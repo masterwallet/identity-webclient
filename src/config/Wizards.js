@@ -1,7 +1,3 @@
-// import { Networks } from './Networks';
-// const findNetwork = (network) => Networks.filter(n => (n.value === network))[0];
-const findNetwork = (network) => (false);
-
 export const InstallationMenu = [
   '/welcome',
   '/terms',
@@ -15,7 +11,10 @@ export const InstallationMenu = [
   '/setup/complete'
 ];
 
-export const CreateMenu = (network, testnet) => {
+export const CreateMenu = ({ network, testnet, networksConfig }) => {
+  const findNetwork = network => (
+    networksConfig && networksConfig.data ? networksConfig.data.filter(n => (n.value === network))[0] : {}
+  );
   const props = network ? findNetwork(network) || {} : {};
   const terms = props.terms ? [`/create/terms`] : [];
   const net = testnet ? [`/create/url`]: [];
@@ -26,7 +25,10 @@ export const CreateMenu = (network, testnet) => {
   ]);
 };
 
-export const ImportMenu = (network, testnet) => {
+export const ImportMenu = ({ network, testnet, networksConfig }) => {
+  const findNetwork = network => (
+    networksConfig && networksConfig.data ? networksConfig.data.filter(n => (n.value === network))[0] : {}
+  );
   const props = network ? findNetwork(network) || {} : {};
   const terms = props.terms ? [`/import/terms`] : [];
   const net = testnet ? [`/import/url`] : [];

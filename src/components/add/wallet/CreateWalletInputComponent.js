@@ -15,9 +15,10 @@ const _t = {
   itWillBeHelpful: 'It will be helpfull to check this image on transactions'
 };
 
-export const CreateWalletInputComponent = ({ section, add }) => {
+export const CreateWalletInputComponent = ({ section, add, setup }) => {
   const { network, testnet } = add[section];
-  const menu = CreateMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = CreateMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/wallet');
   const { lastResponse } = add;
