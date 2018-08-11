@@ -10,10 +10,11 @@ const _t = {
   back: 'Back'
 };
 
-export const ImportWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
+export const ImportWalletNetworkComponent = ({ section, add, setup, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
   if (!menu) return false;
+  const { networksConfig } = setup;
   const step = 0;
   const canContinue = !!network;
   return (
@@ -22,7 +23,7 @@ export const ImportWalletNetworkComponent = ({ section, add, onUpdateNetwork, on
       <Prev to='/add' title={_t.back} />
 
       <NetworkSelector value={network}
-        section={section}
+        {...{section, networksConfig}}
         onChange={onUpdateNetwork}
         isTestNet={testnet}
         onTestNet={onUpdateTestnet} />

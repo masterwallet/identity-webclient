@@ -10,10 +10,11 @@ const _t = {
   back: 'Back'
 };
 
-export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, onUpdateTestnet }) => {
+export const CreateWalletNetworkComponent = ({ add, section, setup, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = CreateMenu(network, testnet);
   if (!menu) return false;
+  const { networksConfig } = setup
 
   const step = 0;
   const canContinue = !!network;
@@ -22,7 +23,7 @@ export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, on
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={'/add'} title={_t.back} />
       <NetworkSelector
-        section={section}
+        {...{section, networksConfig}}
         value={network} onChange={onUpdateNetwork}
         isTestNet={testnet}
         onTestNet={onUpdateTestnet}

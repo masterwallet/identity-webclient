@@ -24,7 +24,7 @@ export const WatchWalletNetworkComponent = ({ section, add, setup, onUpdateNetwo
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to='/wallets' title={_t.back} />
       <NetworkSelector
-        section={section}
+        {...{ section, networksConfig }}
         value={network} onChange={onUpdateNetwork}
         isTestNet={testnet} onTestNet={onUpdateTestnet}
       />

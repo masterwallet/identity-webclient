@@ -38,7 +38,6 @@ export const ImportMenu = (network, testnet) => {
 };
 
 export const WatchMenu = ({ network, testnet, networksConfig }) => {
-  console.log('WatchMenu networksConfig=', networksConfig);
   const net = testnet ? [`/watch/url`] : [];
   return [ '/watch'].concat(net).concat([
     `/watch/name`,

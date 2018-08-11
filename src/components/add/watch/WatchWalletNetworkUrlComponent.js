@@ -12,9 +12,10 @@ const _t = {
   back: 'Back'
 };
 
-export const WatchWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId, onUpdateRpcRoot }) => {
+export const WatchWalletNetworkUrlComponent = ({ add, section, setup, onUpdateNetworkId, onUpdateRpcRoot }) => {
   const { network, testnet, networkId, rpcRoot } = add[section];
-  const menu = WatchMenu(network, testnet);
+  const { networksConfig } = setup;
+  const menu = WatchMenu({ network, testnet, networksConfig });
   if (!menu) return false;
 
   const step = findWizardStep(menu, '/url');
@@ -24,10 +25,7 @@ export const WatchWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId
     <WizardPanel title={_t.customRpcUrl}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to={menu[step - 1]} title={_t.back} />
-
-      <pre>{JSON.stringify(add[section].selectedNetwork, null, 2)}</pre>
       <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
-
       <Steps {...{ step, menu }} />
     </WizardPanel>
   );

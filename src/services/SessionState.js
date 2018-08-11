@@ -13,9 +13,7 @@ export const Storage = {
 };
 
 export const getSessionState = (alias, defaultValue = {}, overwriteValue = {}) => {
-  console.log('overwriting ', alias, overwriteValue );
   const result = { ...Storage.get(alias, defaultValue), ...overwriteValue };
-  console.info( 'overwritten=', result );
   return result;
 };
 export const saveSessionState = (alias, state) => {

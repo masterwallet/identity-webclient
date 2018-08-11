@@ -12,23 +12,22 @@ const getTestNetName = (list, id) => {
   return 'Testnet';
 };
 
-const updatedName = (obj, subject, exchange = false) => {
+const updatedName = (obj, subject, exchange = false, config = []) => {
   const network = obj.network;
-  const selectedNetwork = {}; //TODO...
-  // const selectedNetwork = exchange ?
-  //   (Exchanges.filter(n => (n.value === network))[0]) :
-  //   (Networks.filter(n => (n.value === network))[0]);
-
+  const selectedNetwork = (config ? config.filter(n => (n.value === network))[0] : {}) || {};
   const networkName = exchange && selectedNetwork ? selectedNetwork.name : network;
   const test = obj.testnet && !exchange ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
+  // todo: copy RPC root and API from selectedNetwork
   return ({ ...obj, name: `My ${networkName} ${subject}${test}`, selectedNetwork });
 };
 
-// const getRpcRoot = (network) => (
-  // Networks.filter(n => (n.value === network))[0].local
-// );
+const saved = (state) => {
+  const stateCopy = { ...state };
+  // delete stateCopy.networksConfig;
+  // delete stateCopy.exchangesConfig;
+  return saveSessionState('masterwallet_add', stateCopy);
+};
 
-const saved = (state) => (saveSessionState('masterwallet_add', state));
 const initialState = getSessionState('masterwallet_add', {
   operation: '',
   create: updatedName({
@@ -36,14 +35,14 @@ const initialState = getSessionState('masterwallet_add', {
       network: defaultNetwork,
       testnet: false,
       networkId: ''
-  }, 'Wallet'),
+  }, 'Wallet', false),
   import: updatedName({
       name: '',
       network: defaultNetwork,
       networkId: '',
       testnet: false,
       secret: {}
-  }, 'Wallet'),
+  }, 'Wallet', false),
   watch: updatedName({
       name: '',
       address: '',
@@ -54,7 +53,7 @@ const initialState = getSessionState('masterwallet_add', {
       network: defaultNetwork,
       networkId: '',
       testnet: false
-  }, 'Wallet'),
+  }, 'Wallet', false),
   exchange: updatedName({
       name: '',
       network: '',
@@ -63,14 +62,16 @@ const initialState = getSessionState('masterwallet_add', {
   lastResponse: {}
 }, {
   isLoading: false,
-  lastError: ''
+  lastError: '',
+  networksConfig: [],
+  exchangesConfig: []
 });
 
 const updatedWalletNames = (state) => {
-  const updatedCreate = updatedName(state.create, 'Wallet');
-  const updatedImport = updatedName(state.import, 'Wallet');
-  const updatedWatch = updatedName(state.watch, 'Wallet');
-  const updatedExchange = updatedName(state.exchange, 'Account', true);
+  const updatedCreate = updatedName(state.create, 'Wallet', false, state.networksConfig);
+  const updatedImport = updatedName(state.import, 'Wallet', false, state.networksConfig);
+  const updatedWatch = updatedName(state.watch, 'Wallet', false, state.networksConfig);
+  const updatedExchange = updatedName(state.exchange, 'Account', true, state.exchangesConfig);
   return {
     ...state,
     create: updatedCreate,
@@ -162,6 +163,12 @@ export default function (state = initialState, action) {
     }
     case 'WALLET_WIZARD_SUBMIT_ERROR': {
       return { ...state, isLoading: false, lastError: action.payload, lastResponse: {} };
+    }
+    case 'CONFIG_NETWORKS_RECEIVED': {
+      const { data } = action.payload;
+      const networksConfig = data.networks;
+      const exchangesConfig = data.exchanges;
+      return updatedWalletNames({ ...state, networksConfig, exchangesConfig });
     }
 
     default:

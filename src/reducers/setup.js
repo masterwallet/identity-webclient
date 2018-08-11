@@ -1,4 +1,7 @@
 import { getRoot, getLanguage } from './../services/ApiRequest';
+
+const initialConfig = { isLoading: true, error: '', data: [] };
+
 const initialState = {
   language: getLanguage(),
   apiRoot: getRoot(), // root of the current pair
@@ -14,16 +17,8 @@ const initialState = {
     error: '',
     data: {}
   },
-  networksConfig: {
-    isLoading: true,
-    error: '',
-    data: []
-  },
-  exchangesConfig: {
-    isLoading: true,
-    error: '',
-    data: []
-  }
+  networksConfig: { ...initialConfig },
+  exchangesConfig: { ...initialConfig }
 };
 
 export default function (state = initialState, action) {
@@ -46,29 +41,19 @@ export default function (state = initialState, action) {
     }
 
     case 'CONFIG_NETWORKS_REQUEST': {
-      const networksConfig = { ...initialState.serverStatus };
-      return { ...state, networksConfig };
+      const networksConfig = { ...initialConfig };
+      const exchangesConfig = { ...initialConfig };
+      return { ...state, networksConfig, exchangesConfig };
     }
     case 'CONFIG_NETWORKS_RECEIVED': {
-      const networksConfig = { isLoading: false, data: payload.data, error: payload.error };
-      return { ...state, networksConfig };
+      const networksConfig = { isLoading: false, data: payload.data.networks, error: payload.error };
+      const exchangesConfig = { isLoading: false, data: payload.data.exchanges, error: payload.error };
+      return { ...state, networksConfig, exchangesConfig };
     }
     case 'CONFIG_NETWORKS_ERROR': {
       const networksConfig = { isLoading: false, data: {}, error: payload };
-      return { ...state, networksConfig };
-    }
-
-    case 'CONFIG_EXCHANGES_REQUEST': {
-      const exchangesConfig = { ...initialState.serverStatus };
-      return { ...state, exchangesConfig };
-    }
-    case 'CONFIG_EXCHANGES_RECEIVED': {
-      const exchangesConfig = { isLoading: false, data: payload.data, error: payload.error };
-      return { ...state, exchangesConfig };
-    }
-    case 'CONFIG_EXCHANGES_ERROR': {
       const exchangesConfig = { isLoading: false, data: {}, error: payload };
-      return { ...state, exchangesConfig };
+      return { ...state, networksConfig, exchangesConfig };
     }
 
     default:

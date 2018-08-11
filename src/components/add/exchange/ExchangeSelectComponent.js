@@ -10,17 +10,21 @@ const _t = {
   back: 'Back'
 };
 
-export const ExchangeSelectComponent = ({ add, section, onUpdateNetwork }) => {
+export const ExchangeSelectComponent = ({ add, section, setup, onUpdateNetwork }) => {
   const { network } = add[section];
   const menu = ExchangeMenu(network);
   if (!menu) return false;
+  const { exchangesConfig } = setup;
   const step = 0;
   return (
     <WizardPanel title={_t.selectExchange}>
       {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
       <Prev to='/add' title={_t.back} />
 
-      <ExchangeSelector value={network} onChange={onUpdateNetwork} />
+      <ExchangeSelector 
+        exchangesConfig={exchangesConfig} 
+        value={network} onChange={onUpdateNetwork} 
+      />
 
       <Steps {...{ step, menu }} />
     </WizardPanel>
