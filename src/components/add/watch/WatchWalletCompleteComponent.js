@@ -13,6 +13,7 @@ const _t = {
 export const WatchWalletCompleteComponent = ({ section, add }) => {
   const { network, testnet, selectedNetwork } = add[section];
   const menu = WatchMenu(network, testnet);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/complete');
   return (
     <WizardPanel title={_t.finished}>

@@ -31,10 +31,11 @@ export class ImportWalletInputComponent extends React.Component {
     const { add } = this.props;
     const { network, testnet } = add[section];
     const menu = ImportMenu(network, testnet);
+    if (!menu) return false;
     const step = findWizardStep(menu, '/wallet');
     const { privateKey, keyStore } = this.state;
     const canContinue = privateKey || keyStore;
-   
+
     return (
       <WizardPanel title={_t.enterPrivateKey} wide={true}>
         <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue}/>

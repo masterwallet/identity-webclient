@@ -28,6 +28,8 @@ export class CreateWalletPaperComponent extends React.Component {
     const { add } = this.props;
     const { network, testnet } = add[section];
     const menu = CreateMenu(network, testnet);
+    if (!menu) return false;
+
     const step = findWizardStep(menu, '/paper')
     const { lastResponse } = add;
     if (!lastResponse || !lastResponse.data || !lastResponse.data.id) {

@@ -14,6 +14,7 @@ export const ImportWalletTermsComponent = ({ add, section }) => {
 
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/terms');
 
   return (

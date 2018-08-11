@@ -11,18 +11,18 @@ const _t = {
 };
 
 export const ExchangeSelectComponent = ({ add, section, onUpdateNetwork }) => {
-    const { network } = add[section];
-    const menu = ExchangeMenu(network);
-    const step = 0;
-    return (
-      <WizardPanel title={_t.selectExchange}>
-        {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
-        <Prev to='/add' title={_t.back} />
+  const { network } = add[section];
+  const menu = ExchangeMenu(network);
+  if (!menu) return false;
+  const step = 0;
+  return (
+    <WizardPanel title={_t.selectExchange}>
+      {network ? <Next to={menu[step + 1]} title={_t.continue} /> : false}
+      <Prev to='/add' title={_t.back} />
 
-        <ExchangeSelector value={network} onChange={onUpdateNetwork} />
-        
-        <Steps {...{ step, menu }} />
-      </WizardPanel>
-    );
-  
-}
+      <ExchangeSelector value={network} onChange={onUpdateNetwork} />
+
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
+};

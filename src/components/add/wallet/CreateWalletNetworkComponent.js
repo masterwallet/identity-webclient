@@ -13,6 +13,8 @@ const _t = {
 export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = CreateMenu(network, testnet);
+  if (!menu) return false;
+
   const step = 0;
   const canContinue = !!network;
   return (
@@ -21,12 +23,12 @@ export const CreateWalletNetworkComponent = ({ add, section, onUpdateNetwork, on
       <Prev to={'/add'} title={_t.back} />
       <NetworkSelector
         section={section}
-        value={network} onChange={onUpdateNetwork} 
+        value={network} onChange={onUpdateNetwork}
         isTestNet={testnet}
         onTestNet={onUpdateTestnet}
       />
       <Steps {...{ step, menu }} />
     </WizardPanel>
   );
-}
+};
 

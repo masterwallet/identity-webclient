@@ -24,6 +24,7 @@ export class ImportWalletNameComponent extends React.Component {
     const { section, add, assets, onChange } = this.props;
     const { name, network, testnet, selectedNetwork } = add[section];
     const menu = ImportMenu(network, testnet);
+    if (!menu) return false;
     const step = findWizardStep(menu, '/name');
     const isUnique = assets.verifyWallet.isUnique;
     const canContinue = !!name && isUnique;
@@ -31,7 +32,7 @@ export class ImportWalletNameComponent extends React.Component {
       <WizardPanel title={_t.nameYourAccount}>
         <Next to={ menu[step + 1] } disabled={!canContinue} title={_t.continue} />
         <Prev to={menu[step - 1]} title={_t.back} />
-        
+
         <div style={{ margin: '20px auto'}}>
           <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
 

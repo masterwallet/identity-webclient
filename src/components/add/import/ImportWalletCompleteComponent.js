@@ -12,11 +12,12 @@ const _t = {
 export const ImportWalletCompleteComponent = ({ section, add }) => {
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/complete');
   return (
     <WizardPanel title={_t.finished}>
       <Next to={`/wallets`} title={_t.assets}/>
-  
+
       <div style={{ textAlign: 'center', margin: '50px auto' }}>{_t.readyToUse}</div>
       <Steps {...{step, menu}} />
     </WizardPanel>

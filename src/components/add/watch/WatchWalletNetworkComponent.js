@@ -14,19 +14,21 @@ const _t = {
 export const WatchWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = WatchMenu(network, testnet);
+  if (!menu) return false;
+
   const step = 0;
   const canContinue = network; // && !disabled?
   return (
     <WizardPanel title={_t.selectNetwork}>
       <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
       <Prev to='/wallets' title={_t.back} />
-      <NetworkSelector 
+      <NetworkSelector
         section={section}
-        value={network} onChange={onUpdateNetwork} 
+        value={network} onChange={onUpdateNetwork}
         isTestNet={testnet} onTestNet={onUpdateTestnet}
       />
       <Steps {...{ step, menu }} />
     </WizardPanel>
   );
 
-}
+};

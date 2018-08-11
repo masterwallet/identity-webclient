@@ -14,6 +14,8 @@ const _t = {
 export const CreateWalletTermsComponent = ({ add, section }) => {
   const { network, testnet, selectedNetwork } = add[section];
   const menu = CreateMenu(network, testnet);
+  if (!menu) return false;
+
   const step = findWizardStep(menu, '/terms');
 
   return (

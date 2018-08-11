@@ -13,20 +13,22 @@ const _t = {
 };
 
 export const CreateWalletNetworkUrlComponent = ({ add, section, onUpdateNetworkId, onUpdateRpcRoot }) => {
-    const { network, testnet, networkId, rpcRoot } = add[section];
-    
-    const menu = CreateMenu(network, testnet);
-    const step = findWizardStep(menu, '/url');
-    const canContinue = networkId || isValidUrl(rpcRoot);
-    return (
-        <WizardPanel title={_t.customRpcUrl}>
-        <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
-        <Prev to={menu[step - 1]} title={_t.back} />
+  const { network, testnet, networkId, rpcRoot } = add[section];
 
-        <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+  const menu = CreateMenu(network, testnet);
+  if (!menu) return false;
 
-        <Steps {...{ step, menu }} />
-        </WizardPanel>
-    );
-}
+  const step = findWizardStep(menu, '/url');
+  const canContinue = networkId || isValidUrl(rpcRoot);
+  return (
+    <WizardPanel title={_t.customRpcUrl}>
+      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
+      <Prev to={menu[step - 1]} title={_t.back} />
+
+      <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot}} />
+
+      <Steps {...{ step, menu }} />
+    </WizardPanel>
+  );
+};
 

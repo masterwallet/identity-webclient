@@ -32,6 +32,7 @@ export const WatchWalletAddressComponent = (props) => {
   const { add, section, onSubmit, onUpdate } = props;
   const { address, validation, network, networkId, testnet, name, rpcRoot, api, selectedNetwork } = add[section];
   const menu = WatchMenu(network, testnet);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/wallet');
 
   const onChange = value => (onUpdate({ network, networkId, testnet, address: value }));

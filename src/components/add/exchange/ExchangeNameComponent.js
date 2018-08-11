@@ -20,10 +20,11 @@ export class ExchangeNameComponent extends React.Component {
     const { section, add, onChange } = this.props;
     onChange(add[section].name);
   }
-  render() { 
+  render() {
     const { section, add, assets, onChange } = this.props;
     const { network, name, selectedNetwork } = add[section]; // name is unique
     const menu = ExchangeMenu(network);
+    if (!menu) return false;
     const step = findWizardStep(menu, '/name');
     const isUnique = assets.verifyWallet.isUnique;
     const canContinue = !!name && isUnique;

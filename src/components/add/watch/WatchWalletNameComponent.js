@@ -24,6 +24,7 @@ export class WatchWalletNameComponent  extends React.Component {
     const { section, add, assets, onChange } = this.props;
     const { name, network, testnet, selectedNetwork } = add[section];
     const menu = WatchMenu(network, testnet);
+    if (!menu) return false;
     const step = findWizardStep(menu, '/name');
     const isUnique = assets.verifyWallet.isUnique;
     const canContinue = !!name && isUnique;

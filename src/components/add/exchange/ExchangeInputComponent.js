@@ -15,6 +15,7 @@ const _t = {
 export const ExchangeInputComponent = ({ add, section, onUpdateKey }) => {
   const { network, selectedNetwork, secret } = add[section];
   const menu = ExchangeMenu(network);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/account');
   const exchangeConfig = Exchanges.filter(x => (x.value === network))[0];
 
@@ -34,7 +35,7 @@ export const ExchangeInputComponent = ({ add, section, onUpdateKey }) => {
             {item.label}:
             <br />
             <TextInput {...{
-              value: secret[item.id] || '', 
+              value: secret[item.id] || '',
               onChange: (v => (onUpdateKey(item.id, v))),
               autofocus: index === 0
             }} />

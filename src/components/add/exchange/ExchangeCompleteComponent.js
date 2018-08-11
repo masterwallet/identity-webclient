@@ -12,8 +12,9 @@ const _t = {
 };
 
 export const ExchangeCompleteComponent = ({ add, section }) => {
-  const { network, selectedNetwork } = add[section]; 
+  const { network, selectedNetwork } = add[section];
   const menu = ExchangeMenu(network);
+  if (!menu) return false;
   const step = findWizardStep(menu, '/complete');
 
   return (

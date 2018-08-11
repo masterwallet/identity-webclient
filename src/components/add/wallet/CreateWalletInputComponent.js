@@ -16,10 +16,11 @@ const _t = {
 };
 
 export const CreateWalletInputComponent = ({ section, add }) => {
-  const { network, testnet } = add[section]
-  const { lastResponse } = add;
+  const { network, testnet } = add[section];
   const menu = CreateMenu(network, testnet);
-  const step = findWizardStep(menu, '/wallet')
+  if (!menu) return false;
+  const step = findWizardStep(menu, '/wallet');
+  const { lastResponse } = add;
   if (!lastResponse || !lastResponse.data || !lastResponse.data.id) {
     return <Redirect to={menu[step - 1]} />
   }
@@ -40,5 +41,4 @@ export const CreateWalletInputComponent = ({ section, add }) => {
       <Steps {...{ step, menu }} />
     </WizardPanel>
   );
-
 };

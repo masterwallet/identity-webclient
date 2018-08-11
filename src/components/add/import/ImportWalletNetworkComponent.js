@@ -13,6 +13,7 @@ const _t = {
 export const ImportWalletNetworkComponent = ({ section, add, onUpdateNetwork, onUpdateTestnet }) => {
   const { network, testnet } = add[section];
   const menu = ImportMenu(network, testnet);
+  if (!menu) return false;
   const step = 0;
   const canContinue = !!network;
   return (
