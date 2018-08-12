@@ -126,6 +126,13 @@ export const WalletsList = ({ list, title }) => {
                 </div>
               </div>
             ): false}
+            {details && details.error ? (
+              <div key={3333} className="tbl">
+                <div style={{ fontSize: 12, marginTop: 5, background: 'white', color: 'darkred', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
+                  {details.error}
+                </div>
+              </div>
+            ): false}
             {details && details.assets && details.assets.length ? [
               (
                 <div key={1111} className="tbl">
