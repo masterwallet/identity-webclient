@@ -73,10 +73,10 @@ export class SettingsButton extends React.Component {
     const { add = false, disabled = false } = this.props;
     return (
       <TopLeftWrapper>
-        <Link disabled={disabled} to={'/settings'} className="btn btn-primary btn-sm">
+        {/*<Link disabled={disabled} to={'/settings'} className="btn btn-primary btn-sm">
           <img src="/media/gears.svg" style={{ width: 20 }} alt={_t.settings}/>
           <span className="title">{_t.settings}</span>
-        </Link>
+        </Link>*/}
         {add ? (
           <Link to={'/add'} className="btn btn-primary btn-sm">
             <SvgPlus />
