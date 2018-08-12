@@ -102,7 +102,7 @@ const numWalletsString = (wallets) => {
 
 export class AssetsCombinedComponent extends React.Component {
   componentWillMount() {
-    this.props.onInit();
+    this.props.onInit(this.props);
   }
 
   render() {

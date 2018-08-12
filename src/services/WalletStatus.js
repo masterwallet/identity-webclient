@@ -53,7 +53,7 @@ export const dispatchWalletsAssets = ({ walletId, dispatch, signal }) => {
   });
 };
 
-export const dispatchWalletsStatus = (dispatch) => {
+export const dispatchWalletsStatus = (dispatch, { wallets, wallet }) => {
   dispatch({ type: 'WALLETS_LIST_REQUEST' });
   fetchJson('/api/wallets')
     .then(response => {
@@ -61,6 +61,11 @@ export const dispatchWalletsStatus = (dispatch) => {
         dispatch({type: 'WALLETS_LIST_ERROR', payload: response.error });
       } else {
         dispatch({type: 'WALLETS_LIST_RECEIVED', payload: response.data.wallets});
+        if (response.data.wallets) {
+          response.data.wallets.filter(w => w.id).map(w => {
+            dispatchWalletsAssets({ walletId: w.id, dispatch });
+          });
+        }
       }
     }).catch(err => {
       console.warn(err.toString());

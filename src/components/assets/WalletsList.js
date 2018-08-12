@@ -97,7 +97,7 @@ export const WalletsList = ({ list, title }) => {
       </tr>
       </thead>
       <tbody>
-      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, assets, estimate, currency }) => (
+      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details, estimate, currency }) => (
         <tr key={id}>
           <td style={{ verticalAlign: 'top' }}>
             <NetworkIcon {...{network, icon, networkId, testnet}} />
@@ -119,16 +119,23 @@ export const WalletsList = ({ list, title }) => {
                 </Link>
               </div>
             </div>
-            {assets && assets.length ? [
+            {details && details.isLoading ? (
+              <div key={2222} className="tbl">
+                <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'left' }}>
+                  loading...
+                </div>
+              </div>
+            ): false}
+            {details && details.assets && details.assets.length ? [
               (
                 <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'left' }}>
-                    <strong>{assets.length}</strong> assets:
+                    <strong>{details.assets.length}</strong> assets:
                   </div>
                   {estimate ? (<div className="estimate">{estimate} {currency}</div>): false}
                 </div>
               ),
-              (<AssetsList key={1122} {...{ assets, currency }} />)
+              (<AssetsList key={1122} {...{ assets: details.assets, currency }} />)
             ]: false}
 
           </td>
