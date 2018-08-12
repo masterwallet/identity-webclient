@@ -44,6 +44,7 @@ export const dispatchWalletsAssets = ({ walletId, dispatch, signal }) => {
         const queue = response.data.assets.filter(({ value, contractAddress }) => {
           return !value && contractAddress;
         });
+        console.log('assets queue prepared', queue.length);
         setTimeout(() => { dispatchWalletsAssetQueue({ walletId, queue, dispatch, signal })}, 200);
       }
     }).catch(err => {
@@ -58,7 +59,7 @@ export const dispatchWalletsStatus = (dispatch, { assets }) => {
   const { isLoading, firstRun } = assets.status;
   if (isLoading && !firstRun) { console.info('wallet status: already loading...'); return false; }
 
-  const loadingAssetsList = wallets.filter(w => (w.details && w.details.isLoading));
+  const loadingAssetsList = wallets.filter(w => (w && w.details && w.details.isLoading));
   if (loadingAssetsList.length) { console.info('wallets are loading assets list...', loadingAssetsList.length); return false; }
 
   const loadingAssetsBalance = wallets.filter(w => {
