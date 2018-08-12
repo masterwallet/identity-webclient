@@ -54,7 +54,7 @@ export class CreateMenuComponent extends React.Component {
   };
 
   componentWillMount() {
-    this.props.onInit();
+    this.props.onInit(this.props);
   }
 
   render() {

@@ -10,7 +10,7 @@ const initialState = {
   wallets: [],
   assets: [],
   verifyWallet: { name: '', isUnique: true },
-  status: { isLoading: true, error: '' }
+  status: { isLoading: true, error: '', firstRun: true }
 };
 
 const fixIcons = (wallets) => (wallets.map(w => ({...w, icon: `/networks/${w.network}.png`})));
@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
       return { ...state, wallets: fixIcons(action.payload).reverse(), status };
     }
     case 'WALLETS_LIST_REQUEST': {
-      const status = { isLoading: true, error: '' };
+      const status = { isLoading: true, error: '', firstRun: false };
       return { ...state, status };
     }
     case 'WALLETS_LIST_ERROR': {
@@ -62,6 +62,51 @@ export default function (state = initialState, action) {
       w.details = { ...defaultAssets, error, isLoading: false };
       return { ...state, wallets };
     }
+
+    case 'WALLET_CONTRACT_RECEIVED': {
+      const { walletId, data, contractAddress } = action.payload;
+      const wallets = state.wallets.slice();
+      const w = wallets.filter(w => (w.id === walletId))[0];
+      if (!w.details || !w.details.assets) return state;
+
+      const assets = w.details.assets.map(a => {
+        if (a.contractAddress === contractAddress) {
+          return {...a, ...data.asset, isLoading: false, isPending: false, error: '' }
+        }
+        return a;
+      });
+      w.details.assets = assets.slice();
+      return { ...state, wallets };
+    }
+    case 'WALLET_CONTRACT_REQUEST': {
+      const { walletId, contractAddress } = action.payload;
+      const wallets = state.wallets.slice();
+      const w = wallets.filter(w => (w.id === walletId))[0];
+      if (!w.details || !w.details.assets) return state;
+      const assets = w.details.assets.map(a => {
+        if (a.contractAddress === contractAddress) {
+          return {...a, isLoading: true, isPending: false, error: '' }
+        }
+        return a;
+      });
+      w.details.assets = assets.slice();
+      return { ...state, wallets };
+    }
+    case 'WALLET_CONTRACT_ERROR': {
+      const { walletId,error, contractAddress } = action.payload;
+      const wallets = state.wallets.slice();
+      const w = wallets.filter(w => (w.id === walletId))[0];
+      if (!w.details || !w.details.assets) return state;
+      const assets = w.details.assets.map(a => {
+        if (a.contractAddress === contractAddress) {
+          return {...a, isLoading: false, isPending: false, error }
+        }
+        return a;
+      });
+      w.details.assets = assets.slice();
+      return { ...state, wallets };
+    }
+
     default:
   }
   return state

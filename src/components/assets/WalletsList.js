@@ -121,7 +121,7 @@ export const WalletsList = ({ list, title }) => {
             </div>
             {details && details.isLoading ? (
               <div key={2222} className="tbl">
-                <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'left' }}>
+                <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
                   loading...
                 </div>
               </div>
@@ -129,7 +129,7 @@ export const WalletsList = ({ list, title }) => {
             {details && details.assets && details.assets.length ? [
               (
                 <div key={1111} className="tbl">
-                  <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'left' }}>
+                  <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
                     <strong>{details.assets.length}</strong> assets:
                   </div>
                   {estimate ? (<div className="estimate">{estimate} {currency}</div>): false}

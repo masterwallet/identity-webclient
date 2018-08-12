@@ -53,7 +53,25 @@ export const dispatchWalletsAssets = ({ walletId, dispatch, signal }) => {
   });
 };
 
-export const dispatchWalletsStatus = (dispatch, { wallets, wallet }) => {
+export const dispatchWalletsStatus = (dispatch, { assets }) => {
+  const { wallets } = assets;
+  const { isLoading, firstRun } = assets.status;
+  if (isLoading && !firstRun) { console.info('wallet status: already loading...'); return false; }
+
+  const loadingAssetsList = wallets.filter(w => (w.details && w.details.isLoading));
+  if (loadingAssetsList.length) { console.info('wallets are loading assets list...', loadingAssetsList.length); return false; }
+
+  const loadingAssetsBalance = wallets.filter(w => {
+    if (w && w.details && w.details.assets) {
+      return w.details.assets.filter(w => (w.isPending || w.isLoading)).length;
+    }
+    return false;
+  });
+  if (loadingAssetsBalance.length) { console.info('loading assets balance...', loadingAssetsBalance.length); return false; }
+
+  if (wallets.length) { console.info('there are some wallets...', wallets.length); return false; }
+
+  console.log('re-loading wallets information');
   dispatch({ type: 'WALLETS_LIST_REQUEST' });
   fetchJson('/api/wallets')
     .then(response => {
@@ -63,7 +81,7 @@ export const dispatchWalletsStatus = (dispatch, { wallets, wallet }) => {
         dispatch({type: 'WALLETS_LIST_RECEIVED', payload: response.data.wallets});
         if (response.data.wallets) {
           response.data.wallets.filter(w => w.id).map(w => {
-            dispatchWalletsAssets({ walletId: w.id, dispatch });
+            return dispatchWalletsAssets({ walletId: w.id, dispatch });
           });
         }
       }

@@ -72,7 +72,6 @@ export class AssetsOverviewComponent extends React.Component {
           <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
         </Totals>
         <WalletsList list={ assets.wallets } title={numWalletsString(assets.wallets)}/>
-        <pre>{JSON.stringify(assets.wallets, null, 2)}</pre>
       </WizardPanel>
     );
   }
