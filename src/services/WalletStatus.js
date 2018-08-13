@@ -55,22 +55,25 @@ export const dispatchWalletsAssets = ({ walletId, dispatch, signal }) => {
 };
 
 export const dispatchWalletsStatus = (dispatch, { assets }) => {
-  const { wallets } = assets;
+  const { wallets, needReload } = assets;
   const { isLoading, firstRun } = assets.status;
-  if (isLoading && !firstRun) { console.info('wallet status: already loading...'); return false; }
 
-  const loadingAssetsList = wallets.filter(w => (w && w.details && w.details.isLoading));
-  if (loadingAssetsList.length) { console.info('wallets are loading assets list...', loadingAssetsList.length); return false; }
+  if (!needReload) {
+    if (isLoading && !firstRun) { console.info('wallet status: already loading...'); return false; }
 
-  const loadingAssetsBalance = wallets.filter(w => {
-    if (w && w.details && w.details.assets) {
-      return w.details.assets.filter(w => (w.isPending || w.isLoading)).length;
-    }
-    return false;
-  });
-  if (loadingAssetsBalance.length) { console.info('loading assets balance...', loadingAssetsBalance.length); return false; }
+    const loadingAssetsList = wallets.filter(w => (w && w.details && w.details.isLoading));
+    if (loadingAssetsList.length) { console.info('wallets are loading assets list...', loadingAssetsList.length); return false; }
 
-  if (wallets.length) { console.info('there are some wallets...', wallets.length); return false; }
+    const loadingAssetsBalance = wallets.filter(w => {
+      if (w && w.details && w.details.assets) {
+        return w.details.assets.filter(w => (w.isPending || w.isLoading)).length;
+      }
+      return false;
+    });
+    if (loadingAssetsBalance.length) { console.info('loading assets balance...', loadingAssetsBalance.length); return false; }
+
+    if (wallets.length) { console.info('there are some wallets...', wallets.length); return false; }
+  }
 
   console.log('re-loading wallets information');
   dispatch({ type: 'WALLETS_LIST_REQUEST' });

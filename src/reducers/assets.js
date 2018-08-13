@@ -7,6 +7,7 @@ const initialState = {
   total: '0',
   currency: 'USD',
   showPrices: true,
+  needReload: true,
   wallets: [],
   assets: [],
   verifyWallet: { name: '', isUnique: true },
@@ -23,13 +24,16 @@ export default function (state = initialState, action) {
       const verifyWallet = { name: value, isUnique: namesUsed.indexOf(value) === -1 };
       return { ...state, verifyWallet };
     }
+    case 'WALLET_WIZARD_SUBMIT_DONE': {
+      return {...state, needReload: true };
+    }
     case 'WALLETS_LIST_RECEIVED': {
       const status = { isLoading: false, error: '' };
       return { ...state, wallets: fixIcons(action.payload).reverse(), status };
     }
     case 'WALLETS_LIST_REQUEST': {
       const status = { isLoading: true, error: '', firstRun: false };
-      return { ...state, status };
+      return { ...state, status, needReload: false };
     }
     case 'WALLETS_LIST_ERROR': {
       const status = { isLoading: false, error: action.payload  };
