@@ -93,7 +93,9 @@ export default function (state = initialState, action) {
         if (!a.value && a.contractAddress) { return { ...a, isPending: true }; }
         return a;
       });
-      w.details = { ...data, assets: pendingAssets, error: '', isLoading: false };
+      if (w) {
+        w.details = { ...w.details, assets: pendingAssets, error: '', isLoading: false };
+      }
       return withTotals({ ...state, wallets});
     }
 
@@ -101,14 +103,18 @@ export default function (state = initialState, action) {
       const { walletId } = action.payload;
       const wallets = state.wallets.slice();
       const w = wallets.filter(w => (w.id === walletId))[0];
-      w.details = { ...defaultAssets, error: '', isLoading: true };
+      if (w) {
+        w.details = { ...defaultAssets, error: '', isLoading: true };
+      }
       return withTotals({ ...state, wallets });
     }
     case 'WALLET_ASSETS_ERROR': {
       const { walletId, error } = action.payload;
       const wallets = state.wallets.slice();
       const w = wallets.filter(w => (w.id === walletId))[0];
-      w.details = { ...defaultAssets, error, isLoading: false };
+      if (w) {
+        w.details = { ...defaultAssets, error, isLoading: false };
+      }
       return withTotals({ ...state, wallets });
     }
 
@@ -131,7 +137,7 @@ export default function (state = initialState, action) {
       const { walletId, contractAddress } = action.payload;
       const wallets = state.wallets.slice();
       const w = wallets.filter(w => (w.id === walletId))[0];
-      if (!w.details || !w.details.assets) return state;
+      if (!w || !w.details || !w.details.assets) return state;
       const assets = w.details.assets.map(a => {
         if (a.contractAddress === contractAddress) {
           return {...a, isLoading: true, isPending: false, error: '' }
@@ -145,7 +151,7 @@ export default function (state = initialState, action) {
       const { walletId,error, contractAddress } = action.payload;
       const wallets = state.wallets.slice();
       const w = wallets.filter(w => (w.id === walletId))[0];
-      if (!w.details || !w.details.assets) return state;
+      if (!w || !w.details || !w.details.assets) return state;
       const assets = w.details.assets.map(a => {
         if (a.contractAddress === contractAddress) {
           return {...a, isLoading: false, isPending: false, error }
