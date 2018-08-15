@@ -1,5 +1,3 @@
-import { access } from "fs";
-
 const defaultAssets = {
   isLoading: true,
   error: ''
@@ -32,14 +30,36 @@ const withTotals = state => {
   });
 
   const currency = (state.currency || 'usd').toLowerCase();
+  const loadedWallets = wallets.filter(w => (w && 
+    w.details && 
+    !w.details.isPending && 
+    !w.details.isLoading && 
+    !w.details.error &&
+    w.details.assets));
 
-  const getTotal = wallets
-    .filter(w => (w && 
-      w.details && 
-      !w.details.isPending && 
-      !w.details.isLoading && 
-      !w.details.error &&
-      w.details.assets))
+  const assetMap = {};
+  loadedWallets.forEach(w => {
+
+    w.details.assets
+      .filter(asset => (
+        asset.symbol && 
+        !asset.isLoading && 
+        !asset.isPending && 
+        !asset.error &&
+        asset.value
+      ))
+      .forEach(({ symbol, name, value, cmc }) => {
+        if (typeof assetMap[symbol] === 'undefined') {
+          assetMap[symbol] = { symbol, name, value: parseFloat(value, 10), cmc };
+        } else {
+          assetMap[symbol].value += parseFloat(value, 10);
+        }
+      });
+  });
+  // console.info('assets', loadedWallets.map(w => (w.details.assets)));
+  const assets = Object.values(assetMap);
+
+  const getTotal = loadedWallets
     .map(w => {
       return w.details.assets.map(asset => {
         const { cmc } = asset;
@@ -57,7 +77,8 @@ const withTotals = state => {
       assets: loadingAssetsList.length,
       balances: loadingAssetsBalance.length
     }, 
-    total: getTotal.toFixed(2)
+    total: getTotal.toFixed(2),
+    assets
   };
 }
 

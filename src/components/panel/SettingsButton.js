@@ -70,7 +70,7 @@ export class SettingsButton extends React.Component {
   render() {
     const { redirected } = this.state;
     if (redirected) return (<Redirect to={redirected} />);
-    const { add = false, disabled = false } = this.props;
+    const { add = false } = this.props; // , disabled = false
     return (
       <TopLeftWrapper>
         {/*<Link disabled={disabled} to={'/settings'} className="btn btn-primary btn-sm">
