@@ -87,17 +87,19 @@ const AssetTable = styled.table`
   }
 `;
 
-export const WalletsList = ({ list, title }) => {
+export const WalletsList = ({ list, title, currency, subtotals }) => {
   const shortAddress = (value) => (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
   return (
     <AssetTable>
       <thead>
-      <tr>
-        <th colSpan={2}>{title}</th>
-      </tr>
+        <tr>
+          <th colSpan={2}>
+            {title}
+          </th>
+        </tr>
       </thead>
       <tbody>
-      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details, estimate, currency }) => (
+      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details }) => (
         <tr key={id}>
           <td style={{ verticalAlign: 'top' }}>
             <NetworkIcon {...{network, icon, networkId, testnet}} />
@@ -137,12 +139,15 @@ export const WalletsList = ({ list, title }) => {
               (
                 <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
-                    <strong>{details.assets.length}</strong> assets:
+                    <strong>{details.assets.length}</strong> assets
+                    {subtotals[id] && subtotals[id] > 0 ? 
+                      <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
+                    : false}
                   </div>
-                  {estimate ? (<div className="estimate">{estimate} {currency}</div>): false}
+                  
                 </div>
               ),
-              (<AssetsList key={1122} {...{ assets: details.assets, currency }} />)
+              (<AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />)
             ]: false}
 
           </td>
