@@ -37,6 +37,8 @@ const withTotals = state => {
     !w.details.error &&
     w.details.assets));
 
+  
+  const subtotals = [];
   const assetMap = {};
   loadedWallets.forEach(w => {
 
@@ -46,13 +48,19 @@ const withTotals = state => {
         !asset.isLoading &&
         !asset.isPending &&
         !asset.error &&
-        asset.value
+        asset.value 
       ))
       .forEach(({ symbol, name, value, cmc }) => {
         if (typeof assetMap[symbol] === 'undefined') {
           assetMap[symbol] = { symbol, name, value: parseFloat(value, 10), cmc };
         } else {
           assetMap[symbol].value += parseFloat(value, 10);
+        }
+
+        if (cmc && cmc[`price_${currency}`]) {
+          const price = cmc[`price_${currency}`];
+          if (typeof subtotals[w.id] === 'undefined') subtotals[w.id] = 0;
+          subtotals[w.id] += assetMap[symbol].value * price;
         }
       });
   });
@@ -78,6 +86,7 @@ const withTotals = state => {
       balances: loadingAssetsBalance.length
     },
     total: getTotal.toFixed(2),
+    subtotals,
     assets
   };
 };
