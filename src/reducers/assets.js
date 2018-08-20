@@ -30,10 +30,10 @@ const withTotals = state => {
   });
 
   const currency = (state.currency || 'usd').toLowerCase();
-  const loadedWallets = wallets.filter(w => (w && 
-    w.details && 
-    !w.details.isPending && 
-    !w.details.isLoading && 
+  const loadedWallets = wallets.filter(w => (w &&
+    w.details &&
+    !w.details.isPending &&
+    !w.details.isLoading &&
     !w.details.error &&
     w.details.assets));
 
@@ -42,9 +42,9 @@ const withTotals = state => {
 
     w.details.assets
       .filter(asset => (
-        asset.symbol && 
-        !asset.isLoading && 
-        !asset.isPending && 
+        asset.symbol &&
+        !asset.isLoading &&
+        !asset.isPending &&
         !asset.error &&
         asset.value
       ))
@@ -71,16 +71,16 @@ const withTotals = state => {
       });
     }).reduce((acc, value) => (parseFloat(acc) + parseFloat(value)), 0);
 
-  return { 
-    ...state, 
+  return {
+    ...state,
     loading: {
       assets: loadingAssetsList.length,
       balances: loadingAssetsBalance.length
-    }, 
+    },
     total: getTotal.toFixed(2),
     assets
   };
-}
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
