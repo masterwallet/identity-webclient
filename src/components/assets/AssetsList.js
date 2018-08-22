@@ -12,6 +12,16 @@ const CmcInfoTable = styled.div`
   .negative { color: darkred; }
   .neutral { color: #444; }
 `;
+
+const nicePrice = ({ price, currency }) => {
+  if (!price) return '';
+
+  const curr = (currency || 'usd').toUpperCase();
+  const precision = (currency === 'eth' || currency === 'btc') ? 6: 2;
+  const value = parseFloat(price).toFixed(precision);
+  return value + ' ' + curr;
+};
+
 const CmcInfo = (props) => {
   const currency = (props.currency || 'usd').toLowerCase();
   const priceField = `price_${currency}`;
@@ -22,9 +32,10 @@ const CmcInfo = (props) => {
     <CmcInfoTable>
       <div className='price'>
         <span className="label">Price: </span>
-        {props[priceField]} {currency.toUpperCase()}
+        {nicePrice({price: props[priceField], currency})}
       </div>
       <div className={changeClassName}>
+        <span className="label">24hr: </span>
         {change}%
       </div>
     </CmcInfoTable>
