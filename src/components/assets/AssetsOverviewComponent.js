@@ -71,7 +71,7 @@ export class AssetsOverviewComponent extends React.Component {
         <Totals value={assets.total} currency={currency}>
           <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
         </Totals>
-        <WalletsList 
+        <WalletsList
           list={ assets.wallets } {...{subtotals, currency}}
           title={numWalletsString(assets.wallets)}
         />

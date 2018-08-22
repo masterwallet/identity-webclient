@@ -30,7 +30,7 @@ export class ImportWalletInputComponent extends React.Component {
 
   render() {
     const { add, onSubmit } = this.props;
-    const { lastResponse, lastError } = add;
+    const { lastResponse } = add; // lastError
     const { name, network, networkId, testnet } = add[section];
     const networksConfig = { network, networkId, testnet };
     const menu = ImportMenu({ network, testnet, networksConfig });
@@ -53,9 +53,6 @@ export class ImportWalletInputComponent extends React.Component {
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
         </div>
-
-        <pre>last response: {JSON.stringify(lastResponse, null, 2)}</pre>
-        <pre>last error: {JSON.stringify(lastError, null, 2)}</pre>
 
         <Steps {...{step, menu}} />
       </WizardPanel>

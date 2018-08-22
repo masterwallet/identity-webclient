@@ -37,8 +37,8 @@ const withTotals = state => {
     !w.details.error &&
     w.details.assets));
 
-  
-  const subtotals = [];
+
+  const subtotals = {};
   const assetMap = {};
   loadedWallets.forEach(w => {
 
@@ -48,7 +48,7 @@ const withTotals = state => {
         !asset.isLoading &&
         !asset.isPending &&
         !asset.error &&
-        asset.value 
+        asset.value
       ))
       .forEach(({ symbol, name, value, cmc }) => {
         if (typeof assetMap[symbol] === 'undefined') {
@@ -56,11 +56,10 @@ const withTotals = state => {
         } else {
           assetMap[symbol].value += parseFloat(value, 10);
         }
-
         if (cmc && cmc[`price_${currency}`]) {
           const price = cmc[`price_${currency}`];
           if (typeof subtotals[w.id] === 'undefined') subtotals[w.id] = 0;
-          subtotals[w.id] += assetMap[symbol].value * price;
+          subtotals[w.id] += parseFloat(value, 10) * price;
         }
       });
   });
@@ -92,6 +91,7 @@ const withTotals = state => {
 };
 
 export default function (state = initialState, action) {
+  console.log('action.type=', action.type);
   switch (action.type) {
     case 'UPDATE_NAME': {
       const { value } = action.payload;
