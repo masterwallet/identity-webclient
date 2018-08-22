@@ -88,7 +88,10 @@ const AssetTable = styled.table`
 `;
 
 export const WalletsList = ({ list, title, currency, subtotals }) => {
-  const shortAddress = (value) => (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+  const shortAddress = (value) => {
+    if (!value) return '';
+    return (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+  };
   return (
     <AssetTable>
       <thead>
@@ -144,11 +147,11 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                 <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
                     <strong>{details.assets.length}</strong> assets
-                    {subtotals[id] && subtotals[id] > 0 ? 
+                    {subtotals[id] && subtotals[id] > 0 ?
                       <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
                     : false}
                   </div>
-                  
+
                 </div>
               ),
               (<AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />)
