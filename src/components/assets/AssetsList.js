@@ -108,7 +108,7 @@ const AssetTable = styled.div`
 export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
     {assets.map(asset => (
-      <div key={asset.symbol || asset.contractAddress} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
+      <div key={asset.symbol || asset.contractAddress || Math.random()} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?
             <img style={{ width: 24, height: 'auto' }} src={asset.icon} alt="" /> :
@@ -121,7 +121,7 @@ export const AssetsList = ({ assets, currency }) => (
               {asset.error} <br />
               <strong>{asset.contractAddress}</strong>
             </div>
-          ): 
+          ):
             <div className="asset-row">
               <div key={1} className="asset-name">
                 {asset.symbol !== asset.name ? <span className="symbol">{asset.symbol}</span> : false}

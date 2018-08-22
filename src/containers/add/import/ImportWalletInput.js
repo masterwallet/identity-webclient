@@ -10,16 +10,21 @@ const _t = {
 const section = 'import';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
-    //onUpdateSecret: (name, value) => {
-    //    dispatch({ type: 'UPDATE_SECRET', payload: { section, name, value } });
-    //},
-  onSubmit: ({ network, networkId, testnet, privateKey, keyStore, password }) => {
+
+  onSubmit: ({ network, networkId, testnet, name, privateKey, password }) => {
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
-    const payload = { network, networkId, testnet, privateKey, keyStore, password };
-    postJson('/api/wallets/import', payload)
+    const payload = { network, networkId, testnet, name, privateKey, password };
+    postJson('/api/wallets', payload)
       .then((res) => {
-        dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });
+        console.warn('last response=', res);
+        if (!res.data.error) {
+          dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });
+        } else {
+          dispatch({ type: 'WALLET_WIZARD_SUBMIT_ERROR', payload: res.data.error });
+          toastr.error(_t.importError, res.data.error);
+        }
+
       })
       .catch((e) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_ERROR', payload: e.toString() });
