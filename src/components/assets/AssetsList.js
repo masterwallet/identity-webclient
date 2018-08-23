@@ -12,6 +12,16 @@ const CmcInfoTable = styled.div`
   .negative { color: darkred; }
   .neutral { color: #444; }
 `;
+
+const nicePrice = ({ price, currency }) => {
+  if (!price) return '';
+
+  const curr = (currency || 'usd').toUpperCase();
+  const precision = (currency === 'eth' || currency === 'btc') ? 6: 2;
+  const value = parseFloat(price).toFixed(precision);
+  return value + ' ' + curr;
+};
+
 const CmcInfo = (props) => {
   const currency = (props.currency || 'usd').toLowerCase();
   const priceField = `price_${currency}`;
@@ -22,9 +32,10 @@ const CmcInfo = (props) => {
     <CmcInfoTable>
       <div className='price'>
         <span className="label">Price: </span>
-        {props[priceField]} {currency.toUpperCase()}
+        {nicePrice({price: props[priceField], currency})}
       </div>
       <div className={changeClassName}>
+        <span className="label">24hr: </span>
         {change}%
       </div>
     </CmcInfoTable>
@@ -108,7 +119,7 @@ const AssetTable = styled.div`
 export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
     {assets.map(asset => (
-      <div key={asset.symbol || asset.contractAddress} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
+      <div key={asset.symbol || asset.contractAddress || Math.random()} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?
             <img style={{ width: 24, height: 'auto' }} src={asset.icon} alt="" /> :
@@ -121,7 +132,7 @@ export const AssetsList = ({ assets, currency }) => (
               {asset.error} <br />
               <strong>{asset.contractAddress}</strong>
             </div>
-          ): 
+          ):
             <div className="asset-row">
               <div key={1} className="asset-name">
                 {asset.symbol !== asset.name ? <span className="symbol">{asset.symbol}</span> : false}

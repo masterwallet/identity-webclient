@@ -5,6 +5,11 @@ import { JDentIcon } from './../jdenticon/index';
 import { NetworkIcon } from './NetworkIcon';
 import { Link } from 'react-router-dom';
 
+const _t = {
+  assets: 'assets',
+  asset: 'asset'
+};
+
 const AssetTable = styled.table`
   border: 0px transparent solid;
   border-radius: 20px;
@@ -88,7 +93,10 @@ const AssetTable = styled.table`
 `;
 
 export const WalletsList = ({ list, title, currency, subtotals }) => {
-  const shortAddress = (value) => (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+  const shortAddress = (value) => {
+    if (!value) return '';
+    return (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+  };
   return (
     <AssetTable>
       <thead>
@@ -99,7 +107,7 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
         </tr>
       </thead>
       <tbody>
-      {list.filter(w => w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details }) => (
+      {list.filter(w => !!w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details }) => (
         <tr key={id}>
           <td style={{ verticalAlign: 'top' }}>
             <NetworkIcon {...{network, icon, networkId, testnet}} />
@@ -143,12 +151,12 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
               (
                 <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
-                    <strong>{details.assets.length}</strong> assets
-                    {subtotals[id] && subtotals[id] > 0 ? 
+                    <strong>{details.assets.length}</strong> {(details.assets.length === 1) ? _t.asset : _t.assets}
+                    {(subtotals[id] && subtotals[id] > 0) ?
                       <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
                     : false}
                   </div>
-                  
+
                 </div>
               ),
               (<AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />)

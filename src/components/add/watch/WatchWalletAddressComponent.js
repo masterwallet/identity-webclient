@@ -50,7 +50,7 @@ export const WatchWalletAddressComponent = (props) => {
         <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
         <p style={{ textAlign: 'center', margin: 0 }}>{_t.pleaseProvide}</p>
         <TextInput {...{value: address, onChange, autofocus: true}} style={{ textAlign: 'center', fontSize: 12 }} />
-        {invalidChecksum ? <WarningBox>{error || _t.invalidChecksum}</WarningBox> : false}
+        {error || invalidChecksum ? <WarningBox>{error || _t.invalidChecksum}</WarningBox> : false}
         {address ? (
           <div style={{ textAlign: 'center', marginTop: 20}}>
             <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.verifyTheImage}</p>

@@ -3,6 +3,7 @@ import { WatchWalletAddressComponent } from './../../../components/add/watch/Wat
 import { postJson } from './../../../services/ApiRequest';
 import { toastr } from 'react-redux-toastr';
 import { push } from 'react-router-redux';
+import Debounced from './../../../services/Debounced';
 
 const _t = {
   watchingError: 'Watching Wallet Error',
@@ -37,14 +38,17 @@ const mapDispatchToProps = dispatch => ({
     if (!address) {
       dispatch({ type: 'WALLET_ADDRESS_VALIDATION_DONE', payload: {section, result: {} }})
     } else {
-      const payload = { network, networkId, testnet };
-      postJson(`/api/networks/${network}/address/${address}`, payload)
-        .then(res => {
-          dispatch({ type: 'WALLET_ADDRESS_VALIDATION_DONE', payload: {section, result: res.data }});
-        }).catch((e) => {
-          dispatch({ type: 'WALLET_ADDRESS_VALIDATION_ERROR', payload: {section, error: e.toString()  }});
+
+      Debounced.start('address-validation', () => {
+        const payload = {network, networkId, testnet};
+        postJson(`/api/networks/${network}/address/${address}`, payload)
+          .then(res => {
+            dispatch({type: 'WALLET_ADDRESS_VALIDATION_DONE', payload: {section, result: res.data}});
+          }).catch((e) => {
+          dispatch({type: 'WALLET_ADDRESS_VALIDATION_ERROR', payload: {section, error: e.toString()}});
           toastr.error(_t.validationError, e.toString());
         });
+      }, 200);
     }
   }
 
