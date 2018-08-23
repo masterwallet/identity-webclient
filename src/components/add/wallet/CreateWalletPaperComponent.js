@@ -1,9 +1,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import IFrame from 'react-iframe';
 import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
+import { getRoot } from './../../../services/ApiRequest';
+
 
 const _t = {
   paperWallet: 'Print Paper Wallet',
@@ -24,6 +27,7 @@ export class CreateWalletPaperComponent extends React.Component {
   };
 
   render() {
+    console.log(this.state, this.props);
     const { value } = this.state;
     const { add, setup } = this.props;
     const { network, testnet } = add[section];
@@ -43,10 +47,18 @@ export class CreateWalletPaperComponent extends React.Component {
         <div style={{ margin: '30px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.printInsecurePaperWallet}</p>
           <div style={{ textAlign: 'center' }}>
-            <button className='btn btn-success'>{_t.printWallet}</button>
+            {/* <button className='btn btn-success'>{_t.printWallet}</button> */}
+            <IFrame 
+              url={`${getRoot()}/api/wallets/${lastResponse.data.id}/pdf?rotate=true`} 
+              height="750px"
+              width="300px"
+              display="initial"
+              position="relative"
+              //styles={{ transform: 'rotate(90deg)' }}
+            />
           </div>
         </div>
-        <div style={{ margin: '30px auto'}}>
+        {/* <div style={{ margin: '30px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.printSecuredPaperWallet}</p>
           <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: 5 }}>
@@ -54,7 +66,7 @@ export class CreateWalletPaperComponent extends React.Component {
             </div>
             <button className='btn btn-primary'>{_t.printWallet}</button>
           </div>
-        </div>
+        </div> */}
         <hr />
         <pre>{JSON.stringify({ lastResponse }, null, 2)}</pre>
         <Steps {...{ step, menu }} />
