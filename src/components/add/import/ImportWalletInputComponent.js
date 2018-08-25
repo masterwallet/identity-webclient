@@ -9,6 +9,7 @@ import TextInput from './../../controls/TextInput';
 const _t = {
   enterPrivateKey: 'Enter Private Key',
   providePrivateKey: 'Please provide your Private Key:',
+  providePassphrase: 'Please provide encryption passphrase, if any:',
   orCopyPasteKeyStore: 'or Paste Key Store File Contents',
   continue: 'Continue',
   back: 'Back'
@@ -52,6 +53,10 @@ export class ImportWalletInputComponent extends React.Component {
         <div style={{ margin: '20px auto'}}>
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
+        </div>
+        <div style={{ margin: '20px auto'}}>
+          <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePassphrase}</p>
+          <TextInput value={password} onChange={this.onChangePassword} />
         </div>
 
         <Steps {...{step, menu}} />
