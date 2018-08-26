@@ -5,7 +5,8 @@ import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
-import { getRoot } from './../../../services/ApiRequest';
+import { fetchBlob } from './../../../services/ApiRequest';
+import Debounced from './../../../services/Debounced';
 
 
 const _t = {
@@ -20,14 +21,43 @@ const _t = {
 
 const section = 'create';
 export class CreateWalletPaperComponent extends React.Component {
-  state = { value: '' };
-
-  onChange = (value) => {
-    this.setState({ value});
+  state = { 
+    value: '',
+    frameDataUrl: ''
   };
 
+  componentDidMount = () => {
+    this.loadFrame();
+  };
+
+  componentWillUpdate = (nextProps, nextState) => {
+    if (nextState.value !== this.state.value) {
+        Debounced.start('reload-frame', () => {
+          this.loadFrame();
+        }, 10000);
+    }
+  };
+
+  onChange = (value) => {
+    this.setState({ value });
+  };
+
+  loadFrame = () => {
+    const { add } = this.props;
+    if (add.lastResponse && add.lastResponse.data && add.lastResponse.data.id) {
+      const url = `/api/wallets/${add.lastResponse.data.id}/pdf?rotate=true`;
+      const password = this.state.value;
+      const headers = new Headers();
+      headers.append('BIP38-Passphrase', password);
+      fetchBlob(url, { headers }).then(response => {
+        this.setState({
+          frameDataUrl: URL.createObjectURL(response)
+        });
+      });
+    }
+  }
+
   render() {
-    console.log(this.state, this.props);
     const { value } = this.state;
     const { add, setup } = this.props;
     const { network, testnet } = add[section];
@@ -41,20 +71,28 @@ export class CreateWalletPaperComponent extends React.Component {
       return <Redirect to={menu[step - 1]} />
     }
 
+    const { frameDataUrl } = this.state; 
+
     return (
       <WizardPanel title={_t.paperWallet}>
         <Next to={`/wallets`} title={_t.myAssets} />
         <div style={{ margin: '30px auto'}}>
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.printInsecurePaperWallet}</p>
+          <p style={{ textAlign: 'center', margin: 0 }}>{_t.printSecuredPaperWallet}</p>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: 5 }}>
+                <TextInput value={value} onChange={this.onChange} placeholder={_t.yourPassword} style={{ textAlign: 'center' }}/>
+            </div>
+          </div>
           <div style={{ textAlign: 'center' }}>
             {/* <button className='btn btn-success'>{_t.printWallet}</button> */}
-            <IFrame 
-              url={`${getRoot()}/api/wallets/${lastResponse.data.id}/pdf?rotate=true`} 
+            <IFrame
+              url={frameDataUrl}
+              //url='http://localhost:7773/api/wallets/81b98d95ea338af6c3a5928e4a9055ea58bbf26a/pdf?rotate=true'
               height="750px"
               width="300px"
               display="initial"
               position="relative"
-              //styles={{ transform: 'rotate(90deg)' }}
             />
           </div>
         </div>

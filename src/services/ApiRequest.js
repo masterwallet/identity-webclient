@@ -80,8 +80,17 @@ export const fetchPlain  = (url, options = {}) => {
     .then(async res => {
       if (res.status === 404) throw new Error('Not Found');
       // const contentType = res.headers.get('content-type');
+      //return res.text();
       return res.text();
     });
+};
+
+export const fetchBlob = (url, options = {}) => {
+  return fetch(getRoot() + url, options)
+  .then(async res => {
+    if (res.status === 404) throw new Error('Not Found');
+    return res.blob();
+  });
 };
 
 export const fetchJson = (url, options = {}) => {
@@ -105,6 +114,7 @@ export default {
   getRoot,
   getLanguage,
   fetchJson,
+  fetchBlob,
   fetchPlain,
   postJson
 };
