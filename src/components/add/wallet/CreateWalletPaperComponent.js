@@ -7,6 +7,7 @@ import { WizardPanel, Next } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 import { fetchBlob } from './../../../services/ApiRequest';
 import Debounced from './../../../services/Debounced';
+import RadioButtonGroup from './../../controls/RadioButtonGroup';
 
 
 const _t = {
@@ -23,42 +24,58 @@ const section = 'create';
 export class CreateWalletPaperComponent extends React.Component {
   state = { 
     value: '',
-    frameDataUrl: ''
+    frameDataUrl: '',
+    mode: 'insecure',
+    encrypting: false
   };
 
   componentDidMount = () => {
     this.loadFrame();
   };
 
-  componentWillUpdate = (nextProps, nextState) => {
-    if (nextState.value !== this.state.value) {
-        Debounced.start('reload-frame', () => {
-          this.loadFrame();
-        }, 10000);
-    }
-  };
+  // componentWillUpdate = (nextProps, nextState) => {
+  //   if (nextState.value !== this.state.value) {
+  //       Debounced.start('reload-frame', () => {
+  //         this.loadFrame();
+  //       }, 10000);
+  //   }
+  // };
 
   onChange = (value) => {
     this.setState({ value });
   };
 
+  onChangeMode = (mode) => {
+    if (mode === 'insecure') {
+      this.loadFrame();
+    };
+    this.setState({ mode });
+  };
+
   loadFrame = () => {
     const { add } = this.props;
-    if (add.lastResponse && add.lastResponse.data && add.lastResponse.data.id) {
+    const password = this.state.value;
+    if (
+      add.lastResponse 
+      && add.lastResponse.data 
+      && add.lastResponse.data.id
+    ) {
+      this.setState({ encrypting: true });
       const url = `/api/wallets/${add.lastResponse.data.id}/pdf?rotate=true`;
-      const password = this.state.value;
       const headers = new Headers();
       headers.append('BIP38-Passphrase', password);
       fetchBlob(url, { headers }).then(response => {
         this.setState({
-          frameDataUrl: URL.createObjectURL(response)
+          frameDataUrl: URL.createObjectURL(response),
+          encrypting: false
         });
       });
     }
   }
 
   render() {
-    const { value } = this.state;
+    console.log(this.state);
+    const { value, mode, encrypting, frameDataUrl } = this.state;
     const { add, setup } = this.props;
     const { network, testnet } = add[section];
     const { networksConfig } = setup;
@@ -71,19 +88,46 @@ export class CreateWalletPaperComponent extends React.Component {
       return <Redirect to={menu[step - 1]} />
     }
 
-    const { frameDataUrl } = this.state; 
-
     return (
       <WizardPanel title={_t.paperWallet}>
         <Next to={`/wallets`} title={_t.myAssets} />
         <div style={{ margin: '30px auto'}}>
-          <p style={{ textAlign: 'center', margin: 0 }}>{_t.printInsecurePaperWallet}</p>
-          <p style={{ textAlign: 'center', margin: 0 }}>{_t.printSecuredPaperWallet}</p>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ marginBottom: 5 }}>
-                <TextInput value={value} onChange={this.onChange} placeholder={_t.yourPassword} style={{ textAlign: 'center' }}/>
-            </div>
+          {/* <p style={{ textAlign: 'center', margin: 0 }}>{_t.printInsecurePaperWallet}</p>
+          <p style={{ textAlign: 'center', margin: 0 }}>{_t.printSecuredPaperWallet}</p> */}
+          <div>
+            <RadioButtonGroup options={[
+              { value: 'insecure', label: 'Insecure Paper Wallet' },
+              { value: 'secure', label: 'Password Protected Paper Wallet' }
+            ]} onChange={this.onChangeMode} value={mode} />
           </div>
+          {mode === 'secure' ?
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ marginBottom: 5 }}>
+                  <TextInput 
+                    value={value} 
+                    onChange={this.onChange} 
+                    placeholder={_t.yourPassword}
+                    style={{ 
+                      textAlign: 'center', 
+                      float: 'left',
+                      width: '88%'
+                    }}
+                  />
+                  <button
+                    className="btn btn-xs btn-warning"
+                    style={{ 
+                      padding: "2px 10px",
+                      float: 'right'
+                    }} 
+                    onClick={() => { 
+                      if (value) this.loadFrame();
+                    }}
+                  >
+                    <img src={`/media/${encrypting ? 'loader365thumb.gif' : 'lock-solid.svg'}`} style={{ width: 'auto', height: 12 }} />
+                  </button>
+              </div>
+            </div> : false
+          }
           <div style={{ textAlign: 'center' }}>
             {/* <button className='btn btn-success'>{_t.printWallet}</button> */}
             <IFrame
