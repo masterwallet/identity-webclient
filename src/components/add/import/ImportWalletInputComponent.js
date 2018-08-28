@@ -4,12 +4,13 @@ import { Steps } from './../../controls/Steps';
 import { ImportMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next, Prev } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
+import RadioButtonGroup from './../../controls/RadioButtonGroup';
 // import TextArea from './../../controls/TextArea';
 
 const _t = {
   enterPrivateKey: 'Enter Private Key',
   providePrivateKey: 'Please provide your Private Key:',
-  providePassphrase: 'Please provide encryption passphrase, if any:',
+  providePassphrase: 'Please provide encryption passphrase:',
   orCopyPasteKeyStore: 'or Paste Key Store File Contents',
   continue: 'Continue',
   back: 'Back'
@@ -19,7 +20,8 @@ const section = 'import';
 export class ImportWalletInputComponent extends React.Component {
   state = {
     privateKey: '',
-    password: ''
+    password: '',
+    mode: 'insecure'
   };
 
   onChangePrivateKey = (value) => {
@@ -27,6 +29,11 @@ export class ImportWalletInputComponent extends React.Component {
   };
   onChangePassword = (value) => {
     this.setState({ password: value });
+  };
+  onChangeMode = (value) => {
+    let { mode, password } = this.state;
+    password = mode === 'insecure' ? '' : password;
+    this.setState({ mode: value, password });
   };
 
   render() {
@@ -37,7 +44,7 @@ export class ImportWalletInputComponent extends React.Component {
     const menu = ImportMenu({ network, testnet, networksConfig });
     if (!menu) return false;
     const step = findWizardStep(menu, '/wallet');
-    const { privateKey, password } = this.state;
+    const { privateKey, password, mode } = this.state;
 
     const canContinue = !!privateKey;
     if (lastResponse.data && lastResponse.data.id) {
@@ -46,7 +53,7 @@ export class ImportWalletInputComponent extends React.Component {
 
     const onSend = () => (onSubmit({ ...networksConfig, name, privateKey, password }));
     return (
-      <WizardPanel title={_t.enterPrivateKey} wide={true}>
+      <WizardPanel title={_t.enterPrivateKey} wide={false}>
         <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} onClick={onSend}/>
         <Prev to={menu[step - 1]} title={_t.back} />
 
@@ -54,10 +61,20 @@ export class ImportWalletInputComponent extends React.Component {
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
         </div>
-        <div style={{ margin: '20px auto'}}>
-          <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePassphrase}</p>
-          <TextInput value={password} onChange={this.onChangePassword} />
+        <div>
+          <RadioButtonGroup options={[
+            { value: 'insecure', label: 'Insecure Wallet' },
+            { value: 'secure', label: 'Password Protected Wallet' }
+          ]} onChange={this.onChangeMode} value={mode} />
         </div>
+        {
+          mode === 'secure' ? 
+          <div style={{ margin: '20px auto'}}>
+            <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePassphrase}</p>
+            <TextInput value={password} onChange={this.onChangePassword} />
+          </div> 
+          : false
+        }
 
         <Steps {...{step, menu}} />
       </WizardPanel>
