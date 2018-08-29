@@ -42,14 +42,15 @@ export class CreateWalletPaperComponent extends React.Component {
   // };
 
   onChange = (value) => {
-    this.setState({ value });
+    const valid = /^[\x00-\x7F]+$/.test(value);
+    this.setState({ value, valid, frameDataUrl: '' });
   };
 
   onChangeMode = (mode) => {
     if (mode === 'insecure') {
       this.loadFrame();
     };
-    this.setState({ mode });
+    this.setState({ mode, frameDataUrl: '' });
   };
 
   loadFrame = () => {
@@ -60,7 +61,7 @@ export class CreateWalletPaperComponent extends React.Component {
       && add.lastResponse.data 
       && add.lastResponse.data.id
     ) {
-      this.setState({ encrypting: true });
+      this.setState({ encrypting: true, frameDataUrl: '' });
       const url = `/api/wallets/${add.lastResponse.data.id}/pdf?rotate=true`;
       const headers = new Headers();
       headers.append('BIP38-Passphrase', password);
@@ -74,8 +75,8 @@ export class CreateWalletPaperComponent extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-    const { value, mode, encrypting, frameDataUrl } = this.state;
+    //console.log(this.state);
+    const { value, mode, encrypting, frameDataUrl, valid } = this.state;
     const { add, setup } = this.props;
     const { network, testnet } = add[section];
     const { networksConfig } = setup;
@@ -114,13 +115,13 @@ export class CreateWalletPaperComponent extends React.Component {
                     }}
                   />
                   <button
-                    className="btn btn-xs btn-warning"
+                    className={`btn btn-xs btn-warning ${!valid ? 'disabled' : ''}`}
                     style={{ 
                       padding: "2px 10px",
                       float: 'right'
                     }} 
                     onClick={() => { 
-                      if (value) this.loadFrame();
+                      if (value && valid) this.loadFrame();
                     }}
                   >
                     <img src={`/media/${encrypting ? 'loader365thumb.gif' : 'lock-solid.svg'}`} style={{ width: 'auto', height: 12 }} />
@@ -150,7 +151,7 @@ export class CreateWalletPaperComponent extends React.Component {
           </div>
         </div> */}
         <hr />
-        <pre>{JSON.stringify({ lastResponse }, null, 2)}</pre>
+        {/* <pre>{JSON.stringify({ lastResponse }, null, 2)}</pre> */}
         <Steps {...{ step, menu }} />
       </WizardPanel>
     )
