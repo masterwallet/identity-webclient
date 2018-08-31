@@ -123,7 +123,7 @@ export const AssetsList = ({ assets, currency }) => (
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?
             <img style={{ width: 24, height: 'auto' }} src={asset.icon} alt="" /> :
-            <img style={{ width: 24, height: 'auto' }} src='/media/noicon.png' alt="" />
+            <img style={{ width: 24, height: 'auto' }} src='media/noicon.png' alt="" />
           }
         </div>
         <div className="asset-rows">

@@ -40,7 +40,7 @@ export const LockButton = ({ title = 'Lock', to, disabled = false }) => (
   <Wrapper>
     <Link disabled={disabled} to={'/unlock'} className="btn btn-primary btn-sm">
       <span className="title">{title}</span>
-      <img src="/media/reset.svg" style={{ width: 20 }} alt={title} />
+      <img src="media/reset.svg" style={{ width: 20 }} alt={title} />
     </Link>
   </Wrapper>
 );

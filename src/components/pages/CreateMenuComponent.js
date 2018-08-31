@@ -34,7 +34,7 @@ const options = [
   {
     label: 'Import Existing Wallet',
     value: 'import',
-    comment: 'Import Another Wallet (providing private key or keystore)'
+    comment: 'Import Another Wallet (providing private key)'
   }
 ];
 

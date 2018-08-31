@@ -67,7 +67,7 @@ export class ShakeComponent extends React.Component {
         <Prev title={_t.back} to={menu[step - 1]} />
         <Centered>
           <div style={{ margin: '20px auto', display: 'flex' }}>
-            <img src='/media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />
+            <img src='media/randommove.svg' alt='' style={{ width: 'auto', height: '50px', marginRight: 5 }} />
             <div style={{ textAlign: 'center', fontSize: 14 }}>{_t.pleaseShakeDesktop}</div>
           </div>
           <ProgressCircle value={install.generatedProgress} />

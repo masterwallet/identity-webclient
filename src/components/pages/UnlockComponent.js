@@ -12,7 +12,7 @@ export const UnlockComponent = () => (
     <p style={{ textAlign: 'center', marginTop: 20 }}>{_t.byEntering}</p>
     <PinCode />
     <div style={{ margin: '20px auto', textAlign: 'center' }}>
-      <img src='/media/unlock.png' alt='' style={{ width: '50%', height: 'auto' }} />
+      <img src='media/unlock.png' alt='' style={{ width: '50%', height: 'auto' }} />
     </div>
   </WizardPanel>
 );
