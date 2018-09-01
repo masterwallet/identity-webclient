@@ -18,7 +18,7 @@ export const CompleteComponent = () => {
       <Next title={_t.start} to={'/add'} />
 
       <div style={{ margin: '20px auto', textAlign: 'center' }}>
-        <img src='/media/applause.png' alt='' style={{ width: 210, height: 210 }} />
+        <img src='media/applause.png' alt='' style={{ width: 210, height: 210 }} />
         <h4 style={{ textAlign: 'center'}}>{_t.congrats}</h4>
         <p style={{ textAlign: 'center', marginBottom: 0, fontWeight: 'bold' }}>{_t.successfullyFinished}</p>
       </div>

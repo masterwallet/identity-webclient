@@ -30,7 +30,7 @@ export const Address = ({ value }) => (
   <AddressContainer>
     <AddressLabel title={value}>{value}</AddressLabel>
     <button className="btn btn-xs btn-success" style={{ padding: "2px 10px" }} onClick={() => (copyToClipboard(value))}>
-      <img src="/media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
+      <img src="media/copy.png" alt='Copy to Buffer' style={{ width: 'auto', height: 12 }} />
     </button>
   </AddressContainer>
 );

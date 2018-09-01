@@ -21,7 +21,7 @@ export const WelcomeComponent = ({ setup }) => {
       <Next title={_t.start} to={menu[step + 1]} />
 
       <div style={{ marginTop: 30, marginBottom: 30, textAlign: 'center' }}>
-        <img style={{ width: 150, height: 163 }} src='/media/temp-wallet.png' alt='' />
+        <img style={{ width: 150, height: 163 }} src='media/temp-wallet.png' alt='' />
       </div>
       <p style={{ textAlign: 'center', fontWeight: 'bold' }}>
         {_t.ourMission}
