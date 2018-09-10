@@ -1,3 +1,47 @@
+import pathToRegexp from 'path-to-regexp';
+
+const urlPatterns = [
+  '/api/status',
+  '/api/storage',
+  '/api/wallets',
+  '/api/wallets/generate',
+  '/api/wallets/:id',
+  '/api/wallets/:id/assets',
+  '/api/wallets/:id/assets/:assetId',
+  '/api/wallets/:id/pdf',
+  '/api/networks',
+  '/api/networks/:networkId/terms',
+  '/api/networks/:networkId/status',
+  '/api/networks/:networkId/address/:address',
+];
+
+const getParams = ({ url }) => {
+  const params = {};
+  urlPatterns.forEach(p => {
+    const keys = [];
+    const re = pathToRegexp(p, keys);
+    if (keys.length > 0) {
+      const results = re.exec(url);
+      if (results) {
+        keys.forEach((key, i) => {
+          params[key.name] = results[i + 1]; 
+        });
+      }
+    }
+  });
+  return params;
+};
+
+const getUrlPattern = ({ url }) => {
+  for (let i = 0; i < urlPatterns.length; i++) {
+    if (pathToRegexp(urlPatterns[i]).test(url)) {
+      return urlPatterns[i];
+    }
+  }
+};
+
+const makeRandomString = () => Math.random().toString(32).substring(2);
+
 export const getRoot = () => {
   const root = localStorage.getItem("masterwallet_api_root") ||
     process.env.REACT_APP_API_URL || '/api';
@@ -6,6 +50,54 @@ export const getRoot = () => {
 
 export const getLanguage = () => {
   return localStorage.getItem('masterwallet_lang') || process.env.REACT_APP_LANG || 'en';
+};
+
+export const isElectron = () => {
+  if (window && typeof window.require === 'function') {
+    const electron = window.require('electron');
+    const isElectron = electron.remote.getGlobal('process').env.REACT_APP_IS_ELECTRON;
+    return isElectron === 'true';
+  }
+  return false;
+};
+
+const fetchIPC = ({ method, url, options }) => {
+  return new Promise((resolve, reject) => {
+    const { ipcRenderer } = window.require('electron');
+    if (ipcRenderer) {
+      // Extract params from url
+      options.params = getParams({ url });
+      // Convert url to pattern, because IPCMain is bound to pattern, not particular url
+      const _url = getUrlPattern({ url });
+      const channel = `${method} ${_url}`;
+      
+      // Generate listener name to remove it later
+      const listener = makeRandomString();
+      options.params.listener = listener;
+      global[listener] = (event, args) => {
+        //console.log(Math.random(), options, channel, args);
+        const response = JSON.parse(args);
+        global[response.params.resolver](response);
+      };
+
+      // Function that calls promise resolve
+      const resolver = makeRandomString();
+      options.params.resolver = resolver;
+      global[resolver] = (response) => { 
+        resolve(response);
+        // Remove listener from callback
+        ipcRenderer.removeListener(channel, global[response.params.listener]);
+        // Remove listener from global:
+        //delete global[response.params.listener];
+        // Remove resolver from global:
+        //delete global[response.params.resolver];
+      };
+      ipcRenderer.on(channel, global[listener]);
+      ipcRenderer.send(channel, options);
+    } else {
+      reject('Electron IPC Rendered not found');
+    }
+  });
 };
 
 const strip = (html) => {
@@ -94,20 +186,29 @@ export const fetchBlob = (url, options = {}) => {
 };
 
 export const fetchJson = (url, options = {}) => {
-  return fetch(getRoot() + url, options)
-    .then(handleJsonResponse);
+  if (isElectron()) {
+    return fetchIPC({ method: 'GET', url, options });
+  } else {
+    return fetch(getRoot() + url, options)
+      .then(handleJsonResponse);
+  }
 };
 
 export const postJson = (url, body) => {
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   const options = { method: 'POST', headers, mode: 'cors', redirect: 'follow', body: JSON.stringify(body) };
-  return fetch(getRoot() + url, options)
-    .then(handleJsonResponse)
-    .then(obj => {
-      if (obj.status === 'error' && obj.error) throw new Error(obj.error);
-      return obj;
-    });
+
+  if (isElectron()) {
+    return fetchIPC({ method: 'POST', url, options});
+  } else {
+    return fetch(getRoot() + url, options)
+      .then(handleJsonResponse)
+      .then(obj => {
+        if (obj.status === 'error' && obj.error) throw new Error(obj.error);
+        return obj;
+      });
+  }
 };
 
 export default {

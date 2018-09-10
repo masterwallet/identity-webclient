@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 export const lang = localStorage.getItem('masterwallet_locale') || 'en';
 
 export const Storage = {
@@ -18,6 +19,9 @@ export const Storage = {
 };
 
 export class FromFile extends React.Component {
+  state = {
+    contents: null,
+  };
   root = null;
 
   updateText = () => {
@@ -29,6 +33,7 @@ export class FromFile extends React.Component {
         div.innerHTML = contents;
         this.root.appendChild(div);
       }
+      this.setState({ contents });
     });
   };
   componentWillMount() {
@@ -38,7 +43,12 @@ export class FromFile extends React.Component {
     // this.updateText();
   }
   render() {
-    return (<div ref={c => (this.root = c)}></div>);
+    const { contents } = this.state;
+    const fileExtension = this.props.name.split('.').pop();
+    if (fileExtension === 'md') {
+      return <ReactMarkdown source={contents} />;
+    }
+    return (<div ref={c => (this.root = c)}></div>); //c => this.setState({ root: c })
   }
 }
 

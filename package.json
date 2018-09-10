@@ -5,10 +5,13 @@
   "homepage": ".",
   "dependencies": {
     "cors": "^2.8.4",
+    "electron": "^2.0.8",
+    "path-to-regexp": "^2.4.0",
     "qrcode.react": "^0.8.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-iframe": "^1.2.0",
+    "react-markdown": "^3.6.0",
     "react-markdown-renderer": "^1.4.0",
     "react-redux": "^5.0.6",
     "react-redux-toastr": "^7.2.3",

@@ -21,7 +21,7 @@ export const PrivacyComponent = () => {
       <Next title={_t.accept} to={menu[step + 1]} />
       <Prev title={_t.back} to={menu[step - 1]} />
 
-      <FromFile name="privacy.html" />
+      <FromFile name="privacy.md" />
       <Steps {...{ step, menu }} />
     </WizardPanel>
   );
