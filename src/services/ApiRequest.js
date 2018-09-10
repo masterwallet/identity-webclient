@@ -100,6 +100,25 @@ const fetchIPC = ({ method, url, options }) => {
   });
 };
 
+const fetchPlainIPC = ({ url, options }) => {
+  return new Promise((resolve, reject) => {
+    const { ipcRenderer } = window.require('electron');
+    if (ipcRenderer) {
+      options.params = getParams({ url });
+      const _url = getUrlPattern({ url });
+      const channel = `GET ${_url}`;
+      const listener = (event, args) => {
+        resolve(args);
+        ipcRenderer.removeListener(channel, listener);
+      };
+      ipcRenderer.on(channel, listener);
+      ipcRenderer.send(channel, options);
+    } else {
+      reject('Electron IPC Rendered not found')
+    }
+  });
+};
+
 const strip = (html) => {
   let returnText = "" + html;
   returnText=returnText.replace(/<head.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/head>/gi, "");
@@ -168,13 +187,15 @@ const handleJsonResponse = async (res) => {
 };
 
 export const fetchPlain  = (url, options = {}) => {
-  return fetch(getRoot() + url, options)
-    .then(async res => {
-      if (res.status === 404) throw new Error('Not Found');
-      // const contentType = res.headers.get('content-type');
-      //return res.text();
-      return res.text();
-    });
+  if (isElectron()) {
+    return fetchPlainIPC({ url, options });
+  } else {
+    return fetch(getRoot() + url, options)
+      .then(async res => {
+        if (res.status === 404) throw new Error('Not Found');
+        return res.text();
+      });
+  }
 };
 
 export const fetchBlob = (url, options = {}) => {
