@@ -6,7 +6,7 @@ import { CreateMenu } from './pages/CreateMenu';
 import { Settings } from './pages/Settings';
 import { Unlock } from './pages/Unlock';
 import { AssetsOverview, AssetsCombined } from './assets/index';
-import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount } from './wallet/index';
+import { WalletBalance, WalletReceive, WalletSend, WalletVote, WalletAccount, WalletUnsafe } from './wallet/index';
 import { NetworkStatus, NetworkTransaction } from './network/index';
 import { Home } from './pages/Home';
 import './App.css';
@@ -82,6 +82,7 @@ const App = () => (
         <Route path='/wallets/:walletId/send'    component={WalletSend} />
         <Route path='/wallets/:walletId/vote'    component={WalletVote} />
         <Route path='/wallets/:walletId/account'    component={WalletAccount} />
+        <Route path='/wallets/:walletId/unsafe' component={WalletUnsafe} />
 
         {/* Network */}
         <Route path='/networks/:network'                     component={NetworkStatus} />

@@ -3,11 +3,18 @@ const defaultAssets = {
   error: ''
 };
 
+const defaultDeletionStatus = {
+  deleted: false,
+  isDeleting: false,
+  error: ''
+};
+
 const initialState = {
   object: {},
   isLoading: true,
   error: '',
-  assets: defaultAssets
+  assets: defaultAssets,
+  deletionStatus: defaultDeletionStatus
 };
 
 const fixIcon = w => ({...w, icon: `/networks/${w.network}.png`});
@@ -43,6 +50,16 @@ export default function (state = initialState, action) {
     case 'WALLET_ASSETS_ERROR': {
       const { error } = action.payload;
       return { ...state, assets: { ...defaultAssets, error, isLoading: false } };
+    }
+
+    case 'WALLET_DELETE_REQUEST': {
+      return { ...state, deletionStatus: { ...defaultDeletionStatus, isDeleting: true, error: '' }};
+    }
+    case 'WALLET_DELETED': {
+      return { ...state, deletionStatus: { ...defaultDeletionStatus, deleted: true }};
+    }
+    case 'WALLET_DELETE_ERROR': {
+      return { ...state, deletionStatus: { ...defaultDeletionStatus, error: action.payload.error }};
     }
 
     case 'WALLET_CONTRACT_RECEIVED': {

@@ -95,7 +95,8 @@ const _t = {
   receive: 'Receive',
   send: 'Send',
   assets: 'Assets in This Wallet',
-  recentTransactions: 'Recent Transactions'
+  recentTransactions: 'Recent Transactions',
+  unsafeOperations: 'Unsafe Operations'
 };
 
 //const TransactionDetail = ({ asset, icon, hash, date }) => {
@@ -184,6 +185,8 @@ export class WalletBalanceComponent extends React.Component {
                <Receive><div><QrIcon /></div>{_t.receive}</Receive>
              </Link>
            </Totals>
+
+           <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link>
 
            <AssetTable>
              <thead><tr><th>{a.length + ' ' + _t.assets}</th></tr></thead>

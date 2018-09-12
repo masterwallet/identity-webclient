@@ -232,6 +232,15 @@ export const postJson = (url, body) => {
   }
 };
 
+export const fetchDelete = (url, options = {}) => {
+  if (isElectron()) {
+    return fetchIPC({ method: 'DELETE', url, options });
+  } else {
+    options.method = 'DELETE';
+    return fetch(getRoot() + url, options).then(handleJsonResponse);
+  }
+};
+
 export default {
   getRoot,
   getLanguage,
