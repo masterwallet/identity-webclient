@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "b64-to-blob": "^1.2.19",
     "cors": "^2.8.4",
     "electron": "^2.0.8",
     "path-to-regexp": "^2.4.0",

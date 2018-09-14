@@ -1,4 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
+import URL from 'url';
+import b64toBlob from 'b64-to-blob';
 
 const urlPatterns = [
   '/api/status',
@@ -14,6 +16,21 @@ const urlPatterns = [
   '/api/networks/:networkId/status',
   '/api/networks/:networkId/address/:address',
 ];
+
+const getQuery = ({ url }) => {
+  const urlObj = URL.parse(url);
+  const query = {};
+  if (urlObj.query) {
+    const keyValuePairs = urlObj.query.split('&');
+    keyValuePairs.forEach(kvpair => {
+      const pair = kvpair.split('=');
+      if (pair[0] && pair[1]) {
+        query[pair[0]] = pair[1];
+      }
+    });
+  }
+  return query;
+};
 
 const getParams = ({ url }) => {
   const params = {};
@@ -65,12 +82,16 @@ const fetchIPC = ({ method, url, options }) => {
   return new Promise((resolve, reject) => {
     const { ipcRenderer } = window.require('electron');
     if (ipcRenderer) {
-      // Extract params from url
-      options.params = getParams({ url });
-      // Convert url to pattern, because IPCMain is bound to pattern, not particular url
-      const _url = getUrlPattern({ url });
+      let _url = url;
+      // Extract query from url
+      options.query = getQuery({ url: _url });
+      // URL without query:
+      _url = URL.parse(_url).pathname;
+      options.params = getParams({ url: _url });
+       // Convert url to pattern, because IPCMain is bound to pattern, not particular url
+      _url = getUrlPattern({ url: _url });
+
       const channel = `${method} ${_url}`;
-      
       // Generate listener name to remove it later
       const listener = makeRandomString();
       options.params.listener = listener;
@@ -104,11 +125,20 @@ const fetchPlainIPC = ({ url, options }) => {
   return new Promise((resolve, reject) => {
     const { ipcRenderer } = window.require('electron');
     if (ipcRenderer) {
-      options.params = getParams({ url });
-      const _url = getUrlPattern({ url });
+      let _url = url;
+      options.query = getQuery({ url: _url });
+      // URL without query:
+      _url = URL.parse(_url).pathname;
+      options.params = { ...options.params, ...(getParams({ url: _url })) };
+      _url = getUrlPattern({ url: _url });
       const channel = `GET ${_url}`;
       const listener = (event, args) => {
-        resolve(args);
+        if (options.params.encoding === 'base64') {
+          const contentType = options.headers && options.headers['Content-Type'] ? options.headers['Content-Type'] : '';
+          resolve(b64toBlob(args, contentType ));
+        } else {
+          resolve(args);
+        }
         ipcRenderer.removeListener(channel, listener);
       };
       ipcRenderer.on(channel, listener);
@@ -199,11 +229,17 @@ export const fetchPlain  = (url, options = {}) => {
 };
 
 export const fetchBlob = (url, options = {}) => {
-  return fetch(getRoot() + url, options)
-  .then(async res => {
-    if (res.status === 404) throw new Error('Not Found');
-    return res.blob();
-  });
+  if (isElectron()) {
+    options.params = { encoding: 'base64' };
+    options.headers = { 'Content-Type': 'application/pdf' };
+    return fetchPlainIPC({ url, options });
+  } else {
+    return fetch(getRoot() + url, options)
+    .then(async res => {
+      if (res.status === 404) throw new Error('Not Found');
+      return res.blob();
+    });
+  }
 };
 
 export const fetchJson = (url, options = {}) => {

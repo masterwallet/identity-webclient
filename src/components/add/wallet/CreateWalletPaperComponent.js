@@ -19,7 +19,6 @@ const _t = {
   yourPassword: 'Secret Wallet Password'
 };
 
-
 const section = 'create';
 export class CreateWalletPaperComponent extends React.Component {
   state = { 
@@ -66,8 +65,27 @@ export class CreateWalletPaperComponent extends React.Component {
       const headers = new Headers();
       headers.append('BIP38-Passphrase', password);
       fetchBlob(url, { headers }).then(response => {
+        const pdfUrl = URL.createObjectURL(response);
+        console.log(pdfUrl);
+        const innerFrameHtml = `
+          <html>
+            <body>
+              <object data="${pdfUrl}" type="application/pdf">
+                <embed
+                  src="${pdfUrl}"
+                  type="application/pdf"
+                  style="height:750px;width300px;"
+                />
+              </object>
+            </body>
+          </html>`;
+          
+        const innerFrameBlob = new Blob([innerFrameBlob], { type: 'text/html' });
+        const frameDataUrl = URL.createObjectURL(innerFrameBlob);
         this.setState({
-          frameDataUrl: URL.createObjectURL(response),
+          //frameDataUrl: URL.createObjectURL(response),
+          frameDataUrl,
+          innerFrameHtml,
           encrypting: false
         });
       });
@@ -131,14 +149,24 @@ export class CreateWalletPaperComponent extends React.Component {
           }
           <div style={{ textAlign: 'center' }}>
             {/* <button className='btn btn-success'>{_t.printWallet}</button> */}
-            <IFrame
+            {/* <IFrame
               url={frameDataUrl}
               //url='http://localhost:7773/api/wallets/81b98d95ea338af6c3a5928e4a9055ea58bbf26a/pdf?rotate=true'
               height="750px"
               width="300px"
               display="initial"
               position="relative"
-            />
+            /> */}
+            <iframe
+              srcDoc={this.state.innerFrameHtml} 
+              //src={frameDataUrl}
+              height="750px"
+              width="300px"
+              display="initial"
+              position="relative"
+            >
+            </iframe>
+            
           </div>
         </div>
         {/* <div style={{ margin: '30px auto'}}>
