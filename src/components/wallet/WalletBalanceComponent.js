@@ -99,14 +99,16 @@ const _t = {
   unsafeOperations: 'Unsafe Operations'
 };
 
-//const TransactionDetail = ({ asset, icon, hash, date }) => {
-//  return (
-//    <div>
-//      {asset} &nbsp;
-//      {date}
-//    </div>
-//  );
-//};
+//  asset, icon, hash, date ?
+const TransactionDetail = (transaction) => { 
+ return (
+   <div style={{ width: 300, textAlign: 'left' }}>
+     {/* {asset} &nbsp;
+     {date} */}
+     <pre>{JSON.stringify(transaction, null, 2)}</pre>
+   </div>
+ );
+};
 
 const AssetTable = styled.table`
   border: 0px transparent solid;
@@ -161,7 +163,7 @@ export class WalletBalanceComponent extends React.Component {
     this.props.onAbort();
   }
   render() {
-   const { wallet } = this.props;
+   const { wallet, transactions } = this.props;
    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
    const { id } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
@@ -191,7 +193,7 @@ export class WalletBalanceComponent extends React.Component {
            <AssetTable>
              <thead><tr><th>{a.length + ' ' + _t.assets}</th></tr></thead>
              <tbody><tr><td><AssetsList assets={a} currency={'USD'} /></td></tr>
-             {/*
+             
              <tr><th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th></tr>
              {transactions.list.map((tr, index) => (
                <tr key={index}>
@@ -200,7 +202,6 @@ export class WalletBalanceComponent extends React.Component {
                  </td>
                </tr>
              ))}
-             */}
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>

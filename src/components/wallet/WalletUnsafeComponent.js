@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
 import { SmallLoader } from './../controls/SmallLoader';
+import PaperWalletComponent from './../wallet/PaperWalletComponent';
 
 const AlertButtons = styled.div`
 display: flex;
@@ -17,7 +18,7 @@ const _t = {
 };
 
 const DeletionStage = ({ deletionStatus, onCancel, onDelete }) => {
-  const { deletion, deleted, isDeleting, error } = deletionStatus;
+  const { deletion, isDeleting, error } = deletionStatus;
   if (!deletion) {
     return false;
   } else {
@@ -70,6 +71,7 @@ export class WalletUnsafeComponent extends React.Component {
     const errorMessage = error; // no need to display assets error
     return (
       <WalletPanel {...object} isLoading={isLoading || assets.isLoading} back={true} >
+        <Esc to={`/wallets/${id}/balance`} />
         {errorMessage ? ( <div className='error'>{errorMessage}</div> ) 
           : (
             <div>
@@ -84,9 +86,8 @@ export class WalletUnsafeComponent extends React.Component {
                   errorMessage: this.state.deletionError
                 }} />
               </div>
-              <div>
-                Print wallet
-              </div>
+              <hr />
+              <PaperWalletComponent walletId={id} />
             </div>
         )}
       </WalletPanel>

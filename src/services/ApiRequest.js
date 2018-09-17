@@ -49,6 +49,17 @@ const getParams = ({ url }) => {
   return params;
 };
 
+const parseHeaders = (optionHeaders) => {
+  if (!optionHeaders) {
+    optionHeaders = new Headers();
+  }
+  const headers = {}; // headers as plain json
+  for (const pair of optionHeaders.entries()) {
+    headers[pair[0]] = pair[1];
+  }
+  return headers;
+};
+
 const getUrlPattern = ({ url }) => {
   for (let i = 0; i < urlPatterns.length; i++) {
     if (pathToRegexp(urlPatterns[i]).test(url)) {
@@ -230,8 +241,9 @@ export const fetchPlain  = (url, options = {}) => {
 
 export const fetchBlob = (url, options = {}) => {
   if (isElectron()) {
-    options.params = { encoding: 'base64' };
-    options.headers = { 'Content-Type': 'application/pdf' };
+    options.params = { ...options.params, encoding: 'base64' };
+    options.headers = parseHeaders(options.headers);
+    options.headers['Content-Type'] = 'application/pdf';
     return fetchPlainIPC({ url, options });
   } else {
     return fetch(getRoot() + url, options)
