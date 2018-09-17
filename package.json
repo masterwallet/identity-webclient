@@ -39,11 +39,9 @@
   "scripts": {
     "start": "cross-env PORT=4099 REACT_APP_MOCK=1 REACT_APP_API_URL=http://localhost:7773 react-scripts start",
     "build": "cross-env REACT_APP_API_URL=http://127.0.0.1:7773 react-scripts build",
-
     "build:electron": "cross-env REACT_APP_IS_ELECTRON=1 react-scripts build",
     "copy:electron": "rsync -a ./build/* ../masterwallet-desktop/public",
     "electron": "npm-run-all build:electron copy:electron",
-
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
