@@ -81,12 +81,12 @@ export const getLanguage = () => {
 };
 
 export const isElectron = () => {
-  if (window && typeof window.require === 'function') {
-    const electron = window.require('electron');
-    const isElectron = electron.remote.getGlobal('process').env.REACT_APP_IS_ELECTRON;
-    return isElectron === 'true';
-  }
-  return false;
+  // if (window && typeof window.require === 'function') {
+  //   const electron = window.require('electron');
+  //   const isElectron = electron.remote.getGlobal('process').env.REACT_APP_IS_ELECTRON;
+  //   return isElectron === 'true';
+  // }
+  return !!(process.env.REACT_APP_IS_ELECTRON);
 };
 
 const fetchIPC = ({ method, url, options }) => {
