@@ -11,6 +11,7 @@ const urlPatterns = [
   '/api/wallets/:id/assets',
   '/api/wallets/:id/assets/:assetId',
   '/api/wallets/:id/pdf',
+  '/api/wallets/:id/history',
   '/api/networks',
   '/api/networks/:networkId/terms',
   '/api/networks/:networkId/status',
