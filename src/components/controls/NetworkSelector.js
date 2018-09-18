@@ -20,7 +20,7 @@ export const NetworkSelector = (props) => {
       children: [(
         <div key={n.value} style={{ display: 'flex' }}>
           <div style={{ width: 30, lineHeight: '40px' }}>
-            <img src={n.icon} alt='' style={{ width: 'auto', height: 25 }} />
+            <img src={n.icon && n.icon.charAt(0) === '/' ? n.icon.substring(1) : n.icon} alt='' style={{ width: 'auto', height: 25 }} />
           </div>
           <div style={{
             lineHeight: '40px', fontWeight: 'bold', color: disabled ? '#888' : '#44c28b', width: 40, textAlign: 'center'

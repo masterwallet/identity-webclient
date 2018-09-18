@@ -36,14 +36,19 @@ const IconDiv = styled.div`
 
 const getTestnet = () => { return 'TEST'; };
 
-export const NetworkIcon = ({ network, networkId, testnet, icon, style, title = '' }) => (
-  <IconDiv style={style}>
-    {icon ? (<div className="icon"><img style={{ width: 32, height: 'auto' }} src={icon} alt="" /></div>) : false}
-    <div className="network">
-      <div style={{ flex: 1 }}>{ network }</div>
-      {testnet ? <div className="testnet">{getTestnet({ network, networkId })}</div> : false}
-    </div>
-    {title ? <div className="title">{ title }</div> : false}
+export const NetworkIcon = ({ network, icon, networkId, testnet, style, title = '' }) => {
+  icon = network ? `networks/${network}.png` : (
+    icon && icon.charAt(0) === '/' ? icon.substring(1) : icon
+  );
+  return (
+    <IconDiv style={style}>
+      {icon ? (<div className="icon"><img style={{ width: 32, height: 'auto' }} src={icon} alt="" /></div>) : false}
+      <div className="network">
+        <div style={{ flex: 1 }}>{ network }</div>
+        {testnet ? <div className="testnet">{getTestnet({ network, networkId })}</div> : false}
+      </div>
+      {title ? <div className="title">{ title }</div> : false}
 
-  </IconDiv>
-);
+    </IconDiv>
+  );
+};
