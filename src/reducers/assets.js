@@ -48,7 +48,8 @@ const withTotals = state => {
         !asset.isLoading &&
         !asset.isPending &&
         !asset.error &&
-        asset.value
+        asset.value &&
+        asset.cmc
       ))
       .forEach(({ symbol, name, value, cmc }) => {
         if (typeof assetMap[symbol] === 'undefined') {
@@ -69,10 +70,10 @@ const withTotals = state => {
   const getTotal = loadedWallets
     .map(w => {
       return w.details.assets.map(asset => {
-        const { cmc } = asset;
-        if (cmc) {
+        const { cmc, value } = asset;
+        if (cmc && !isNaN(value) && value) {
           const priceField = `price_${currency}`;
-          return asset.value * cmc[priceField];
+          return value * cmc[priceField];
         }
         return 0;
       });

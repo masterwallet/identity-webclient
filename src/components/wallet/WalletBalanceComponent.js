@@ -96,11 +96,12 @@ const _t = {
   send: 'Send',
   assets: 'Assets in This Wallet',
   recentTransactions: 'Recent Transactions',
+  noRecentTransactions: 'No Transactions',
   unsafeOperations: 'Unsafe Operations'
 };
 
 //  asset, icon, hash, date ?
-const TransactionDetail = (transaction) => { 
+const TransactionDetail = (transaction) => {
  return (
    <div style={{ width: 300, textAlign: 'left' }}>
      {/* {asset} &nbsp;
@@ -171,9 +172,8 @@ export class WalletBalanceComponent extends React.Component {
    const errorMessage = error ? error : assets.error;
    const a = assets && assets.assets ? assets.assets : [];
    return (
-     <WalletPanel {...object} isLoading={isLoading || assets.isLoading}>
-       <MyAssetsButton />
-       <MyWalletsButton />
+     <WalletPanel {...object} isLoading={isLoading}>
+       {(!assets.isLoading) ? [<MyAssetsButton />, <MyWalletsButton />] : false}
        <Esc to='/wallets' />
        {errorMessage ? (
          <div className='error'>{errorMessage}</div>
@@ -188,13 +188,20 @@ export class WalletBalanceComponent extends React.Component {
              </Link>
            </Totals>
 
-           <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link>
-
            <AssetTable>
              <thead><tr><th>{a.length + ' ' + _t.assets}</th></tr></thead>
-             <tbody><tr><td><AssetsList assets={a} currency={'USD'} /></td></tr>
-             
-             <tr><th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th></tr>
+             <tbody>
+              <tr>
+                <td><AssetsList assets={a} currency={'USD'} /></td>
+              </tr>
+              <tr>
+                <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
+              </tr>
+              {!transactions.list.length ? (
+                <tr>
+                  <th>{_t.noRecentTransactions}</th>
+                </tr>
+              ): false}
              {transactions.list.map((tr, index) => (
                <tr key={index}>
                  <td>
@@ -205,6 +212,7 @@ export class WalletBalanceComponent extends React.Component {
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>
+           <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link>
         </div>
        )}
      </WalletPanel>
