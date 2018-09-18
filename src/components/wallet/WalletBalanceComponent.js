@@ -141,11 +141,11 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
     // Sum amounts of all receivers except change address if it equal to wallet address
     amount = Object.keys(transaction.receiver).reduce((acc, r) => {
       if (r !== walletAddress) {
-        acc += transaction.receiver[r];
+        return acc + parseFloat(transaction.receiver[r]);
       }
     }, 0);
   } else {
-    amount = transaction.receiver[walletAddress];
+    amount = parseFloat(transaction.receiver[walletAddress]);
   }
   
   return (
