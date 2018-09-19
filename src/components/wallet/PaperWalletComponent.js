@@ -108,7 +108,7 @@ export default class PaperWalletComponent extends React.Component {
                 }}
               >
                 <img 
-                  src={`/media/${encrypting ? 'loader365thumb.gif' : 'lock-solid.svg'}`} 
+                  src={`media/${encrypting ? 'loader365thumb.gif' : 'lock-solid.svg'}`} 
                   style={{ width: 'auto', height: 12 }}
                   alt='Submit Password'
                 />

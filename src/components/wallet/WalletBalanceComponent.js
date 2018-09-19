@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
 import Esc from './../panel/Esc';
@@ -100,15 +101,67 @@ const _t = {
   unsafeOperations: 'Unsafe Operations'
 };
 
+const shortAddress = (value) => {
+  if (!value) return '';
+  return (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+};
+
 //  asset, icon, hash, date ?
-const TransactionDetail = (transaction) => {
- return (
-   <div style={{ width: 300, textAlign: 'left' }}>
-     {/* {asset} &nbsp;
-     {date} */}
-     <pre>{JSON.stringify(transaction, null, 2)}</pre>
-   </div>
- );
+const TransactionDetail = ({ transaction, walletAddress }) => {
+  const txType = transaction.sender.indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
+  const date = transaction.timestamp ? new Date(transaction.timestamp * 1000) : null;
+
+  const counterpart = [];
+  if (txType === 'outgoing') {
+    // All receivers except wallet address (in case it is used as change address)
+    Object.keys(transaction.receiver).forEach(r => {
+      if (r !== walletAddress) {
+        counterpart.push(r);
+      }
+    });
+  } else {
+    // All senders
+    transaction.sender.forEach(s => counterpart.push(s));
+  }
+  const counterpartElem = (
+    <div>
+      {counterpart.map((s, i) => {
+        return (
+          <div key={i} style={{ display: 'flex' }}>
+            <JDentIcon size={24} value={s}  style={{ background: '#fff' }}/>
+            <div>{shortAddress(s)}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  let amount = 0;
+  if (txType === 'outgoing') {
+    // Sum amounts of all receivers except change address if it equal to wallet address
+    amount = Object.keys(transaction.receiver).reduce((acc, r) => {
+      if (r !== walletAddress) {
+        return acc + parseFloat(transaction.receiver[r]);
+      }
+    }, 0);
+  } else {
+    amount = parseFloat(transaction.receiver[walletAddress]);
+  }
+  
+  return (
+    <div style={{ width: 300, textAlign: 'left' }}>
+      <div style={{ display: 'flex' }}>
+        <img style={{ width: 24, height: 24 }} src={`media/${txType === 'incoming' ? 'sign-in-alt.svg' : 'sign-out-alt.svg'}`} alt={txType} />
+        <div style={{ }}>
+          <div>{date ? `${date.toISOString()}` : 'Not in Block'}</div>
+          {counterpartElem}
+          <div>{amount}</div>
+        </div>
+      </div>
+     
+      {/* <pre>{JSON.stringify(transaction, null, 2)}</pre> */}
+    </div>
+  );
 };
 
 const AssetTable = styled.table`
@@ -166,14 +219,14 @@ export class WalletBalanceComponent extends React.Component {
   render() {
    const { wallet, transactions } = this.props;
    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
-   const { id } = object; // unused: address, publicKey, network, name, icon
+   const { id, address } = object; // unused: address, publicKey, network, name, icon
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
    const a = assets && assets.assets ? assets.assets : [];
    return (
      <WalletPanel {...object} isLoading={isLoading}>
-       {(!assets.isLoading) ? [<MyAssetsButton />, <MyWalletsButton />] : false}
+       {(!assets.isLoading) ? [<MyAssetsButton key={0} />, <MyWalletsButton key={1} />] : false}
        <Esc to='/wallets' />
        {errorMessage ? (
          <div className='error'>{errorMessage}</div>
@@ -205,7 +258,7 @@ export class WalletBalanceComponent extends React.Component {
              {transactions.list.map((tr, index) => (
                <tr key={index}>
                  <td>
-                   <TransactionDetail {...tr} />
+                   <TransactionDetail transaction={tr} walletAddress={address} />
                  </td>
                </tr>
              ))}
