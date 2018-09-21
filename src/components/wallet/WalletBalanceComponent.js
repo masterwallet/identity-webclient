@@ -123,6 +123,7 @@ const calcFontSize = ({ text, maxWidth = 240 }) => {
 const TransactionDetail = ({ transaction, walletAddress }) => {
   const txType = Object.keys(transaction.sender).indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
   const date = transaction.timestamp ? moment.utc(transaction.timestamp * 1000) : null;
+  const multiSender = Object.keys(transaction.sender).length > 1;
 
   const counterpart = [];
   if (txType === 'outgoing') {
@@ -137,8 +138,8 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
     Object.keys(transaction.sender).forEach(s => counterpart.push(s));
   }
 
-  //const amount = parseFloat(transaction[`${txType === 'outgoing' ? 'sender' : 'receiver'}`][walletAddress]);
-  
+  const amount = txType === 'incoming' && !multiSender ? parseFloat(transaction.receiver[walletAddress]) : false; 
+
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
@@ -152,7 +153,9 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
               </div>
               <div style={{ display: 'flex' }}>
                 <div><img src={`media/${txType}-transaction.svg`} style={{ height: 24, width: 24 }} /></div>
-                <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>{parseFloat(transaction[`${txType === 'outgoing' ? 'receiver' : 'sender'}`][addr]) }</div>
+                <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
+                  {amount || parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
+                </div>
                 <div style={{ marginLeft: 'auto' }}>{date ? date.calendar(null, {
                   sameDay: '[Today]',
                   nextDay: '[Tomorrow]',
@@ -160,8 +163,7 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
                   lastDay: '[Yesterday]',
                   lastWeek: 'D MMM, YYYY',
                   sameElse: 'D MMM, YYYY'
-                }) : null}</div>
-                {/* <div style={{ marginLeft: 'auto' }}>{date ? date.format('D MMM, YYYY') : null}</div> */}
+                }) : (<div style={{ color: 'red'}}>UNCONFIRMED</div>)}</div>
               </div>
             </div>
           </div>
