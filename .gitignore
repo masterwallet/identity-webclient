@@ -64,3 +64,5 @@ typings/
 .env.production.local
 
 .idea/
+
+*.old

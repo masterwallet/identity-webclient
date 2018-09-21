@@ -103,6 +103,9 @@ const _t = {
   unsafeOperations: 'Unsafe Operations'
 };
 
+const dateFormat = 'D MMM, YYYY';
+const timeForamt = 'h:mma';
+
 const calcFontSize = ({ text, maxWidth = 240 }) => {
   let options = {
     font: 'Roboto', 
@@ -156,14 +159,18 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
                 <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
                   {amount || parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
                 </div>
-                <div style={{ marginLeft: 'auto' }}>{date ? date.calendar(null, {
-                  sameDay: '[Today]',
-                  nextDay: '[Tomorrow]',
-                  nextWeek: 'D MMM, YYYY',
-                  lastDay: '[Yesterday]',
-                  lastWeek: 'D MMM, YYYY',
-                  sameElse: 'D MMM, YYYY'
-                }) : (<div style={{ color: 'red'}}>UNCONFIRMED</div>)}</div>
+                <div style={{ display: 'flex', fontSize: 'smaller', flexDirection: 'column', marginLeft: 'auto', textAlign: 'right' }}>
+                  <div>{date ? date.calendar(null, {
+                      sameDay: '[Today]',
+                      nextDay: '[Tomorrow]',
+                      nextWeek: dateFormat,
+                      lastDay: '[Yesterday]',
+                      lastWeek: dateFormat,
+                      sameElse: dateFormat
+                    }) : (<div style={{ color: 'red'}}>UNCONFIRMED</div>)}
+                  </div>
+                  <div>{date ? date.format(timeForamt) : false }</div>
+                </div>
               </div>
             </div>
           </div>
@@ -222,9 +229,19 @@ export class WalletBalanceComponent extends React.Component {
     const id = this.props.match.params.walletId;
     this.props.onInit({ id });
   }
+
   componentWillUnmount() {
     this.props.onAbort();
   }
+
+  componentWillReceiveProps(nextProps) {
+    const currWalletId = this.props.match.params.walletId;
+    const nextWalletId = nextProps.match.params.walletId;
+    if (currWalletId !== nextWalletId) {
+      this.props.onInit({ id: nextWalletId });
+    }
+  }
+
   render() {
    const { wallet, transactions } = this.props;
    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
@@ -259,18 +276,27 @@ export class WalletBalanceComponent extends React.Component {
               <tr>
                 <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
               </tr>
-              {!transactions.list.length ? (
-                <tr>
-                  <th>{_t.noRecentTransactions}</th>
-                </tr>
-              ): false}
-             {transactions.list.map((tr, index) => (
-               <tr key={index}>
-                 <td>
-                   <TransactionDetail transaction={tr} walletAddress={address} />
-                 </td>
-               </tr>
-             ))}
+              {transactions.loading ? false : (
+                transactions.error ? (
+                  <tr>
+                    <td>
+                      <div className='alert alert-danger'>{transactions.error}</div>
+                    </td>
+                  </tr>
+                ) : (
+                  transactions.list.length === 0 ? (
+                    <tr>
+                      <th>{_t.noRecentTransactions}</th>
+                    </tr>
+                  ) : transactions.list.map((tr, index) => (
+                    <tr key={index}>
+                      <td>
+                        <TransactionDetail transaction={tr} walletAddress={address} />
+                      </td>
+                    </tr>
+                  ))
+                )
+              )}
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>

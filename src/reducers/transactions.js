@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
       return { ...state, loading: false, list: action.payload.data };
     }
     case 'WALLET_HISTORY_ERROR': {
-      return { ...state, error: action.payload.error };
+      return { ...state, loading: false, error: action.payload.error };
     }
     default:
   }
