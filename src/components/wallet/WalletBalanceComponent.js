@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import moment from 'moment';
+import calculateSize from 'calculate-size';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
@@ -101,15 +103,26 @@ const _t = {
   unsafeOperations: 'Unsafe Operations'
 };
 
-const shortAddress = (value) => {
-  if (!value) return '';
-  return (value.substring(0, 6) + " ... " + value.substring(value.length - 10));
+const calcFontSize = ({ text, maxWidth = 240 }) => {
+  let options = {
+    font: 'Roboto', 
+    fontSize: '1rem'
+  };
+  let currSize = calculateSize(text, options);
+  let fontSize = 1;
+
+  while (currSize.width >= maxWidth) {
+    fontSize = (fontSize - 0.1).toFixed(1);
+    options.fontSize = `${fontSize}rem`;
+    currSize = calculateSize(text, options);
+  }
+  return `${fontSize}rem`;
 };
 
 //  asset, icon, hash, date ?
 const TransactionDetail = ({ transaction, walletAddress }) => {
-  const txType = transaction.sender.indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
-  const date = transaction.timestamp ? new Date(transaction.timestamp * 1000) : null;
+  const txType = Object.keys(transaction.sender).indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
+  const date = transaction.timestamp ? moment.utc(transaction.timestamp * 1000) : null;
 
   const counterpart = [];
   if (txType === 'outgoing') {
@@ -121,45 +134,39 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
     });
   } else {
     // All senders
-    transaction.sender.forEach(s => counterpart.push(s));
+    Object.keys(transaction.sender).forEach(s => counterpart.push(s));
   }
-  const counterpartElem = (
-    <div>
-      {counterpart.map((s, i) => {
+
+  //const amount = parseFloat(transaction[`${txType === 'outgoing' ? 'sender' : 'receiver'}`][walletAddress]);
+  
+  return (
+    <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+      {counterpart.map((addr, i) => {
+        const fontSize = calcFontSize({ text: addr });
         return (
-          <div key={i} style={{ display: 'flex' }}>
-            <JDentIcon size={24} value={s}  style={{ background: '#fff' }}/>
-            <div>{shortAddress(s)}</div>
+          <div key={i} style={{ margin: 5, display: 'flex' }}>
+            <JDentIcon size={48} value={addr}  style={{ background: '#fff' }}/>
+            <div style={{ display: 'flex', flexDirection: 'column', margin: 5, width: 252 }}>
+              <div style={{ fontSize }}>
+                {addr}
+              </div>
+              <div style={{ display: 'flex' }}>
+                <div><img src={`media/${txType}-transaction.svg`} style={{ height: 24, width: 24 }} /></div>
+                <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>{parseFloat(transaction[`${txType === 'outgoing' ? 'receiver' : 'sender'}`][addr]) }</div>
+                <div style={{ marginLeft: 'auto' }}>{date ? date.calendar(null, {
+                  sameDay: '[Today]',
+                  nextDay: '[Tomorrow]',
+                  nextWeek: 'D MMM, YYYY',
+                  lastDay: '[Yesterday]',
+                  lastWeek: 'D MMM, YYYY',
+                  sameElse: 'D MMM, YYYY'
+                }) : null}</div>
+                {/* <div style={{ marginLeft: 'auto' }}>{date ? date.format('D MMM, YYYY') : null}</div> */}
+              </div>
+            </div>
           </div>
         );
       })}
-    </div>
-  );
-
-  let amount = 0;
-  if (txType === 'outgoing') {
-    // Sum amounts of all receivers except change address if it equal to wallet address
-    amount = Object.keys(transaction.receiver).reduce((acc, r) => {
-      if (r !== walletAddress) {
-        return acc + parseFloat(transaction.receiver[r]);
-      }
-    }, 0);
-  } else {
-    amount = parseFloat(transaction.receiver[walletAddress]);
-  }
-  
-  return (
-    <div style={{ width: 300, textAlign: 'left' }}>
-      <div style={{ display: 'flex' }}>
-        <img style={{ width: 24, height: 24 }} src={`media/${txType === 'incoming' ? 'sign-in-alt.svg' : 'sign-out-alt.svg'}`} alt={txType} />
-        <div style={{ }}>
-          <div>{date ? `${date.toISOString()}` : 'Not in Block'}</div>
-          {counterpartElem}
-          <div>{amount}</div>
-        </div>
-      </div>
-     
-      {/* <pre>{JSON.stringify(transaction, null, 2)}</pre> */}
     </div>
   );
 };
