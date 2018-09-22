@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
-import calculateSize from 'calculate-size';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
+import { calcFontSize } from './../../services/FontResize';
 import Esc from './../panel/Esc';
 
 const Send = styled.button`
@@ -105,22 +105,6 @@ const _t = {
 
 const dateFormat = 'D MMM, YYYY';
 const timeForamt = 'h:mma';
-
-const calcFontSize = ({ text, maxWidth = 240 }) => {
-  let options = {
-    font: 'Roboto', 
-    fontSize: '1rem'
-  };
-  let currSize = calculateSize(text, options);
-  let fontSize = 1;
-
-  while (currSize.width >= maxWidth) {
-    fontSize = (fontSize - 0.1).toFixed(1);
-    options.fontSize = `${fontSize}rem`;
-    currSize = calculateSize(text, options);
-  }
-  return `${fontSize}rem`;
-};
 
 //  asset, icon, hash, date ?
 const TransactionDetail = ({ transaction, walletAddress }) => {
