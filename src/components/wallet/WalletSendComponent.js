@@ -73,14 +73,6 @@ export class WalletSendComponent extends React.Component {
     
     const valid = isValid({ qty, to, availableAssets });
 
-    sender.tx = {
-      "txid": "75f459f7153da77c27ce9bfd0e8408f9657fc21eae41cd76e460771609682a95",
-      "from": "mwoCPWDGL1gcEbQmgpDSkXuZPdntPPycja",
-      "to": "n1Scko3896jYrxX3rnjvySPQvTZp1rchkZ",
-      "change": "mwoCPWDGL1gcEbQmgpDSkXuZPdntPPycja",
-      "amount": 0.01,
-      "fee": 0.0002021
-    };
     return (
       <WalletPanel {...object} back={true} isLoading={isLoading}>
         <Esc to={`/wallets/${id}/balance`} />

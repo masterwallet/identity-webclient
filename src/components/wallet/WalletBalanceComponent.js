@@ -107,7 +107,7 @@ const dateFormat = 'D MMM, YYYY';
 const timeForamt = 'h:mma';
 
 //  asset, icon, hash, date ?
-const TransactionDetail = ({ transaction, walletAddress }) => {
+const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   const txType = Object.keys(transaction.sender).indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
   const date = transaction.timestamp ? moment.utc(transaction.timestamp * 1000) : null;
   const multiSender = Object.keys(transaction.sender).length > 1;
@@ -133,7 +133,9 @@ const TransactionDetail = ({ transaction, walletAddress }) => {
         const fontSize = calcFontSize({ text: addr });
         return (
           <div key={i} style={{ margin: 5, display: 'flex' }}>
-            <JDentIcon size={48} value={addr}  style={{ background: '#fff' }}/>
+            <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
+              <JDentIcon size={48} value={addr}  style={{ background: '#fff' }}/>
+            </Link>
             <div style={{ display: 'flex', flexDirection: 'column', margin: 5, width: 252 }}>
               <div style={{ fontSize }}>
                 {addr}
@@ -275,7 +277,11 @@ export class WalletBalanceComponent extends React.Component {
                   ) : transactions.list.map((tr, index) => (
                     <tr key={index}>
                       <td>
-                        <TransactionDetail transaction={tr} walletAddress={address} />
+                        <TransactionDetail 
+                          transaction={tr} 
+                          walletAddress={address} 
+                          walletId={id}
+                        />
                       </td>
                     </tr>
                   ))

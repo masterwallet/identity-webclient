@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { WalletUnsafeComponent } from './../../components/wallet/WalletUnsafeComponent';
+import { WalletUnsafeComponent } from './../../components/wallet/index.js';
 import { dispatchWalletDetails } from './../../services/WalletStatus';
 import { fetchDelete } from './../../services/ApiRequest';
 
