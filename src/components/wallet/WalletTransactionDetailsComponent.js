@@ -19,7 +19,7 @@ export class WalletTransactionDetailsComponent extends React.Component {
   };
 
   render () {
-    console.log(this.props);
+    //console.log(this.props);
     const { walletId, txId } = this.props.match.params;
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets, deletionStatus } = wallet; 

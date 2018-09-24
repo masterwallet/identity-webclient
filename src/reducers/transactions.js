@@ -10,11 +10,7 @@ const initialState = {
   loading: false,
   list: [],
   error: '',
-  sender: {
-    processing: false,
-    error: '',
-    tx: null
-  },
+  sender: {},
   details: {},
 };
 
@@ -30,15 +26,41 @@ export default function (state = initialState, action) {
       return { ...state, loading: false, error: action.payload.error };
     }
     case 'TRANSACTION_SUBMITTED': {
-      const sender = { ...state.sender, processing: true, tx: null };
+      const { walletId } = action.payload;
+      const sender = { 
+        ...state.sender, 
+        [walletId]: {
+          ...state.sender[walletId],
+          processing: true, 
+          latestTx: null 
+        } 
+      };
       return { ...state, sender };
     }
     case 'TRANSACTION_SENT': {
-      const sender = { ...state.sender, processing: false, tx: action.payload.data };
+      const { walletId, txId, data } = action.payload;
+      const sender = { 
+        ...state.sender, 
+        [walletId]: {
+          ...state.sender[walletId],
+          processing: false, 
+          [txId]: data,
+          latestTx: txId
+        } 
+      };
       return { ...state, sender };
     }
     case 'TRANSACTION_ERROR': {
-      const sender = { ...state.sender, processing: false, error: action.payload.error, tx: null };
+      const { walletId, error } = action.payload;
+      const sender = { 
+        ...state.sender, 
+        [walletId]: {
+          ...state.sender[walletId],
+          processing: false, 
+          error, 
+          latestTx: null 
+        } 
+      };
       return { ...state, sender };
     }
     case 'TRANSACTION_DETAILS_REQUEST': {

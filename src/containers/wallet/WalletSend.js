@@ -9,10 +9,17 @@ const mapDispatchToProps = dispatch => ({
     dispatchWalletDetails(id, dispatch);
   },
   onSubmit: ({ walletId, amount, to }) => {
-    dispatch({ type: 'TRANSACTION_SUBMITTED' });
+    const payload = { walletId };
+    dispatch({ type: 'TRANSACTION_SUBMITTED', payload });
     postJson(`/api/wallets/${walletId}/transaction`, { amount, to }).then(response => {
-      const type = response.error ? 'TRANSACTION_ERROR' : 'TRANSACTION_SENT';
-      dispatch({ type, payload: response });
+      if (response.error) {
+        payload.error = response.error;
+        dispatch({ type: 'TRANSACTION_ERROR', payload });
+      } else {
+        payload.data = response.data;
+        payload.txId = response.data.txid;
+        dispatch({ type: 'TRANSACTION_SENT', payload });
+      }
     }).catch(error => {
       dispatch({ type: 'TRANSACTION_ERROR', payload: { error: error.message } });
     });

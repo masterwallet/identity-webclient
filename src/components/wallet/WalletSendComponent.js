@@ -63,11 +63,13 @@ export class WalletSendComponent extends React.Component {
   };
 
   render() {
+    //console.log(this.props);
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
     const { id, network } = object; // unused: address, network, testnet, name, icon
     const { qty, to } = this.state;
-    const { sender } = transactions;
+    const sender = transactions.sender[id] || false;
+    const latestTx = sender && sender.latestTx ? sender.latestTx : null;
     const errorMessage = error ? error : assets.error;
     const availableAssets = assetsTotal(wallet);
     
@@ -118,7 +120,7 @@ export class WalletSendComponent extends React.Component {
             {sender.error ? <div className='alert alert-danger'>
               {sender.error}
             </div> : false}
-            {sender.tx ? 
+            {sender[latestTx] ? 
               <div 
                 className='alert alert-success'
                 style={{ 
@@ -126,14 +128,14 @@ export class WalletSendComponent extends React.Component {
                   textAlign: 'left'
                 }}
               >
-                <p style={{ fontSize: 'smaller' }}><b>{sender.tx.txid}</b></p>
-                {Object.keys(sender.tx).map(f => 
+                <p style={{ fontSize: 'smaller' }}><b>{sender[latestTx].txid}</b></p>
+                {Object.keys(sender[latestTx]).map(f => 
                   f === 'txid' 
                   ? false 
-                  : (<div style={{ 
-                    fontSize: calcFontSize({ text: `${_t[f]} ${sender.tx[f]}`, maxWidth: 255 }) 
+                  : (<div key={f} style={{ 
+                    fontSize: calcFontSize({ text: `${_t[f]} ${sender[latestTx][f]}`, maxWidth: 255 }) 
                   }}>
-                    <b>{_t[f]}</b> {sender.tx[f]}
+                    <b>{_t[f]}</b> {sender[latestTx][f]}
                   </div>)
                 )}
               </div> : false}
