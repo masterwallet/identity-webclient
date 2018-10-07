@@ -45,7 +45,8 @@ export default function (state = initialState, action) {
           ...state.sender[walletId],
           processing: false, 
           [txId]: data,
-          latestTx: txId
+          error: '',
+          latestTx: txId,
         } 
       };
       return { ...state, sender };

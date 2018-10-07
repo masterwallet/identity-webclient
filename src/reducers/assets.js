@@ -153,7 +153,7 @@ export default function (state = initialState, action) {
       const { walletId, data, contractAddress } = action.payload;
       const wallets = state.wallets.slice();
       const w = wallets.filter(w => (w.id === walletId))[0];
-      if (!w.details || !w.details.assets) return state;
+      if (!w || !w.details || !w.details.assets) return state;
 
       const assets = w.details.assets.map(a => {
         if (a.contractAddress === contractAddress) {

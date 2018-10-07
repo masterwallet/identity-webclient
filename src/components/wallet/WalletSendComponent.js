@@ -4,6 +4,7 @@ import { WalletPanel } from './../panel/index';
 import { JDentIcon } from './../jdenticon/index';
 import { calcFontSize } from './../../services/FontResize';
 import TextInput from './../controls/TextInput';
+import Dropdown from './../controls/Dropdown';
 
 const _t = {
   send: 'Send Assets',
@@ -17,16 +18,22 @@ const _t = {
   fee: 'Fee:'
 };
 
-const assetsTotal = (wallet) => {
+const assetsTotal = (wallet, assetId) => {
   let value = 0;
   if (wallet && wallet.assets && wallet.assets.assets) {
-    value = wallet.assets.assets.reduce((total, asset) => total + asset.value, 0);
+    // value = wallet.assets.assets.reduce((total, asset) => (
+    //   symbol === asset.symbol ? total + parseFloat(asset.value) : total + 0
+    // ), 0);
+    const asset = wallet.assets.assets[assetId];
+    if (asset) {
+      value = asset.value;
+    }
   }
   return value;
 };
 
 const isValid = ({ qty, to, availableAssets }) => (
-  !isNaN(qty) && parseFloat(qty) > 0 && parseFloat(qty) <= availableAssets && to.length > 0
+  !isNaN(qty) && parseFloat(qty) > 0 && parseFloat(qty) <= parseFloat(availableAssets) && to.length > 0
 );
 
 export class WalletSendComponent extends React.Component {
@@ -34,6 +41,7 @@ export class WalletSendComponent extends React.Component {
   state = {
     to: '',
     qty: 0,
+    assetId: 0
   };
 
   componentWillMount() {
@@ -56,9 +64,18 @@ export class WalletSendComponent extends React.Component {
 
   onSubmit = () => {
     const { walletId } = this.props.match.params;
-    const { to, qty } = this.state;
-    if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet) })) {
-      this.props.onSubmit({ walletId, to, amount: qty });
+    const { to, qty, assetId } = this.state;
+    const { assets } = this.props.wallet;
+    if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet, this.state.assetId) })) {
+      const params = { walletId, to, amount: qty };
+      if (assets.assets && assets.assets[assetId]) {
+        const asset = assets.assets[assetId];
+        params.asset = asset.symbol;
+        if (asset.contractAddress) {
+          params.contractAddress = asset.contractAddress;
+        }
+      }
+      this.props.onSubmit(params);
     }
   };
 
@@ -67,11 +84,15 @@ export class WalletSendComponent extends React.Component {
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
     const { id, network } = object; // unused: address, network, testnet, name, icon
-    const { qty, to } = this.state;
+    const { qty, to, assetId } = this.state;
     const sender = transactions.sender[id] || false;
     const latestTx = sender && sender.latestTx ? sender.latestTx : null;
     const errorMessage = error ? error : assets.error;
-    const availableAssets = assetsTotal(wallet);
+    const availableAssets = assetsTotal(wallet, assetId);
+    const assetTokenSymbols = assets.assets ? assets.assets.map((a, i) => ({
+      value: i,
+      label: a.symbol
+    })) : [];
     
     const valid = isValid({ qty, to, availableAssets });
 
@@ -95,7 +116,14 @@ export class WalletSendComponent extends React.Component {
                 />
                 <div style={{ color: 'rgb(169,169,169)' }}>{availableAssets}</div>
               </div>
-              <div style={{ fontWeight: 'bold', margin: 5 }}>&nbsp; {network}</div>
+              <div style={{ fontWeight: 'bold', margin: 5 }}>&nbsp;
+                <Dropdown
+                  value={assetId}
+                  options={assetTokenSymbols}
+                  style={{ width: 'auto' }}
+                  onChange={(value) => this.setState({ assetId: value })}
+                />
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 70 }}>
                 {sender.processing 
                   ? 
