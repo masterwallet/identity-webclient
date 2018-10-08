@@ -90,6 +90,7 @@ class TextInput extends React.Component {
           style={this.props.style}
           defaultValue={this.safeValue()}
           type={this.props.type ? this.props.type : 'text'}
+          min={this.props.min}
         />
       </Inp>
     );
