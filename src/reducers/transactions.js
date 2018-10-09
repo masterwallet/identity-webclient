@@ -12,10 +12,12 @@ const initialState = {
   error: '',
   sender: {},
   details: {},
+  fees: {},
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    // Transactions history:
     case 'WALLET_HISTORY_REQUEST': {
       return { ...state, loading: true };
     }
@@ -25,6 +27,8 @@ export default function (state = initialState, action) {
     case 'WALLET_HISTORY_ERROR': {
       return { ...state, loading: false, error: action.payload.error };
     }
+
+    // Sending transaction:
     case 'TRANSACTION_SUBMITTED': {
       const { walletId } = action.payload;
       const sender = { 
@@ -64,6 +68,8 @@ export default function (state = initialState, action) {
       };
       return { ...state, sender };
     }
+
+    // Transaction details:
     case 'TRANSACTION_DETAILS_REQUEST': {
       const { walletId, txId } = action.payload;
       const details = { ...state.details, [walletId]: { [txId]: { loading: true } }};
@@ -79,6 +85,24 @@ export default function (state = initialState, action) {
       const details = { ...state.details, [walletId]: { [txId]: { loading: false, error } } };
       return { ...state, details };
     }
+
+    // Estimate transaction fee:
+    case 'FEE_REQUEST': {
+      const { walletId } = action.payload;
+      const fees = { ...state.fees, [walletId]: { loading: true, error: '' } };
+      return { ...state, fees };
+    }
+    case 'FEE_RECEIVED': {
+      const { walletId, fee } = action.payload;
+      const fees = { ...state.fees, [walletId]: { loading: false, ...fee }, error: '' };
+      return { ...state, fees };
+    }
+    case 'FEE_ERROR': {
+      const { walletId, error } = action.payload;
+      const fees = { ...state.fees, [walletId]: { loading: false, error } };
+      return { ...state, fees };
+    }
+
     default:
   }
   return state;
