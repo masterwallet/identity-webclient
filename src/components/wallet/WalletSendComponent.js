@@ -42,7 +42,8 @@ export class WalletSendComponent extends React.Component {
     to: '',
     qty: 0,
     assetId: 0,
-    fee: 0
+    fee: 0,
+    advanced: false
   };
 
   componentWillMount() {
@@ -52,10 +53,18 @@ export class WalletSendComponent extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Update assets after successful transaction
+    const { walletId } = this.props.match.params;
     const transactions = this.props.transactions;
     const nextTransactions = nextProps.transactions;
+    
     if (transactions.txid !== nextTransactions.txid) {
-      this.props.onInit({ id: this.props.match.params.walletId });
+      this.props.onInit({ id: walletId });
+    }
+    if (
+      this.state.fee === 0 && transactions.fees[walletId] 
+      && transactions.fees[walletId].fee
+    ) {
+      this.setState({ fee: transactions.fees[walletId].fee });
     }
   };
 
@@ -81,11 +90,11 @@ export class WalletSendComponent extends React.Component {
   };
 
   render() {
-    //console.log(this.props);
+    console.log(this.props);
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
     const { id, network } = object; // unused: address, network, testnet, name, icon
-    const { qty, to, assetId } = this.state;
+    const { qty, to, assetId, advanced } = this.state;
     const sender = transactions.sender[id] || false;
     const fee = transactions.fees[id] || false;
     const feeValue = this.state.fee > 0 ? this.state.fee : (
@@ -145,29 +154,61 @@ export class WalletSendComponent extends React.Component {
               </div>
             </div>
             { fee && !fee.loading && !fee.error ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
-                <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.fee}</h3>
-                <div style={{  margin: 5 }}>
-                  <input
-                    type='range'
-                    min={fee.min}
-                    max={fee.max}
-                    defaultValue={fee.fee}
+              advanced ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
+                  <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.fee}</h3>
+                  <TextInput 
+                    value={this.state.fee}
+                    type='number'
                     step={fee.step}
-                    onChange={(event) => {
+                    style={{ textAlign: 'center' }} 
+                    onChange={(value) => {
                       this.setState({ 
-                        fee: event.currentTarget.value
+                        fee: value
                       }) 
-                    }}
+                    }} 
                   />
-                  <div style={{ display: 'flex', fontSize: 'smaller', justifyContent: 'space-between', color: 'grey' }}>
-                    <div>{fee.min}</div>&nbsp;
-                    <div style={{ fontWeight: 'bold' }}>{feeValue}</div>&nbsp;
-                    <div>{fee.max}</div>
-                  </div>
+                  <div>{fee.units}</div>
+                  <a href='' onClick={(event) => {
+                      event.preventDefault();
+                      this.setState({ advanced: false });
+                    }}
+                  >
+                    <img src='media/back-arrow.svg' style={{ margin: 5, width: 30, height: 30, opacity: 0.5 }} />
+                  </a>
                 </div>
-                <div>{fee.units}</div>
-              </div>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
+                  <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.fee}</h3>
+                  <div style={{  margin: 5 }}>
+                    <input
+                      type='range'
+                      min={fee.min}
+                      max={fee.max}
+                      defaultValue={fee.fee}
+                      step={fee.step}
+                      onChange={(event) => {
+                        this.setState({ 
+                          fee: event.currentTarget.value
+                        }) 
+                      }}
+                    />
+                    <div style={{ display: 'flex', fontSize: 'smaller', justifyContent: 'space-between', color: 'grey' }}>
+                      <div>{fee.min}</div>&nbsp;
+                      <div style={{ fontWeight: 'bold' }}>{feeValue}</div>&nbsp;
+                      <div>{fee.max}</div>
+                    </div>
+                  </div>
+                  <div>{fee.units}</div>
+                  <a href='' onClick={(event) => {
+                      event.preventDefault();
+                      this.setState({ advanced: true });
+                    }}
+                  >
+                    <img src='media/gears.svg' style={{ margin: 5, width: 30, height: 30, opacity: 0.5 }} />
+                  </a>
+                </div>
+              )
             ) : false }
             <h3 style={{ marginTop: 20, fontSize: 18, textAlign: 'center', color: '#8760f6' }}>
               {_t.toAddress}
