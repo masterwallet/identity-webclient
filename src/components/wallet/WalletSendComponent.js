@@ -15,7 +15,7 @@ const _t = {
   to: 'Receiver:',
   change: 'Change:',
   amount: 'Amount:',
-  fee: 'Fee:'
+  fee: 'Fee'
 };
 
 const assetsTotal = (wallet, assetId) => {
@@ -41,7 +41,8 @@ export class WalletSendComponent extends React.Component {
   state = {
     to: '',
     qty: 0,
-    assetId: 0
+    assetId: 0,
+    fee: 0
   };
 
   componentWillMount() {
@@ -64,10 +65,10 @@ export class WalletSendComponent extends React.Component {
 
   onSubmit = () => {
     const { walletId } = this.props.match.params;
-    const { to, qty, assetId } = this.state;
+    const { to, qty, assetId, fee } = this.state;
     const { assets } = this.props.wallet;
     if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet, this.state.assetId) })) {
-      const params = { walletId, to, amount: qty };
+      const params = { walletId, to, amount: qty, fee };
       if (assets.assets && assets.assets[assetId]) {
         const asset = assets.assets[assetId];
         params.asset = asset.symbol;
@@ -86,6 +87,10 @@ export class WalletSendComponent extends React.Component {
     const { id, network } = object; // unused: address, network, testnet, name, icon
     const { qty, to, assetId } = this.state;
     const sender = transactions.sender[id] || false;
+    const fee = transactions.fees[id] || false;
+    const feeValue = this.state.fee > 0 ? this.state.fee : (
+      fee && !fee.loading && !fee.error ? fee.fee : 0
+    );
     const latestTx = sender && sender.latestTx ? sender.latestTx : null;
     const errorMessage = error ? error : assets.error;
     const availableAssets = assetsTotal(wallet, assetId);
@@ -139,6 +144,31 @@ export class WalletSendComponent extends React.Component {
                 }
               </div>
             </div>
+            { fee && !fee.loading && !fee.error ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
+                <h3 style={{ fontSize: 18, textAlign: 'center', color: '#8760f6' }}>{_t.fee}</h3>
+                <div style={{  margin: 5 }}>
+                  <input
+                    type='range'
+                    min={fee.min}
+                    max={fee.max}
+                    defaultValue={fee.fee}
+                    step={fee.step}
+                    onChange={(event) => {
+                      this.setState({ 
+                        fee: event.currentTarget.value
+                      }) 
+                    }}
+                  />
+                  <div style={{ display: 'flex', fontSize: 'smaller', justifyContent: 'space-between', color: 'grey' }}>
+                    <div>{fee.min}</div>&nbsp;
+                    <div style={{ fontWeight: 'bold' }}>{feeValue}</div>&nbsp;
+                    <div>{fee.max}</div>
+                  </div>
+                </div>
+                <div>{fee.units}</div>
+              </div>
+            ) : false }
             <h3 style={{ marginTop: 20, fontSize: 18, textAlign: 'center', color: '#8760f6' }}>
               {_t.toAddress}
             </h3>
