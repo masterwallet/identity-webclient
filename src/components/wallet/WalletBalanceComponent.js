@@ -236,7 +236,7 @@ export class WalletBalanceComponent extends React.Component {
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
-   const a = assets && assets.assets ? assets.assets : [];
+   const a = assets && assets.assets ? assets.assets.filter(a => parseFloat(a.value) > 0) : [];
    return (
      <WalletPanel {...object} isLoading={isLoading}>
        {(!assets.isLoading) ? [<MyAssetsButton key={0} />, <MyWalletsButton key={1} />] : false}
