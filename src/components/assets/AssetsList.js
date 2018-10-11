@@ -118,7 +118,7 @@ const AssetTable = styled.div`
 
 export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
-    {assets.map(asset => (
+    {assets.filter(asset => parseFloat(asset.value) > 0).map(asset => (
       <div key={asset.symbol || asset.contractAddress || Math.random()} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?

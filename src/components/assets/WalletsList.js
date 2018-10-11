@@ -147,14 +147,12 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                 </div>
               </div>
             ): false}
-            {details && details.assets && details.assets.length ? [
+            {details && details.assets && details.assets.length && subtotals[id] && subtotals[id] > 0 ? [
               (
                 <div key={1111} className="tbl">
                   <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
                     <strong>{details.assets.length}</strong> {(details.assets.length === 1) ? _t.asset : _t.assets}
-                    {(subtotals[id] && subtotals[id] > 0) ?
-                      <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
-                    : false}
+                    <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
                   </div>
 
                 </div>
