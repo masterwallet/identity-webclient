@@ -103,6 +103,13 @@ export default function (state = initialState, action) {
       return { ...state, fees };
     }
 
+    // Estimate gas limit (Ethereum)
+    case 'GAS_LIMIT_RECEIVED': {
+      const { walletId, gasLimit } = action.payload;
+      const fees = { ...state.fees, [walletId]: { ...state.fees[walletId], gasLimit } };
+      return { ...state, fees };
+    }
+
     default:
   }
   return state;

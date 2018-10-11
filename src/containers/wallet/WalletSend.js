@@ -19,10 +19,10 @@ const mapDispatchToProps = dispatch => ({
       dispatch({ type: 'FEE_ERROR', payload: { walletId, error: error.message }});
     });
   },
-  onSubmit: ({ walletId, amount, to, asset, fee, contractAddress }) => {
+  onSubmit: ({ walletId, asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress }) => {
     const payload = { walletId };
     dispatch({ type: 'TRANSACTION_SUBMITTED', payload });
-    postJson(`/api/wallets/${walletId}/transaction`, { amount, to, asset, fee, contractAddress }).then(response => {
+    postJson(`/api/wallets/${walletId}/transaction`, { asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress }).then(response => {
       if (response.error) {
         payload.error = response.error;
         dispatch({ type: 'TRANSACTION_ERROR', payload });
@@ -34,7 +34,15 @@ const mapDispatchToProps = dispatch => ({
     }).catch(error => {
       dispatch({ type: 'TRANSACTION_ERROR', payload: { walletId, error: error.message } });
     });
-  }
+  },
+  // Ethereum only
+  estimateGas: ({ walletId, asset, amount, to, data, contractAddress }) => {
+    postJson(`/api/wallets/${walletId}/transaction-gas`, { asset, amount, to, data, contractAddress }).then(response => {
+      if (!response.error) {
+        dispatch({ type: 'GAS_LIMIT_RECEIVED', payload: { walletId, gasLimit: data } })
+      }
+    });
+  },
 });
 
 export const WalletSend = connect(mapStateToProps, mapDispatchToProps)(WalletSendComponent);
