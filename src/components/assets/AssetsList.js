@@ -4,10 +4,10 @@ import { SmallLoader } from './../controls/SmallLoader';
 
 const CmcInfoTable = styled.div`
   display: flex;
-  .price { flex: 1; white-space: nowrap; font-size: 10px; opacity: 0.7; }
+  .price { color: #666; flex: 1; white-space: nowrap; font-size: 11px; font-family: monospace; }
   .label { color: #666; }
 
-  .positive, .negative, .neutral { text-align: right; font-size: 10px; opacity: 0.7; }
+  .positive, .negative, .neutral { text-align: right; font-size: 11px; font-family: monospace; }
   .positive { color: darkgreen; }
   .negative { color: darkred; }
   .neutral { color: #444; }
@@ -35,8 +35,8 @@ const CmcInfo = (props) => {
         {nicePrice({price: props[priceField], currency})}
       </div>
       <div className={changeClassName}>
-        <span className="label">24hr: </span>
         {change}%
+        <span className="label"> 24hr</span>
       </div>
     </CmcInfoTable>
   );
@@ -57,20 +57,20 @@ const AssetTable = styled.div`
   }
 
   .asset-error {
-    text-align: left;
+
     flex: 1;
+    margin-top: 5px;
     margin-bottom: 5px;
-    margin-left: 5px;
+    margin-left: 0px;
     margin-right: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     background: white;
     color: darkred;
     font-weight: normal;
     font-size: 10px;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-all;
+    text-align: center;
   }
 
   .asset-amount {
@@ -105,6 +105,8 @@ const AssetTable = styled.div`
   .tbl.noerr .asset-row-cmc {
     height: 20px;
     line-height: 20px;
+    font-size: 14px;
+    font-family: monospace;
   }
 
   .asset-row {
@@ -116,9 +118,12 @@ const AssetTable = styled.div`
   }
 `;
 
+const limit = 1e-5; // fix this - to be used from settings
 export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
-    {assets.filter(asset => parseFloat(asset.value) > 0).map(asset => (
+    {assets.filter(a => (a.symbol))
+      .filter(a => a.isLoading || a.isPending || a.error || (typeof a.value !== 'undefined' && parseFloat(a.value) > limit))
+      .map(asset => (
       <div key={asset.symbol || asset.contractAddress || Math.random()} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?
@@ -127,26 +132,29 @@ export const AssetsList = ({ assets, currency }) => (
           }
         </div>
         <div className="asset-rows">
+          <div className="asset-row">
+            <div key={1} className="asset-name">
+              {asset.symbol !== asset.name ? <span className="symbol">{asset.symbol}</span> : false}
+              {asset.name}
+              {(!asset.symbol && !asset.name && asset.isLoading) ? <SmallLoader /> : false}
+            </div>
+            <div key={2} className="asset-amount">
+              {asset.isLoading ? <SmallLoader /> : (
+                <span>
+                  {asset.isPending ?
+                    <span style={{ color: '#888' }}>(please wait...)</span> :
+                    (asset.error ? '?' : asset.value)}
+                </span>
+              )}
+            </div>
+          </div>
+          {asset.cmc ? <div className="asset-row-cmc"><CmcInfo {...asset.cmc} value={asset.value} /></div>: false}
           {asset.error ? (
             <div className="asset-error" title={asset.error}>
-              {asset.error} <br />
-              <strong>{asset.contractAddress}</strong>
+              {asset.error} &nbsp; <strong>{asset.contractAddress}</strong>
             </div>
-          ):
-            <div className="asset-row">
-              <div key={1} className="asset-name">
-                {asset.symbol !== asset.name ? <span className="symbol">{asset.symbol}</span> : false}
-                {asset.name}
-                {(!asset.symbol && !asset.name && asset.isLoading) ? <SmallLoader /> : false}
-              </div>
-              <div key={2} className="asset-amount">
-                {asset.isLoading ? <SmallLoader /> : (
-                  <span>{asset.isPending ? <span style={{ color: '#888' }}>(please wait...)</span> : asset.value}</span>
-                )}
-              </div>
-            </div>
-          }
-          {asset.cmc ? <div className="asset-row-cmc"><CmcInfo {...asset.cmc} value={asset.value} /></div>: false}
+          ) : false}
+
         </div>
       </div>
     ))}

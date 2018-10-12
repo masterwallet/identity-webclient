@@ -120,6 +120,20 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                 {address ?
                   <div className="address">{shortAddress(address)}</div> :
                   <div className="address">{shortAddress(publicKey)}</div>}
+                {subtotals[id] && subtotals[id] > 0 ? (
+                  <div style={{ fontSize: 14, fontFamily: 'monospace', background: 'transparent', display: 'flex', color: '#222', lineHeight: '20px', height: 20, width: '100%' }}>
+                    <div style={{ paddingLeft: 10 }}>
+                      ~ {subtotals[id].toFixed(2)} {currency}
+                    </div>
+                    {details.assets.length > 1 ? (
+                       <div><strong>{details.assets.length} {(details.assets.length === 1) ? _t.asset : _t.assets}</strong></div>
+                    ): false}
+                  </div>
+                ) : false
+                  /* TODO: if one of the assets in this wallet had an error, show '?'.
+                           if one of the assets in this wallet have no price, show '??' (something else)
+                  */
+                }
               </div>
               <div className="chevron">
                 <Link to={`/wallets/${id}/balance`}>
@@ -147,18 +161,9 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                 </div>
               </div>
             ): false}
-            {details && details.assets && details.assets.length && subtotals[id] && subtotals[id] > 0 ? [
-              (
-                <div key={1111} className="tbl">
-                  <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
-                    <strong>{details.assets.length}</strong> {(details.assets.length === 1) ? _t.asset : _t.assets}
-                    <span>: &nbsp;~ {subtotals[id].toFixed(2)} {currency} </span>
-                  </div>
-
-                </div>
-              ),
-              (<AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />)
-            ]: false}
+            {details && details.assets ? (
+              <AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />
+            ): false}
 
           </td>
         </tr>
