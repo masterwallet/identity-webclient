@@ -125,7 +125,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
     Object.keys(transaction.sender).forEach(s => counterpart.push(s));
   }
 
-  const amount = txType === 'incoming' && !multiSender ? parseFloat(transaction.receiver[walletAddress]) : false; 
+  const amount = txType === 'incoming' && !multiSender ? parseFloat(transaction.receiver[walletAddress]) : false;
 
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
@@ -236,7 +236,7 @@ export class WalletBalanceComponent extends React.Component {
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
-   const a = assets && assets.assets ? assets.assets.filter(a => parseFloat(a.value) > 0) : [];
+   const a = assets && assets.assets ? assets.assets : [];
    return (
      <WalletPanel {...object} isLoading={isLoading}>
        {(!assets.isLoading) ? [<MyAssetsButton key={0} />, <MyWalletsButton key={1} />] : false}
@@ -278,9 +278,9 @@ export class WalletBalanceComponent extends React.Component {
                   ) : transactions.list.map((tr, index) => (
                     <tr key={index}>
                       <td>
-                        <TransactionDetail 
-                          transaction={tr} 
-                          walletAddress={walletAddress} 
+                        <TransactionDetail
+                          transaction={tr}
+                          walletAddress={walletAddress}
                           walletId={id}
                         />
                       </td>
