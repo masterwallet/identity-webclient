@@ -9,18 +9,26 @@ const _t = {
   assets: 'My Wallets'
 };
 
-export const ImportWalletCompleteComponent = ({ section, add, setup }) => {
-  const { network, testnet } = add[section];
-  const { networksConfig } = setup;
-  const menu = ImportMenu({ network, testnet, networksConfig });
-  if (!menu) return false;
-  const step = findWizardStep(menu, '/complete');
-  return (
-    <WizardPanel title={_t.finished}>
-      <Next to={`/wallets`} title={_t.assets}/>
+export class ImportWalletCompleteComponent extends React.Component {
 
-      <div style={{ textAlign: 'center', margin: '50px auto' }}>{_t.readyToUse}</div>
-      <Steps {...{step, menu}} />
-    </WizardPanel>
-  );
+  componentWillMount = () => {
+    this.props.onInit();
+  };
+
+  render = () => {
+    const { section, add, setup } = this.props;
+    const { network, testnet } = add[section];
+    const { networksConfig } = setup;
+    const menu = ImportMenu({ network, testnet, networksConfig });
+    if (!menu) return false;
+    const step = findWizardStep(menu, '/complete');
+    return (
+      <WizardPanel title={_t.finished}>
+        <Next to={`/wallets`} title={_t.assets}/>
+
+        <div style={{ textAlign: 'center', margin: '50px auto' }}>{_t.readyToUse}</div>
+        <Steps {...{step, menu}} />
+      </WizardPanel>
+    );
+  }
 };

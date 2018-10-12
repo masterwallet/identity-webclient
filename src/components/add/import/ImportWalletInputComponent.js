@@ -47,7 +47,7 @@ export class ImportWalletInputComponent extends React.Component {
     const { privateKey, password, mode } = this.state;
 
     const canContinue = !!privateKey;
-    if (lastResponse.data && lastResponse.data.id) {
+    if (lastResponse && lastResponse.data && lastResponse.data.id) {
       return (<Redirect to={menu[step + 1]} />);
     }
 

@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
   estimateGas: ({ walletId, asset, amount, to, data, contractAddress }) => {
     postJson(`/api/wallets/${walletId}/transaction-gas`, { asset, amount, to, data, contractAddress }).then(response => {
       if (!response.error) {
-        dispatch({ type: 'GAS_LIMIT_RECEIVED', payload: { walletId, gasLimit: data } })
+        dispatch({ type: 'GAS_LIMIT_RECEIVED', payload: { walletId, gasLimit: response.data } })
       }
     });
   },

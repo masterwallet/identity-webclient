@@ -164,6 +164,9 @@ export default function (state = initialState, action) {
     case 'WALLET_WIZARD_SUBMIT_ERROR': {
       return { ...state, isLoading: false, lastError: action.payload, lastResponse: {} };
     }
+    case 'WALLET_WIZARD_COMPLETE': {
+      return { ...state, isLoading: false, lastError: '', lastResponse: {} };
+    }
     case 'CONFIG_NETWORKS_RECEIVED': {
       const { data } = action.payload;
       const networksConfig = data.networks;

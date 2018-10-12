@@ -12,10 +12,10 @@ const _t = {
   toAddress: 'To the address',
   imageForVerification: 'Image for verification',
   buttonLabel: 'SEND',
-  from: 'Sender:',
-  to: 'Receiver:',
+  from: 'Sender',
+  to: 'Receiver',
   change: 'Change:',
-  amount: 'Amount to send',
+  amount: 'Amount',
   available: 'Available assets',
   fee: 'Fee',
   gasPrice: 'Gas price',
@@ -88,11 +88,20 @@ export class WalletSendComponent extends React.Component {
     if (transactions.txid !== nextTransactions.txid) {
       this.props.onInit({ id: walletId });
     }
-    if (
-      this.state.fee === 0 && transactions.fees[walletId] 
-      && transactions.fees[walletId].fee
+    // Update fee or estimated gasLimit
+    if (nextTransactions.fees[walletId] 
+      && (nextTransactions.fees[walletId].fee || nextTransactions.fees[walletId].gasLimit )
     ) {
-      this.setState({ fee: transactions.fees[walletId].fee });
+      const fee = nextTransactions.fees[walletId].fee;
+      const gasLimit = nextTransactions.fees[walletId].gasLimit;
+      const network = nextProps.wallet.object.network;
+      if (network) {
+        if (network === 'ETH' && gasLimit) {
+          this.setState({ gasLimit });
+        } else if (fee) {
+          this.setState({ fee });
+        }
+      }
     }
   };
 
@@ -139,11 +148,11 @@ export class WalletSendComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets } = wallet;
     const { id, network } = object; // unused: address, testnet, name, icon
-    const { qty, to, assetId, advanced, gasLimit } = this.state;
+    const { qty, to, assetId, advanced, gasPrice, gasLimit } = this.state;
     const sender = transactions.sender[id] || false;
     const fee = transactions.fees[id] || false;
     const feeValue = this.state.fee > 0 ? this.state.fee : (
@@ -156,7 +165,7 @@ export class WalletSendComponent extends React.Component {
       value: i,
       label: a.symbol
     })) : [];
-    const cmc = assets.assets && assets.assets[assetId] && assets.assets[assetId].cmc ? assets.assets[assetId].cmc : null;
+    const cmc = assets.assets && assets.assets[0] && assets.assets[0].cmc ? assets.assets[0].cmc : null;
     const coef = network ? (network === 'ETH' ? gasLimit : 1) : 1;
 
     const valid = isValid({ qty, to, availableAssets });
@@ -179,7 +188,8 @@ export class WalletSendComponent extends React.Component {
                 onChange={v => this.onChange('qty', v)} 
                 style={{ width: 150, textAlign: 'center' }} 
                 type='number' 
-                min={0} 
+                min={0}
+                step='any'
               />
             </div>
             <div style={blockStyle}>
@@ -274,7 +284,7 @@ export class WalletSendComponent extends React.Component {
                   <div style={blockStyle}>
                     <h4 style={h4Style}>{_t[fee.label]}:</h4>&nbsp;
                     <Dropdown
-                      value={this.state.fee}
+                      value={network === 'ETH' ? gasPrice : feeValue}
                       options={[
                         { value: fee.min, label: `${fee.min} ${fee.units} ${toCurrency({ value: fee.min, unit: fee.units, cmc, coef })}` },
                         { value: fee.fee, label: `${fee.fee} ${fee.units} ${toCurrency({ value: fee.fee, unit: fee.units, cmc, coef })}` },
@@ -343,7 +353,7 @@ export class WalletSendComponent extends React.Component {
                   : (<div key={f} style={{ 
                     fontSize: calcFontSize({ text: `${_t[f]} ${sender[latestTx][f]}`, maxWidth: 255 }) 
                   }}>
-                    <b>{_t[f]}</b> {sender[latestTx][f]}
+                    <b>{_t[f]}:</b> {sender[latestTx][f]}
                   </div>)
                 )}
               </div> : false
