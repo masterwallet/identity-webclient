@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { AssetsList } from './AssetsList';
 import { JDentIcon } from './../jdenticon/index';
 import { NetworkIcon } from './NetworkIcon';
-import { Link } from 'react-router-dom';
+import { calcFontSize } from './../../services/FontResize';
 
 const _t = {
   assets: 'assets',
@@ -121,12 +122,15 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                   <div className="address">{shortAddress(address)}</div> :
                   <div className="address">{shortAddress(publicKey)}</div>}
                 {subtotals[id] && subtotals[id] > 0 ? (
-                  <div style={{ fontSize: 14, fontFamily: 'monospace', background: 'transparent', display: 'flex', color: '#222', lineHeight: '20px', height: 20, width: '100%' }}>
+                  <div style={{ fontSize: calcFontSize({ 
+                    text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
+                    maxWidth: 200
+                  }), fontFamily: 'monospace', background: 'transparent', display: 'flex', color: '#222', lineHeight: '20px', height: 20, width: '100%' }}>
                     <div style={{ paddingLeft: 10 }}>
                       ~ {subtotals[id].toFixed(2)} {currency}
                     </div>
                     {details.assets.length > 1 ? (
-                       <div><strong>{details.assets.length} {(details.assets.length === 1) ? _t.asset : _t.assets}</strong></div>
+                       <div>&nbsp;<strong>{details.assets.length} {(details.assets.length === 1) ? _t.asset : _t.assets}</strong></div>
                     ): false}
                   </div>
                 ) : false
