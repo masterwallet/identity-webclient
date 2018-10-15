@@ -231,7 +231,7 @@ export class WalletBalanceComponent extends React.Component {
   render() {
    const { wallet, transactions } = this.props;
    const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
-   const { id, address, network } = object; // unused: address, publicKey, name, icon
+   const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
    const walletAddress = network === 'ETH' ? address.toLowerCase() : address;
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
@@ -246,9 +246,11 @@ export class WalletBalanceComponent extends React.Component {
        ) : (
          <div>
            <Totals value={0} currency={'USD'}>
-             <Link to={walletUrl('send')}>
+            {mode !== 'watch' ? (
+              <Link to={walletUrl('send')}>
                <Send><div><RightArrowIcon /></div>{_t.send}</Send>
              </Link>
+            ) : false}
              <Link to={walletUrl('receive')}>
                <Receive><div><QrIcon /></div>{_t.receive}</Receive>
              </Link>

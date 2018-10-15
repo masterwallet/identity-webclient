@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { WalletSendComponent } from './../../components/wallet';
 import { dispatchWalletDetails } from './../../services/WalletStatus';
 import { postJson, fetchJson } from './../../services/ApiRequest';
@@ -43,6 +44,7 @@ const mapDispatchToProps = dispatch => ({
       }
     });
   },
+  redirect: (to) => dispatch(push(to)),
 });
 
 export const WalletSend = connect(mapStateToProps, mapDispatchToProps)(WalletSendComponent);

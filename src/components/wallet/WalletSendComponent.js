@@ -151,7 +151,11 @@ export class WalletSendComponent extends React.Component {
     //console.log(this.props);
     const { wallet, transactions } = this.props;
     const { object, isLoading, error, assets } = wallet;
-    const { id, network } = object; // unused: address, testnet, name, icon
+    const { id, network, mode } = object; // unused: address, testnet, name, icon
+    if (mode && mode === 'watch') {
+      this.props.redirect(`/wallets/${id}/balance`);
+    }
+
     const { qty, to, assetId, advanced, gasPrice, gasLimit } = this.state;
     const sender = transactions.sender[id] || false;
     const fee = transactions.fees[id] || false;
