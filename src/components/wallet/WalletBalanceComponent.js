@@ -144,6 +144,8 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
                 <div><img src={`media/${txType}-transaction.svg`} style={{ height: 24, width: 24 }} /></div>
                 <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
                   {amount || parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
+                  &nbsp;
+                  <strong>{transaction.asset}</strong>
                 </div>
                 <div style={{ display: 'flex', fontSize: 'smaller', flexDirection: 'column', marginLeft: 'auto', textAlign: 'right' }}>
                   <div>{date ? date.calendar(null, {

@@ -14,8 +14,7 @@ const mapDispatchToProps = dispatch => ({
     controller = dispatchWalletDetails(id, dispatch);
 
     dispatch({ type: 'WALLET_HISTORY_REQUEST' });
-    const start = 0, limit = 100;
-    fetchJson(`/api/wallets/${id}/history?start=${start}&limit=${limit}`).then(response => {
+    fetchJson(`/api/wallets/${id}/history`).then(response => {
       const type = response.error ? 'WALLET_HISTORY_ERROR' : 'WALLET_HISTORY_RECEIVED';
       dispatch({ type, payload: response });
     }).catch(err => {});
