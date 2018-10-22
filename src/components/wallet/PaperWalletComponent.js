@@ -64,7 +64,7 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   render() {
-
+    const { bip38 } = this.props;
     const { password, mode, encrypting, pdfUrl, valid, downloading } = this.state;
 
     const iframe = (
@@ -77,15 +77,18 @@ export default class PaperWalletComponent extends React.Component {
         position="relative"
       />
     );
+    const radioOptions = [
+      { value: 'insecure', label: _t.labelInsecure }
+    ];
+    if (bip38) {
+      radioOptions.push({ value: 'secure', label: _t.labelSecure });
+    }
 
     return (
       <div style={{ margin: '30px auto' }}>
         {_t.printWallet}
         <div style={{ marginTop: 10 }}>
-          <RadioButtonGroup options={[
-            { value: 'insecure', label: _t.labelInsecure },
-            { value: 'secure', label: _t.labelSecure }
-          ]} onChange={this.onChangeMode} value={mode} />
+          <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
         </div>
         {mode === 'secure' ?
           <div style={{ textAlign: 'center' }}>

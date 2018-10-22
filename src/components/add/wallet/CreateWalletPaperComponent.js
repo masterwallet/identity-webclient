@@ -28,11 +28,12 @@ export class CreateWalletPaperComponent extends React.Component {
       return <Redirect to={menu[step - 1]} />
     }
     const { id } = lastResponse.data;
+    const bip38 = networksConfig.data.find(data => data.value === network).BIP38;
 
     return (
       <WizardPanel title={_t.paperWallet}>
         <Next to={`/wallets`} title={_t.myAssets} />
-        <PaperWalletComponent walletId={id} />
+        <PaperWalletComponent walletId={id} bip38={bip38} />
         <hr />
         {/* <pre>{JSON.stringify({ lastResponse }, null, 2)}</pre> */}
         <Steps {...{ step, menu }} />

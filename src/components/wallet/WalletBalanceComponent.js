@@ -291,11 +291,15 @@ const menuItems = [
   }
 ];
 
-const Menu = ({ onClick, onMenuOptionClick, menu, mode }) => {
+const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
   // Filter items by watch only mode
   const items = menuItems.filter(item => {
     if (item.mode !== 'notWatch' || mode !== 'watch') {
-      return item;
+      if (item.action === 'print_secure' && !bip38) {
+        // do nothing
+      } else {
+        return item;
+      }
     }
   });
   // Find longest text of items
@@ -382,7 +386,7 @@ export class WalletBalanceComponent extends React.Component {
 
   render() {
    //console.log(this.props);
-   const { wallet, transactions } = this.props;
+   const { wallet, transactions, setup } = this.props;
    const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
    const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
    const walletAddress = network === 'ETH' ? address.toLowerCase() : address;
@@ -394,6 +398,7 @@ export class WalletBalanceComponent extends React.Component {
    const { menu, modal } = this.state;
    const { isDeleting } = deletionStatus;
    const deletionError = deletionStatus.error;
+   const bip38 = setup && setup.networksConfig && setup.networksConfig.data && setup.networksConfig.data.length > 0 ? setup.networksConfig.data.find(data => data.value === network).BIP38 : false;
 
    return (
      <WalletPanel {...object} isLoading={isLoading}>
@@ -424,6 +429,7 @@ export class WalletBalanceComponent extends React.Component {
                     onMenuOptionClick={(option) => this.onMenuOptionClick(option)}
                     menu={menu}
                     mode={mode}
+                    bip38={bip38}
                   /> 
                  </th>
                 </tr>

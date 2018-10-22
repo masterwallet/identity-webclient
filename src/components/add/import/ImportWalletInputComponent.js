@@ -13,7 +13,9 @@ const _t = {
   providePassphrase: 'Please provide encryption passphrase:',
   orCopyPasteKeyStore: 'or Paste Key Store File Contents',
   continue: 'Continue',
-  back: 'Back'
+  back: 'Back',
+  labelSecure: 'Password Protected Wallet',
+  labelInsecure: 'Insecure Wallet',
 };
 
 const section = 'import';
@@ -37,7 +39,7 @@ export class ImportWalletInputComponent extends React.Component {
   };
 
   render() {
-    const { add, onSubmit } = this.props;
+    const { add, setup, onSubmit } = this.props;
     const { lastResponse } = add; // lastError
     const { name, network, networkId, testnet } = add[section];
     const networksConfig = { network, networkId, testnet };
@@ -49,6 +51,13 @@ export class ImportWalletInputComponent extends React.Component {
     const canContinue = !!privateKey;
     if (lastResponse && lastResponse.data && lastResponse.data.id) {
       return (<Redirect to={menu[step + 1]} />);
+    }
+    const bip38 = setup && setup.networksConfig && setup.networksConfig.data && setup.networksConfig.data.length > 0 ? setup.networksConfig.data.find(data => data.value === network).BIP38 : false;
+    const radioOptions = [
+      { value: 'insecure', label: _t.labelInsecure }
+    ];
+    if (bip38) {
+      radioOptions.push({ value: 'secure', label: _t.labelSecure });
     }
 
     const onSend = () => (onSubmit({ ...networksConfig, name, privateKey, password }));
@@ -62,10 +71,7 @@ export class ImportWalletInputComponent extends React.Component {
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
         </div>
         <div>
-          <RadioButtonGroup options={[
-            { value: 'insecure', label: 'Insecure Wallet' },
-            { value: 'secure', label: 'Password Protected Wallet' }
-          ]} onChange={this.onChangeMode} value={mode} />
+          <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
         </div>
         {
           mode === 'secure' ? 
