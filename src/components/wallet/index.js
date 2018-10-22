@@ -5,6 +5,7 @@ import { WalletAccountComponent } from './WalletAccountComponent';
 import { WalletVoteComponent } from './WalletVoteComponent';
 import { WalletUnsafeComponent } from './WalletUnsafeComponent';
 import { WalletTransactionDetailsComponent } from './WalletTransactionDetailsComponent'
+import { WalletPrintComponent } from './WalletPrintComponent';
 
 export {
     WalletBalanceComponent,
@@ -13,5 +14,6 @@ export {
     WalletAccountComponent,
     WalletVoteComponent,
     WalletUnsafeComponent,
-    WalletTransactionDetailsComponent
+    WalletTransactionDetailsComponent,
+    WalletPrintComponent
 };

@@ -21,8 +21,13 @@ export default class PaperWalletComponent extends React.Component {
     downloading: false
   };
 
-  componentDidMount = () => {
-    this.loadFrame();
+  componentWillMount = () => {
+    const secure = this.props.secure === 'true';
+    if (!secure) {
+      this.setState({ mode: 'insecure', valid: true }, () => { this.loadFrame() });
+    } else {
+      this.setState({ mode: 'secure', valid: false });
+    }
   };
 
   onChange = (password) => {
@@ -59,7 +64,7 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   render() {
-    
+
     const { password, mode, encrypting, pdfUrl, valid, downloading } = this.state;
 
     const iframe = (

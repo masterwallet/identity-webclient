@@ -5,8 +5,10 @@ import moment from 'moment';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
-import { calcFontSize } from './../../services/FontResize';
+import { calcFontSize, calcSize } from './../../services/FontResize';
 import Esc from './../panel/Esc';
+import Modal from './../controls/Modal';
+import { SmallLoader } from './../controls/SmallLoader';
 
 const Send = styled.button`
   position: absolute;
@@ -93,6 +95,30 @@ const RightArrowIcon = () => (
   </svg>
 );
 
+const SpinnerSvg = styled.svg`
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+
+  @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+  @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+  @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+`;
+
+const Spinner = () => (
+  <SpinnerSvg 
+    style={{ minWidth: 17, minHeight: 17, }}
+    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+  >
+    <path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z">
+    </path>
+  </SpinnerSvg>
+);
 
 const _t = {
   receive: 'Receive',
@@ -100,7 +126,13 @@ const _t = {
   assets: 'Assets in This Wallet',
   recentTransactions: 'Recent Transactions',
   noRecentTransactions: 'No Transactions',
-  unsafeOperations: 'Unsafe Operations'
+  unsafeOperations: 'Unsafe Operations',
+  printWallet: 'Print wallet',
+  printSecuredWallet: 'Print secured wallet',
+  deleteWallet: 'Delete wallet',
+  deleteQuestion: 'Are you sure to delete wallet {WALLET_ADDRESS} from MasterWallet? You can import it again anytime once you have Private Key.',
+  delete: 'Delete',
+  cancel: 'Cancel'
 };
 
 const dateFormat = 'D MMM, YYYY';
@@ -212,7 +244,98 @@ const AssetTable = styled.table`
   }
 `;
 
+const Bars = () => (
+  <svg width={20} height={20} style={{ width: 20, height: 20 }} viewBox="0 0 1024 768" xmlns="http://www.w3.org/2000/svg">
+    <path stroke="blue" fill="#8663f5" d="M0 192v128h768v-128h-768z m0 384h768v-128h-768v128z m0 256h768v-128h-768v128z" />
+  </svg>
+);
+
+const Title = styled.div`
+  float: left;
+  textAlign: center;
+  width: 80%
+`;
+
+const MenuButton = styled.button`
+  width: 15%;
+  margin: 5px;
+  float: right;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 50px;
+  z-index: 1000;
+  float: left;
+  text-align: right;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+`;
+
+const menuItems = [
+  {
+    action: 'print',
+    text: _t.printWallet,
+    mode: 'notWatch'
+  },
+  {
+    action: 'print_secure',
+    text: _t.printSecuredWallet,
+    mode: 'notWatch'
+  },
+  {
+    action: 'delete',
+    text: _t.deleteWallet,
+  }
+];
+
+const Menu = ({ onClick, onMenuOptionClick, menu, mode }) => {
+  // Filter items by watch only mode
+  const items = menuItems.filter(item => {
+    if (item.mode !== 'notWatch' || mode !== 'watch') {
+      return item;
+    }
+  });
+  // Find longest text of items
+  let longestText = '';
+  items.forEach(item => {
+    if (item.text.length > longestText.length) {
+      longestText = item.text;
+    }
+  });; 
+  const left = 300 - (calcSize(longestText).width + 2*(1.5 * 16)) - 2; // 1rem = 16px
+
+  return (
+    <div className="dropdown">
+      <MenuButton 
+        className='btn btn-default'
+        onClick={onClick}
+      >
+        <Bars/>
+      </MenuButton>
+      <DropdownMenu style={{ display: `${menu ? 'block' : 'none'}`, left }}>
+        {items.map((item, i) => (
+          <a 
+            key={i}
+            className='dropdown-item' 
+            onClick={() => onMenuOptionClick(item.action)}
+          ><div>{item.text}</div>
+          </a> 
+        ))}
+      </DropdownMenu>
+    </div>
+  );
+};
+
 export class WalletBalanceComponent extends React.Component {
+
+  state = {
+    menu: false,
+    modal: false,
+  };
+
   componentWillMount() {
     const id = this.props.match.params.walletId;
     this.props.onInit({ id });
@@ -230,15 +353,48 @@ export class WalletBalanceComponent extends React.Component {
     }
   }
 
+  onMenuClick = () => {
+    this.setState({ menu: !this.state.menu })
+  };
+
+  onMenuOptionClick = (option) => {
+    const menu = false;
+    if (option === 'delete') {
+      this.setState({ modal: true, menu });
+    } else if (option === 'print') {
+      this.onPrint();
+    } else if (option === 'print_secure') {
+      this.onPrint(true);
+    }
+  };
+
+  onModalClose = () => this.setState({ modal: false });
+
+  onDelete = () => {
+    const id = this.props.match.params.walletId;
+    this.props.onDelete({ id });
+  };
+
+  onPrint = (secure = false) => {
+    const id = this.props.match.params.walletId;
+    this.props.onPrintRedirect({ id, secure });
+  }; 
+
   render() {
+   //console.log(this.props);
    const { wallet, transactions } = this.props;
-   const { object, isLoading, error, assets } = wallet; // unused: isLoading, error
+   const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
    const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
    const walletAddress = network === 'ETH' ? address.toLowerCase() : address;
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
    const a = assets && assets.assets ? assets.assets : [];
+
+   const { menu, modal } = this.state;
+   const { isDeleting } = deletionStatus;
+   const deletionError = deletionStatus.error;
+
    return (
      <WalletPanel {...object} isLoading={isLoading}>
        {(!assets.isLoading) ? [<MyAssetsButton key={0} />, <MyWalletsButton key={1} />] : false}
@@ -259,7 +415,19 @@ export class WalletBalanceComponent extends React.Component {
            </Totals>
 
            <AssetTable>
-             <thead><tr><th>{a.length + ' ' + _t.assets}</th></tr></thead>
+             <thead>
+               <tr>
+                 <th>
+                  <Title>{a.length + ' ' + _t.assets}</Title>
+                  <Menu 
+                    onClick={this.onMenuClick}
+                    onMenuOptionClick={(option) => this.onMenuOptionClick(option)}
+                    menu={menu}
+                    mode={mode}
+                  /> 
+                 </th>
+                </tr>
+              </thead>
              <tbody>
               <tr>
                 <td><AssetsList assets={a} currency={'USD'} /></td>
@@ -295,9 +463,38 @@ export class WalletBalanceComponent extends React.Component {
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>
-           <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link>
+           {/* <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link> */}
         </div>
        )}
+       <Modal
+        show={modal}
+        onClose={this.onModalClose}
+        onCancel={this.onModalClose}
+        onConfirm={this.onDelete}
+        title={_t.deleteWallet}
+        body={(
+          <div>
+            {_t.deleteQuestion.replace('{WALLET_ADDRESS}', address)}
+            {deletionError ? 
+              <div style={{ marginTop: '10px' }} className='alert alert-danger'>
+                {deletionError}
+              </div> 
+              : false}
+          </div>
+        )} 
+        buttons={{
+          confirm: {
+            class: 'btn btn-danger',
+            label: isDeleting ? '' : <i className='fa fa-check'></i>,
+            title: isDeleting ? <Spinner /> : _t.delete
+          },
+          cancel: {
+            class: 'btn btn-default',
+            label: <i className='fa fa-times'></i>,
+            title: _t.cancel
+          }
+        }}
+       />
      </WalletPanel>
      );
   }

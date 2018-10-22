@@ -5,6 +5,7 @@ import { WalletReceive } from './WalletReceive';
 import { WalletVote } from './WalletVote';
 import { WalletUnsafe } from './WalletUnsafe';
 import { WalletTransactionDetails } from './WalletTransactionDetails';
+import { WalletPrint } from './WalletPrint';
 
 export {
     WalletBalance,
@@ -13,5 +14,6 @@ export {
     WalletAccount,
     WalletVote,
     WalletUnsafe,
-    WalletTransactionDetails
+    WalletTransactionDetails,
+    WalletPrint
 };

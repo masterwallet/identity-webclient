@@ -15,3 +15,5 @@ export const calcFontSize = ({ text, maxWidth = 240 }) => {
   }
   return `${fontSize}rem`;
 };
+
+export const calcSize = (text) => calculateSize(text, { font: 'Roboto', fontSize: '1rem' });
