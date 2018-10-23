@@ -131,7 +131,8 @@ const _t = {
   printWallet: 'Print wallet',
   printSecuredWallet: 'Print secured wallet',
   deleteWallet: 'Delete wallet',
-  deleteQuestion: 'Are you sure to delete wallet {WALLET_ADDRESS} from MasterWallet? You can import it again anytime once you have Private Key.',
+  deleteQuestion: 'Are you sure to delete wallet {WALLET_ADDRESS} from MasterWallet?',
+  deleteNotice: 'You can import it again anytime if you have Private Key.',
   delete: 'Delete',
   cancel: 'Cancel'
 };
@@ -472,7 +473,6 @@ export class WalletBalanceComponent extends React.Component {
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>
-           {/* <Link to={walletUrl('unsafe')} >{_t.unsafeOperations}</Link> */}
         </div>
        )}
        <Modal
@@ -483,7 +483,17 @@ export class WalletBalanceComponent extends React.Component {
         title={_t.deleteWallet}
         body={(
           <div>
-            {_t.deleteQuestion.replace('{WALLET_ADDRESS}', address)}
+            {(() => {
+              const parts = _t.deleteQuestion.split('{WALLET_ADDRESS}');
+              return  (
+                <div>
+                  {parts[0]}
+                  <p style={{ wordBreak: 'break-all', marginBottom: 0 }}><strong>{address}</strong></p>
+                  {parts[1]}
+                  <p>{_t.deleteNotice}</p>
+                </div>
+              );
+            })()}
             {deletionError ? 
               <div style={{ marginTop: '10px' }} className='alert alert-danger'>
                 {deletionError}
