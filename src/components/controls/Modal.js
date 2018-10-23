@@ -53,11 +53,11 @@ class Modal extends React.Component {
                   this.props.buttons !== undefined
                   ?
                   (<div>
-                    <button className={this.props.buttons.cancel.class} onClick={this.onCancel}>
+                    <button className={this.props.buttons.cancel.className} onClick={this.onCancel}>
                       {this.props.buttons.cancel.label} {this.props.buttons.cancel.title}
                     </button>
                     &nbsp; &nbsp;
-                    <button className={this.props.buttons.confirm.class} onClick={this.onConfirm}>
+                    <button className={this.props.buttons.confirm.className} onClick={this.onConfirm}>
                       {this.props.buttons.confirm.label} {this.props.buttons.confirm.title}
                     </button>
                   </div>)

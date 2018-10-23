@@ -493,12 +493,12 @@ export class WalletBalanceComponent extends React.Component {
         )} 
         buttons={{
           confirm: {
-            class: 'btn btn-danger',
+            className: 'btn btn-danger',
             label: isDeleting ? '' : <i className='fa fa-check'></i>,
             title: isDeleting ? <Spinner /> : _t.delete
           },
           cancel: {
-            class: 'btn btn-default',
+            className: 'btn btn-default',
             label: <i className='fa fa-times'></i>,
             title: _t.cancel
           }
