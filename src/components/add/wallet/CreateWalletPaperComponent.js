@@ -4,7 +4,7 @@ import { Steps } from './../../controls/Steps';
 import { CreateMenu, findWizardStep } from './../../../config/Wizards';
 import { WizardPanel, Next } from './../../panel/index';
 import PaperWalletComponent from './../../wallet/PaperWalletComponent';
-
+import { hasBip38 } from './../../../services/Utils';
 
 const _t = {
   paperWallet: 'Print Paper Wallet',
@@ -28,7 +28,7 @@ export class CreateWalletPaperComponent extends React.Component {
       return <Redirect to={menu[step - 1]} />
     }
     const { id } = lastResponse.data;
-    const bip38 = networksConfig.data.find(data => data.value === network).BIP38;
+    const bip38 = hasBip38(setup, network);
 
     return (
       <WizardPanel title={_t.paperWallet}>

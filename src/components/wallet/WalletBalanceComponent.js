@@ -9,6 +9,7 @@ import { calcFontSize, calcSize } from './../../services/FontResize';
 import Esc from './../panel/Esc';
 import Modal from './../controls/Modal';
 import { SmallLoader } from './../controls/SmallLoader';
+import { hasBip38 } from './../../services/Utils';
 
 const Send = styled.button`
   position: absolute;
@@ -385,7 +386,7 @@ export class WalletBalanceComponent extends React.Component {
   }; 
 
   render() {
-   //console.log(this.props);
+   console.log(this.props);
    const { wallet, transactions, setup } = this.props;
    const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
    const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
@@ -398,7 +399,7 @@ export class WalletBalanceComponent extends React.Component {
    const { menu, modal } = this.state;
    const { isDeleting } = deletionStatus;
    const deletionError = deletionStatus.error;
-   const bip38 = setup && setup.networksConfig && setup.networksConfig.data && setup.networksConfig.data.length > 0 ? setup.networksConfig.data.find(data => data.value === network).BIP38 : false;
+   const bip38 = hasBip38(setup, network);
 
    return (
      <WalletPanel {...object} isLoading={isLoading}>

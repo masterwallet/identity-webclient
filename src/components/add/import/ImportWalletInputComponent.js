@@ -6,6 +6,7 @@ import { WizardPanel, Next, Prev } from './../../panel/index';
 import TextInput from './../../controls/TextInput';
 import RadioButtonGroup from './../../controls/RadioButtonGroup';
 // import TextArea from './../../controls/TextArea';
+import { hasBip38 } from './../../../services/Utils';
 
 const _t = {
   enterPrivateKey: 'Enter Private Key',
@@ -52,7 +53,7 @@ export class ImportWalletInputComponent extends React.Component {
     if (lastResponse && lastResponse.data && lastResponse.data.id) {
       return (<Redirect to={menu[step + 1]} />);
     }
-    const bip38 = setup && setup.networksConfig && setup.networksConfig.data && setup.networksConfig.data.length > 0 ? setup.networksConfig.data.find(data => data.value === network).BIP38 : false;
+    const bip38 = hasBip38(setup, network);
     const radioOptions = [
       { value: 'insecure', label: _t.labelInsecure }
     ];
