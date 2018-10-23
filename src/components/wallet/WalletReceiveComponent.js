@@ -16,7 +16,8 @@ export class WalletReceiveComponent extends React.Component {
 
   componentWillMount() {
     const id = this.props.match.params.walletId;
-    this.props.onInit({id});
+    const { assets, wallet } = this.props;
+    this.props.onInit({ id, props: { assets, wallet } });
   }
 
   render() {

@@ -11,8 +11,8 @@ const mapDispatchToProps = dispatch => ({
   onAbort: () => {
     controller.abort();
   },
-  onInit: ({ id }) => {
-    controller = dispatchWalletDetails(id, dispatch);
+  onInit: ({ id, props }) => {
+    controller = dispatchWalletDetails({ walletId: id, dispatch, props });
 
     dispatch({ type: 'WALLET_HISTORY_REQUEST' });
     fetchJson(`/api/wallets/${id}/history`).then(response => {

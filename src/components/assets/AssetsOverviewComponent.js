@@ -58,6 +58,7 @@ export class AssetsOverviewComponent extends React.Component {
     this.props.onInit(this.props);
   }
   render() {
+    //console.log(this.props);
     const { assets } = this.props;
     const { wallets, subtotals, status, currency } = assets;
     if (!status.isLoading) {

@@ -1,5 +1,6 @@
 import { fetchJson } from './ApiRequest';
 import { toastr } from 'react-redux-toastr';
+import { getWalletAssetsList } from './../services/Utils';
 
 export const dispatchWalletsAssetId = ({ walletId, contractAddress, dispatch, signal }) => {
   dispatch({ type: 'WALLET_CONTRACT_REQUEST', payload: { walletId, contractAddress } });
@@ -32,26 +33,58 @@ export const dispatchWalletsAssetQueue = ({ walletId, queue, dispatch, signal })
   pickNext();
 };
 
-export const dispatchWalletsAssets = ({ walletId, dispatch, signal }) => {
-  dispatch({ type: 'WALLET_ASSETS_REQUEST', payload: { walletId } });
-  fetchJson(`/api/wallets/${walletId}/assets`)
-    .then(response => {
-      if (response.error) {
-        dispatch({ type: 'WALLET_ASSETS_ERROR', payload: { walletId, error: response.error } });
-      } else {
-        dispatch({type: 'WALLET_ASSETS_RECEIVED', payload: {walletId, data: response.data } });
-        // ok, we have a queue of assets with unknown value, lets download all of them....
-        const queue = response.data.assets.filter(({ value, contractAddress }) => {
-          return !value && contractAddress;
-        });
-        console.log('assets queue prepared', queue.length);
-        setTimeout(() => { dispatchWalletsAssetQueue({ walletId, queue, dispatch, signal })}, 200);
+export const dispatchWalletsAssets = ({ walletId, dispatch, signal, props }) => {
+  // Check if assets list is already loaded to Redux state for current wallet
+  const walletAssetsList = getWalletAssetsList({ props, walletId });
+  if (walletAssetsList) {
+    // Transfer data from Assets to Wallet Redux store
+    dispatch({ type: 'WALLET_ASSETS_REQUEST', payload: { walletId } });
+    dispatch({ type: 'WALLET_ASSETS_RECEIVED', payload: { walletId, data: walletAssetsList } });
+    
+    // Find assets without values (both pending and loading):
+    // isPending - assets list received, but assets balance not requested yet
+    // isLoading - assets balance requested
+    const queue = walletAssetsList.assets.filter(({ value, contractAddress }) => {
+      return !value && contractAddress;
+    });
+    // For empty assets request values
+    console.log('assets queue prepared', queue.length);
+    setTimeout(() => { dispatchWalletsAssetQueue({ walletId, queue, dispatch, signal })}, 200);
+
+    // For loaded assets
+    walletAssetsList.assets.forEach(a => {
+      const { value, contractAddress } = a;
+      if (value && contractAddress) {
+        dispatch({ type: 'WALLET_CONTRACT_REQUEST', payload: { walletId, contractAddress } });
+        const data = {
+          contractAddress,
+          asset: { ...a }
+        };
+        dispatch({type: 'WALLET_CONTRACT_RECEIVED', payload: { walletId, contractAddress, data }});
       }
-    }).catch(err => {
-    console.error(err.toString());
-    dispatch({ type: 'WALLET_ASSETS_ERROR', payload: { error: err.toString() } });
-    toastr.error(err.toString());
-  });
+    });
+
+  } else {
+    dispatch({ type: 'WALLET_ASSETS_REQUEST', payload: { walletId } });
+    fetchJson(`/api/wallets/${walletId}/assets`)
+      .then(response => {
+        if (response.error) {
+          dispatch({ type: 'WALLET_ASSETS_ERROR', payload: { walletId, error: response.error } });
+        } else {
+          dispatch({type: 'WALLET_ASSETS_RECEIVED', payload: {walletId, data: response.data } });
+          // ok, we have a queue of assets with unknown value, lets download all of them....
+          const queue = response.data.assets.filter(({ value, contractAddress }) => {
+            return !value && contractAddress;
+          });
+          console.log('assets queue prepared', queue.length);
+          setTimeout(() => { dispatchWalletsAssetQueue({ walletId, queue, dispatch, signal })}, 200);
+        }
+      }).catch(err => {
+      console.error(err.toString());
+      dispatch({ type: 'WALLET_ASSETS_ERROR', payload: { error: err.toString() } });
+      toastr.error(err.toString());
+    });
+  }
 };
 
 export const dispatchWalletsStatus = (dispatch, { assets }) => {
@@ -96,7 +129,7 @@ export const dispatchWalletsStatus = (dispatch, { assets }) => {
     });
 };
 
-export const dispatchWalletDetails = (walletId, dispatch) => {
+export const dispatchWalletDetails = ({ walletId, dispatch, props }) => {
   const controller = (typeof window.AbortController === 'function') ? (new window.AbortController()) : { abort: () => {} };
 
   dispatch({ type: 'WALLET_DETAILS_REQUEST' });
@@ -106,7 +139,7 @@ export const dispatchWalletDetails = (walletId, dispatch) => {
         dispatch({ type: 'WALLET_DETAILS_ERROR', payload: { walletId, error: response.error } });
       } else {
         dispatch({type: 'WALLET_DETAILS_RECEIVED', payload: { walletId, data: response.data }});
-        dispatchWalletsAssets({ walletId, dispatch, signal: controller.signal });
+        dispatchWalletsAssets({ walletId, dispatch, signal: controller.signal, props });
       }
     }).catch(err => {
       console.error(err.toString());

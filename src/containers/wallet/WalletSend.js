@@ -6,8 +6,8 @@ import { postJson, fetchJson } from './../../services/ApiRequest';
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-  onInit: ({ id }) => {
-    dispatchWalletDetails(id, dispatch);
+  onInit: ({ id, props }) => {
+    dispatchWalletDetails({ walletId: id, dispatch, props });
     const walletId = id;
     dispatch({ type: 'FEE_REQUEST', payload: { walletId } });
     fetchJson(`/api/wallets/${walletId}/transaction-fee`, {}).then(response => {

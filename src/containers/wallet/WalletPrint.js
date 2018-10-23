@@ -4,8 +4,8 @@ import { dispatchWalletDetails } from './../../services/WalletStatus';
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-  onInit: ({ id }) => {
-    dispatchWalletDetails(id, dispatch);
+  onInit: ({ id, props }) => {
+    dispatchWalletDetails({ walletId: id, dispatch, props });
   }
 });
 

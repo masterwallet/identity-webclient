@@ -343,7 +343,8 @@ export class WalletBalanceComponent extends React.Component {
 
   componentWillMount() {
     const id = this.props.match.params.walletId;
-    this.props.onInit({ id });
+    const { assets, wallet } = this.props;
+    this.props.onInit({ id, props: { assets, wallet } });
   }
 
   componentWillUnmount() {
@@ -354,7 +355,8 @@ export class WalletBalanceComponent extends React.Component {
     const currWalletId = this.props.match.params.walletId;
     const nextWalletId = nextProps.match.params.walletId;
     if (currWalletId !== nextWalletId) {
-      this.props.onInit({ id: nextWalletId });
+      const { assets, wallet } = this.props;
+      this.props.onInit({ id: nextWalletId, props: { assets, wallet } });
     }
   }
 
@@ -386,7 +388,7 @@ export class WalletBalanceComponent extends React.Component {
   }; 
 
   render() {
-   console.log(this.props);
+   //console.log(this.props);
    const { wallet, transactions, setup } = this.props;
    const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
    const { id, address, network, mode } = object; // unused: address, publicKey, name, icon

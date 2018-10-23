@@ -15,7 +15,8 @@ export class WalletTransactionDetailsComponent extends React.Component {
 
   componentWillMount = () => {
     const { walletId, txId } = this.props.match.params;
-    this.props.onInit({ walletId, txId });
+    const { assets, wallet } = this.props;
+    this.props.onInit({ walletId, txId, props: { assets, wallet } });
   };
 
   render () {

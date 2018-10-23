@@ -9,7 +9,8 @@ export class WalletPrintComponent extends React.Component {
 
   componentWillMount = () => {
     const id = this.props.match.params.walletId;
-    this.props.onInit({ id });
+    const { assets, wallet } = this.props;
+    this.props.onInit({ id, assets, props: { assets, wallet } });
   };
 
   render () {

@@ -5,8 +5,8 @@ import { fetchJson } from './../../services/ApiRequest';
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
-  onInit: ({ walletId, txId }) => {
-    dispatchWalletDetails(walletId, dispatch);
+  onInit: ({ walletId, txId, props }) => {
+    dispatchWalletDetails({ walletId, dispatch, props });
     const payload = { walletId, txId };
     dispatch({
       type: 'TRANSACTION_DETAILS_REQUEST',

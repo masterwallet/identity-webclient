@@ -76,7 +76,8 @@ export class WalletSendComponent extends React.Component {
 
   componentWillMount() {
     const id = this.props.match.params.walletId;
-    this.props.onInit({id});
+    const { assets, wallet } = this.props;
+    this.props.onInit({ id, props: { assets, wallet } });
   };
 
   componentWillReceiveProps(nextProps) {
@@ -86,7 +87,8 @@ export class WalletSendComponent extends React.Component {
     const nextTransactions = nextProps.transactions;
     
     if (transactions.txid !== nextTransactions.txid) {
-      this.props.onInit({ id: walletId });
+      const { assets, wallet } = nextProps;
+      this.props.onInit({ id: walletId, props: { assets, wallet } });
     }
     // Update fee or estimated gasLimit
     if (nextTransactions.fees[walletId] 
