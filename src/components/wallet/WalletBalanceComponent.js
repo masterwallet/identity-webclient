@@ -488,7 +488,17 @@ export class WalletBalanceComponent extends React.Component {
               return  (
                 <div>
                   {parts[0]}
-                  <p style={{ wordBreak: 'break-all', marginBottom: 0 }}><strong>{address}</strong></p>
+                  <p style={{ textAlign: 'center', wordBreak: 'break-all', marginBottom: 0 }}>
+                    <strong>{address}</strong>
+                    <JDentIcon 
+                      size={96}
+                      value={address} 
+                      style={{ 
+                        background: '#fff',
+                        margin: '5px auto',
+                      }}
+                    />
+                  </p>
                   {parts[1]}
                   <p>{_t.deleteNotice}</p>
                 </div>
