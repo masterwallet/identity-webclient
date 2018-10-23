@@ -14,7 +14,8 @@ const initialState = {
   isLoading: true,
   error: '',
   assets: defaultAssets,
-  deletionStatus: defaultDeletionStatus
+  deletionStatus: defaultDeletionStatus,
+  currentWalletId: ''
 };
 
 const fixIcon = w => ({...w, icon: `/networks/${w.network}.png`});
@@ -35,7 +36,11 @@ export default function (state = initialState, action) {
     }
 
     case 'WALLET_ASSETS_RECEIVED': {
-      const { data } = action.payload;
+      const { currentWalletId } = state;
+      const { walletId, data } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       const pendingAssets = data.assets.map(a => {
         if (!a.value && a.contractAddress) {
           return { ...a, isPending: true };
@@ -45,10 +50,19 @@ export default function (state = initialState, action) {
       return { ...state, assets: { ...data, assets: pendingAssets, error: '', isLoading: false } };
     }
     case 'WALLET_ASSETS_REQUEST': {
+      const { currentWalletId } = state;
+      const { walletId } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       return { ...state, assets: { ...defaultAssets, error: '', isLoading: true }};
     }
     case 'WALLET_ASSETS_ERROR': {
-      const { error } = action.payload;
+      const { currentWalletId } = state;
+      const { walletId, error } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       return { ...state, assets: { ...defaultAssets, error, isLoading: false } };
     }
 
@@ -63,7 +77,11 @@ export default function (state = initialState, action) {
     }
 
     case 'WALLET_CONTRACT_RECEIVED': {
-      const { data, contractAddress } = action.payload;
+      const { currentWalletId } = state;
+      const { walletId, data, contractAddress } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       if (!state.assets.assets) return state;
       const assets = state.assets.assets.map(a => {
         if (a.contractAddress === contractAddress) {
@@ -74,7 +92,11 @@ export default function (state = initialState, action) {
       return { ...state, assets: { assets } };
     }
     case 'WALLET_CONTRACT_REQUEST': {
-      const { contractAddress } = action.payload;
+      const { currentWalletId } = state;
+      const { walletId, contractAddress } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       if (!state.assets.assets) return state;
       const assets = state.assets.assets.map(a => {
         if (a.contractAddress === contractAddress) {
@@ -85,7 +107,11 @@ export default function (state = initialState, action) {
       return { ...state, assets: { assets } };
     }
     case 'WALLET_CONTRACT_ERROR': {
-      const { error, contractAddress } = action.payload;
+      const { currentWalletId } = state;
+      const { walletId, error, contractAddress } = action.payload;
+      if (currentWalletId !== walletId) {
+        return { ...state };
+      }
       if (!state.assets.assets) return state;
       const assets = state.assets.assets.map(a => {
         if (a.contractAddress === contractAddress) {
@@ -94,6 +120,12 @@ export default function (state = initialState, action) {
         return a;
       });
       return { ...state, assets: { assets } };
+    }
+    case '@@router/LOCATION_CHANGE': {
+      const { pathname } = action.payload;
+      const parts = pathname.split('/');
+      const currentWalletId =  parts[parts.indexOf('wallets') + 1] || '';
+      return { ...state, currentWalletId };
     }
 
     default:

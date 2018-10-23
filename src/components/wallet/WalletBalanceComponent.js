@@ -397,7 +397,7 @@ export class WalletBalanceComponent extends React.Component {
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
 
    const errorMessage = error ? error : assets.error;
-   const a = assets && assets.assets ? assets.assets : [];
+   const assetsList = assets && assets.assets ? assets.assets : [];
 
    const { menu, modal } = this.state;
    const { isDeleting } = deletionStatus;
@@ -427,7 +427,7 @@ export class WalletBalanceComponent extends React.Component {
              <thead>
                <tr>
                  <th>
-                  <Title>{a.length + ' ' + _t.assets}</Title>
+                  <Title>{assetsList.length + ' ' + _t.assets}</Title>
                   <Menu 
                     onClick={this.onMenuClick}
                     onMenuOptionClick={(option) => this.onMenuOptionClick(option)}
@@ -440,7 +440,7 @@ export class WalletBalanceComponent extends React.Component {
               </thead>
              <tbody>
               <tr>
-                <td><AssetsList assets={a} currency={'USD'} /></td>
+                <td><AssetsList assets={assetsList} currency={'USD'} /></td>
               </tr>
               <tr>
                 <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
@@ -488,7 +488,7 @@ export class WalletBalanceComponent extends React.Component {
               return  (
                 <div>
                   {parts[0]}
-                  <p style={{ textAlign: 'center', wordBreak: 'break-all', marginBottom: 0 }}>
+                  <div style={{ textAlign: 'center', wordBreak: 'break-all', marginBottom: 0 }}>
                     <strong>{address}</strong>
                     <JDentIcon 
                       size={96}
@@ -498,7 +498,7 @@ export class WalletBalanceComponent extends React.Component {
                         margin: '5px auto',
                       }}
                     />
-                  </p>
+                  </div>
                   {parts[1]}
                   <p>{_t.deleteNotice}</p>
                 </div>
