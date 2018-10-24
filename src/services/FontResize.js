@@ -1,7 +1,7 @@
 import calculateSize from 'calculate-size';
 
-export const calcFontSize = ({ text, maxWidth }) => {
-  let options = {
+export const calcFontSize = ({ text, maxWidth, options }) => {
+  options = options || {
     font: 'Roboto', 
     fontSize: '1rem'
   };
@@ -17,3 +17,11 @@ export const calcFontSize = ({ text, maxWidth }) => {
 };
 
 export const calcSize = (text) => calculateSize(text, { font: 'Roboto', fontSize: '1rem' });
+
+export const getFontFamily = () => {
+  const element = document.createElement('div');
+  document.body.appendChild(element);
+  const fontFamily = getComputedStyle(element).fontFamily;
+  element.parentNode.removeChild(element);
+  return fontFamily;
+};

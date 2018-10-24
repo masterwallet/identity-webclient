@@ -6,7 +6,7 @@ import FontSize from 'calc-fontsize';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
-import { calcFontSize, calcSize } from './../../services/FontResize';
+import { calcFontSize, calcSize, getFontFamily } from './../../services/FontResize';
 import Esc from './../panel/Esc';
 import Modal from './../controls/Modal';
 import { hasBip38 } from './../../services/Utils';
@@ -140,6 +140,8 @@ const _t = {
 const dateFormat = 'D MMM, YYYY';
 const timeForamt = 'h:mma';
 
+const fontFamily = getFontFamily();
+
 //  asset, icon, hash, date ?
 const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   const txType = Object.keys(transaction.sender).indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
@@ -164,8 +166,12 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
-        //const fontSize = calcFontSize({ text: addr, maxWidth: 230 });
-        const fontSize = FontSize(addr, { width: 232, fontFamily: 'Roboto' });
+        const fontSize = calcFontSize({ 
+          text: addr,
+          maxWidth: 232, 
+          options: { font: fontFamily, fontSize: '1rem' } 
+        });
+        
         return (
           <div key={i} style={{ margin: 5, display: 'flex' }}>
             <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
