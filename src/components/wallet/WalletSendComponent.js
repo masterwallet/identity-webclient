@@ -2,7 +2,7 @@ import React from 'react';
 import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
 import { JDentIcon } from './../jdenticon/index';
-import { calcFontSize } from './../../services/FontResize';
+import { calcFontSize, getFontFamily } from './../../services/FontResize';
 import TextInput from './../controls/TextInput';
 import Dropdown from './../controls/Dropdown';
 import TextArea from './../controls/TextArea';
@@ -26,6 +26,7 @@ const _t = {
   data: 'Data'
 };
 
+const font = getFontFamily();
 const blockStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10 };
 const h4Style = { fontSize: 16, textAlign: 'left', color: '#8760f6', marginBottom: 0 };
 
@@ -359,7 +360,14 @@ export class WalletSendComponent extends React.Component {
                   f === 'txid' 
                   ? false 
                   : (<div key={f} style={{ 
-                    fontSize: calcFontSize({ text: `${_t[f]} ${sender[latestTx][f]}`, maxWidth: 255 }) 
+                    fontSize: calcFontSize({ 
+                      text: `${_t[f]} ${sender[latestTx][f]}`,
+                      maxWidth: 255,
+                      options: {
+                        font,
+                        fontSize: '1rem'
+                      }
+                    }) 
                   }}>
                     <b>{_t[f]}:</b> {sender[latestTx][f]}
                   </div>)

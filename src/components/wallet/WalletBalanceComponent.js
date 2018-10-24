@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
-import FontSize from 'calc-fontsize';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
@@ -319,7 +318,7 @@ const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
       longestText = item.text;
     }
   });; 
-  const left = 300 - (calcSize(longestText).width + 2*(1.5 * 16)) - 2; // 1rem = 16px
+  const left = 300 - (calcSize(longestText, { font: fontFamily, fontSize: '1rem' }).width + 2*(1.5 * 16)) - 2; // 1rem = 16px
 
   return (
     <div className="dropdown">

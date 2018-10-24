@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { AssetsList } from './AssetsList';
 import { JDentIcon } from './../jdenticon/index';
 import { NetworkIcon } from './NetworkIcon';
-import { calcFontSize } from './../../services/FontResize';
+import { calcFontSize, getFontFamily } from './../../services/FontResize';
 
 const _t = {
   assets: 'assets',
@@ -93,6 +93,8 @@ const AssetTable = styled.table`
   }
 `;
 
+const font = getFontFamily();
+
 export const WalletsList = ({ list, title, currency, subtotals }) => {
   const shortAddress = (value) => {
     if (!value) return '';
@@ -125,7 +127,8 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                   <div style={{ 
                       fontSize: calcFontSize({ 
                         text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
-                        maxWidth: 180
+                        maxWidth: 180,
+                        options: { font, fontSize: '1rem' }
                       }),
                       fontFamily: 'monospace', 
                       background: 'transparent', 

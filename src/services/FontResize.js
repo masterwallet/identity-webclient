@@ -16,7 +16,7 @@ export const calcFontSize = ({ text, maxWidth, options }) => {
   return `${fontSize}rem`;
 };
 
-export const calcSize = (text) => calculateSize(text, { font: 'Roboto', fontSize: '1rem' });
+export const calcSize = (text, options) => calculateSize(text, options || { font: 'Roboto', fontSize: '1rem' });
 
 export const getFontFamily = () => {
   const element = document.createElement('div');
