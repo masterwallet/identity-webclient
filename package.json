@@ -5,6 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "b64-to-blob": "^1.2.19",
+    "calc-fontsize": "^1.1.0",
     "calculate-size": "^1.1.1",
     "cors": "^2.8.4",
     "electron": "^2.0.8",

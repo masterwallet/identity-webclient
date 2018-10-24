@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
+import FontSize from 'calc-fontsize';
 import { JDentIcon } from './../jdenticon/index';
 import { WalletPanel, Totals, MyAssetsButton, MyWalletsButton } from './../panel/index';
 import { AssetsList } from './../assets/AssetsList';
@@ -163,7 +164,8 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
-        const fontSize = calcFontSize({ text: addr, maxWidth: 230 });
+        //const fontSize = calcFontSize({ text: addr, maxWidth: 230 });
+        const fontSize = FontSize(addr, { width: 232, fontFamily: 'Roboto' });
         return (
           <div key={i} style={{ margin: 5, display: 'flex' }}>
             <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
