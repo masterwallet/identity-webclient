@@ -2,9 +2,9 @@ import React from 'react';
 import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
 
-const _t = {
+// const _t = {
 
-};
+// };
 
 
 export class WalletTransactionDetailsComponent extends React.Component {
@@ -23,9 +23,8 @@ export class WalletTransactionDetailsComponent extends React.Component {
     //console.log(this.props);
     const { walletId, txId } = this.props.match.params;
     const { wallet, transactions } = this.props;
-    const { object, isLoading, error, assets, deletionStatus } = wallet; 
+    const { object, isLoading, assets } = wallet; 
     const { id } = object;
-    const errorMessage = error; // no need to display assets error
 
     const details = (
       transactions.details[walletId] 

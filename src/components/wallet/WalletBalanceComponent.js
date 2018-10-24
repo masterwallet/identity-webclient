@@ -8,7 +8,6 @@ import { AssetsList } from './../assets/AssetsList';
 import { calcFontSize, calcSize } from './../../services/FontResize';
 import Esc from './../panel/Esc';
 import Modal from './../controls/Modal';
-import { SmallLoader } from './../controls/SmallLoader';
 import { hasBip38 } from './../../services/Utils';
 
 const Send = styled.button`
@@ -175,7 +174,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
                 {addr}
               </div>
               <div style={{ display: 'flex' }}>
-                <div><img src={`media/${txType}-transaction.svg`} style={{ height: 24, width: 24 }} /></div>
+                <div><img src={`media/${txType}-transaction.svg`} alt='' style={{ height: 24, width: 24 }} /></div>
                 <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
                   {amount || parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
                   &nbsp;
@@ -300,9 +299,10 @@ const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
       if (item.action === 'print_secure' && !bip38) {
         // do nothing
       } else {
-        return item;
+        return true;
       }
     }
+    return false;
   });
   // Find longest text of items
   let longestText = '';
@@ -427,7 +427,7 @@ export class WalletBalanceComponent extends React.Component {
              <thead>
                <tr>
                  <th>
-                  <Title>{assetsList.length + ' ' + _t.assets}</Title>
+                  <Title>{assetsList.filter(a => parseFloat(a.value) > 0).length + ' ' + _t.assets}</Title>
                   <Menu 
                     onClick={this.onMenuClick}
                     onMenuOptionClick={(option) => this.onMenuOptionClick(option)}

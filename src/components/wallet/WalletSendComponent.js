@@ -56,6 +56,8 @@ const toCurrency = ({ value, unit, cmc, coef }) => {
         return `($${(value * er).toFixed(7)})`;
       case 'gwei':
         return `($${(value / Math.pow(10, 9) * coef * er).toFixed(4)})`;
+      default: 
+        return value;
     }
   }
   return '';
@@ -254,7 +256,7 @@ export class WalletSendComponent extends React.Component {
                     >
                       <button style={{ opacity: 0.5 }} className='btn btn-basic btn-sm'>
                         {_t.back}&nbsp;
-                        <img src='media/back-arrow.svg' style={{ width: 20, height: 20 }} />
+                        <img src='media/back-arrow.svg' alt='' style={{ width: 20, height: 20 }} />
                       </button>
                     </a>
                   </div>
@@ -312,7 +314,7 @@ export class WalletSendComponent extends React.Component {
                     >
                       <button style={{ opacity: 0.5 }} className='btn btn-basic btn-sm'>
                         {_t.advanced}&nbsp;
-                        <img src='media/gears.svg' style={{ width: 20, height: 20 }} />
+                        <img src='media/gears.svg' alt='' style={{ width: 20, height: 20 }} />
                       </button>
                     </a>
                   </div>
@@ -328,7 +330,7 @@ export class WalletSendComponent extends React.Component {
             <div style={blockStyle}>
                 {sender.processing 
                   ? 
-                  <img src='media/loader365thumb.gif' style={{ width: 20, height: 20 }} />
+                  <img src='media/loader365thumb.gif' alt='' style={{ width: 20, height: 20 }} />
                   :
                   <button 
                     className={`btn btn-success ${valid ? '' : 'disabled'}`}

@@ -1,7 +1,6 @@
 import React from 'react';
 import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
-import { SmallLoader } from './../controls/SmallLoader';
 import PaperWalletComponent from './../wallet/PaperWalletComponent';
 import { hasBip38 } from './../../services/Utils';
 
