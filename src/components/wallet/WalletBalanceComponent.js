@@ -282,6 +282,15 @@ const DropdownMenu = styled.div`
   border: 1px solid rgba(0,0,0,.15);
 `;
 
+const DropdownBackdrop = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 999
+`;
+
 const menuItems = [
   {
     action: 'print',
@@ -299,7 +308,7 @@ const menuItems = [
   }
 ];
 
-const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
+const Menu = ({ onClick, onMenuOptionClick, onMenuMouseOver, onMenuMouseOut, backdrop, menu, mode, bip38 }) => {
   // Filter items by watch only mode
   const items = menuItems.filter(item => {
     if (item.mode !== 'notWatch' || mode !== 'watch') {
@@ -328,7 +337,11 @@ const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
       >
         <Bars/>
       </MenuButton>
-      <DropdownMenu style={{ display: `${menu ? 'block' : 'none'}`, left }}>
+      <DropdownMenu 
+        style={{ display: `${menu ? 'block' : 'none'}`, left }}
+        onMouseOver={onMenuMouseOver}
+        onMouseOut={onMenuMouseOut}
+      >
         {items.map((item, i) => (
           <a 
             key={i}
@@ -338,6 +351,10 @@ const Menu = ({ onClick, onMenuOptionClick, menu, mode, bip38 }) => {
           </a> 
         ))}
       </DropdownMenu>
+      <DropdownBackdrop 
+        style={{ visibility: `${menu && backdrop ? 'visible' : 'hidden'}` }}
+        onClick={onClick} 
+      />
     </div>
   );
 };
@@ -347,6 +364,7 @@ export class WalletBalanceComponent extends React.Component {
   state = {
     menu: false,
     modal: false,
+    backdrop: false
   };
 
   componentWillMount() {
@@ -369,7 +387,8 @@ export class WalletBalanceComponent extends React.Component {
   }
 
   onMenuClick = () => {
-    this.setState({ menu: !this.state.menu })
+    const { menu } = this.state;
+    this.setState({ menu: !menu, backdrop: !menu })
   };
 
   onMenuOptionClick = (option) => {
@@ -382,6 +401,9 @@ export class WalletBalanceComponent extends React.Component {
       this.onPrint(true);
     }
   };
+
+  onMenuMouseOver = () => this.setState({ backdrop: false });
+  onMenuMouseOut = () => this.setState({ backdrop: true });
 
   onModalClose = () => this.setState({ modal: false });
 
@@ -406,7 +428,7 @@ export class WalletBalanceComponent extends React.Component {
    const errorMessage = error ? error : assets.error;
    const assetsList = assets && assets.assets ? assets.assets : [];
 
-   const { menu, modal } = this.state;
+   const { menu, modal, backdrop } = this.state;
    const { isDeleting } = deletionStatus;
    const deletionError = deletionStatus.error;
    const bip38 = hasBip38(setup, network);
@@ -438,9 +460,12 @@ export class WalletBalanceComponent extends React.Component {
                   <Menu 
                     onClick={this.onMenuClick}
                     onMenuOptionClick={(option) => this.onMenuOptionClick(option)}
+                    onMenuMouseOver={this.onMenuMouseOver}
+                    onMenuMouseOut={this.onMenuMouseOut}
                     menu={menu}
                     mode={mode}
                     bip38={bip38}
+                    backdrop={backdrop}
                   /> 
                  </th>
                 </tr>
