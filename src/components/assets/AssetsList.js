@@ -118,6 +118,23 @@ const AssetTable = styled.div`
   }
 `;
 
+
+const formatAssetValue = (value) => {
+  const niceFloat = x => (parseFloat(x).toFixed(2).replace(/0{1,5}$/, ''));
+  const billion = Math.pow(10, 9);
+  const million = Math.pow(10, 6);
+  const thousand = Math.pow(10, 3);
+  value = parseFloat(value);
+  if (value > billion) {
+    return niceFloat(value / billion) + ' bln';
+  } else if (value > million) {
+    return niceFloat(value / million) + ' mln';
+  } else if (value > thousand) {
+    return niceFloat(value); 
+  }
+  return value;
+};
+
 const limit = 1e-5; // fix this - to be used from settings
 export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
@@ -143,7 +160,7 @@ export const AssetsList = ({ assets, currency }) => (
                 <span>
                   {asset.isPending ?
                     <span style={{ color: '#888' }}>(please wait...)</span> :
-                    (asset.error ? '?' : asset.value)}
+                    (asset.error ? '?' : formatAssetValue(asset.value))}
                 </span>
               )}
             </div>
