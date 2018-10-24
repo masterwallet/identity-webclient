@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => ({
         if (res && res.data && res.data.id) {
           // Current wallet data will be used from in state:add.lastResponce.data
           // but we need to reload list of wallets to have unique names
-          dispatch(push('/wallets'));
+          dispatch(push('/watch/complete'));
         }
       })
       .catch((e) => {

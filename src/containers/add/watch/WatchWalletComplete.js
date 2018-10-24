@@ -3,7 +3,11 @@ import { WatchWalletCompleteComponent } from './../../../components/add/watch/Wa
 
 const section = 'watch';
 const mapStateToProps = state => ({ ...state, section });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  onInit: () => {
+    dispatch({ type: 'WALLET_WIZARD_COMPLETE' });
+  }
+});
 
 export const WatchWalletComplete = connect(mapStateToProps, mapDispatchToProps)(WatchWalletCompleteComponent);
 export default { WatchWalletComplete };

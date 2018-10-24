@@ -14,6 +14,10 @@ const _t = {
 const section = 'create';
 export class CreateWalletPaperComponent extends React.Component {
 
+  componentWillUnmount = () => {
+    this.props.onComplete();
+  };
+
   render() {
     
     const { add, setup } = this.props;

@@ -127,7 +127,7 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                   <div style={{ 
                       fontSize: calcFontSize({ 
                         text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
-                        maxWidth: 180,
+                        maxWidth: 170,
                         options: { font, fontSize: '1rem' }
                       }),
                       fontFamily: 'monospace', 

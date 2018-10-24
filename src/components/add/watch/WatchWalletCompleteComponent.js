@@ -6,24 +6,32 @@ import { NetworkIcon } from './../../assets/NetworkIcon';
 
 const _t = {
   finished: 'Wallet added to Watch List',
-  readyToUse: 'Wallet is created and ready to use',
+  readyToUse: 'Wallet is added and is being watched',
   assets: 'My Wallets'
 };
 
-export const WatchWalletCompleteComponent = ({ setup, section, add }) => {
-  const { network, testnet, selectedNetwork } = add[section];
-  const { networksConfig } = setup;
-  const menu = WatchMenu({ network, testnet, networksConfig });
-  if (!menu) return false;
-  const step = findWizardStep(menu, '/complete');
-  return (
-    <WizardPanel title={_t.finished}>
-      <Next to={`/wallets`} title={_t.assets}/>
+export class WatchWalletCompleteComponent extends React.Component {
 
-      <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
+  componentDidMount = () => {
+    this.props.onInit();
+  };
 
-      <div style={{ textAlign: 'center', margin: '20px auto' }}>{_t.readyToUse}</div>
-      <Steps {...{step, menu}} />
-    </WizardPanel>
-  );
+  render = () => {
+    const { setup, section, add } = this.props;
+    const { network, testnet, selectedNetwork } = add[section];
+    const { networksConfig } = setup;
+    const menu = WatchMenu({ network, testnet, networksConfig });
+    if (!menu) return false;
+    const step = findWizardStep(menu, '/complete');
+    return (
+      <WizardPanel title={_t.finished}>
+        <Next to={`/wallets`} title={_t.assets}/>
+  
+        <NetworkIcon {...selectedNetwork} title={network}  style={{ margin: 20 }}/>
+  
+        <div style={{ textAlign: 'center', margin: '20px auto' }}>{_t.readyToUse}</div>
+        <Steps {...{step, menu}} />
+      </WizardPanel>
+    );
+  };
 };
