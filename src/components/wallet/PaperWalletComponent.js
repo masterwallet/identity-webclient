@@ -11,6 +11,8 @@ const _t = {
   yourPassword: 'Secret Wallet Password'
 };
 
+const isMobile = () => navigator && navigator.userAgent && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 export default class PaperWalletComponent extends React.Component {
 
   state = {
@@ -70,7 +72,7 @@ export default class PaperWalletComponent extends React.Component {
     const iframe = (
       <IFrame
         url={pdfUrl}
-        //url='http://localhost:7773/api/wallets/81b98d95ea338af6c3a5928e4a9055ea58bbf26a/pdf?rotate=true'
+        //url='http://localhost:7773/api/wallets/a07cfff2e86f9b81f68f4d13222608dc9e17baf2/pdf?rotate=true'
         height="750px"
         width="300px"
         display="initial"
@@ -126,7 +128,7 @@ export default class PaperWalletComponent extends React.Component {
         }
         <div style={{ textAlign: 'center' }}>
           {
-            isElectron() ? (
+            isElectron() || isMobile() ? (
               downloading ?
                 iframe :
                 (
