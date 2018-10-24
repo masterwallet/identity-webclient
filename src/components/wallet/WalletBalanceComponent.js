@@ -163,7 +163,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
-        const fontSize = calcFontSize({ text: addr });
+        const fontSize = calcFontSize({ text: addr, maxWidth: 230 });
         return (
           <div key={i} style={{ margin: 5, display: 'flex' }}>
             <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
