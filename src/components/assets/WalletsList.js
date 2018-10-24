@@ -122,10 +122,20 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
                   <div className="address">{shortAddress(address)}</div> :
                   <div className="address">{shortAddress(publicKey)}</div>}
                 {subtotals[id] && subtotals[id] > 0 ? (
-                  <div style={{ fontSize: calcFontSize({ 
-                    text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
-                    maxWidth: 180
-                  }), fontFamily: 'monospace', background: 'transparent', display: 'flex', color: '#222', lineHeight: '20px', height: 20, width: '100%' }}>
+                  <div style={{ 
+                      fontSize: calcFontSize({ 
+                        text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
+                        maxWidth: 180
+                      }),
+                      fontFamily: 'monospace', 
+                      background: 'transparent', 
+                      display: 'flex', 
+                      color: '#222', 
+                      lineHeight: '20px',
+                      height: 20,
+                      width: 180
+                    }}
+                  >
                     <div style={{ paddingLeft: 10 }}>
                       ~ {subtotals[id].toFixed(2)} {currency}
                     </div>

@@ -169,7 +169,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
             <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
               <JDentIcon size={48} value={addr}  style={{ background: '#fff' }}/>
             </Link>
-            <div style={{ display: 'flex', flexDirection: 'column', margin: 5, width: 252 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', margin: 5, width: 232 }}>
               <div style={{ fontSize }}>
                 {addr}
               </div>
