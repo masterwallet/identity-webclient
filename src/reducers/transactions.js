@@ -8,7 +8,7 @@
 
 const initialState = {
   loading: false,
-  list: [],
+  history: {},
   error: '',
   sender: {},
   details: {},
@@ -19,13 +19,22 @@ export default function (state = initialState, action) {
   switch (action.type) {
     // Transactions history:
     case 'WALLET_HISTORY_REQUEST': {
-      return { ...state, loading: true };
+      const { walletId } = action.payload;
+      const history = { ...state.history };
+      history[walletId] = { loading: true };
+      return { ...state, history };
     }
     case 'WALLET_HISTORY_RECEIVED': {
-      return { ...state, loading: false, list: action.payload.data };
+      const { walletId, data } = action.payload;
+      const history = { ...state.history };
+      history[walletId] = { loading: false, list: data };
+      return { ...state, history };
     }
     case 'WALLET_HISTORY_ERROR': {
-      return { ...state, loading: false, error: action.payload.error };
+      const { walletId, data } = action.payload;
+      const history = { ...state.history };
+      history[walletId] = { loading: false, error: data };
+      return { ...state, history };
     }
 
     // Sending transaction:

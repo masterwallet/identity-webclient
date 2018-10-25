@@ -370,8 +370,9 @@ export class WalletBalanceComponent extends React.Component {
 
   componentWillMount() {
     const id = this.props.match.params.walletId;
-    const { assets, wallet } = this.props;
-    this.props.onInit({ id, props: { assets, wallet } });
+    const { assets, wallet, transactions } = this.props;
+    const history = transactions.history[id];
+    this.props.onInit({ id, props: { assets, wallet, history } });
   }
 
   componentWillUnmount() {
@@ -421,10 +422,11 @@ export class WalletBalanceComponent extends React.Component {
   render() {
    console.log(this.props);
    const { wallet, transactions, setup } = this.props;
-   const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
-   const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
+   const { object, isLoading, error, assets, deletionStatus } = wallet; 
+   const { id, address, network, mode } = object;
    const walletAddress = network === 'ETH' ? address.toLowerCase() : address;
    const walletUrl = suffix => (`/wallets/${id}/${suffix}`);
+   const history = transactions.history[id];
 
    const errorMessage = error ? error : assets.error;
    const assetsList = assets && assets.assets ? assets.assets : [];
@@ -483,34 +485,36 @@ export class WalletBalanceComponent extends React.Component {
               </tr>
               <tr>
                 <th style={{ textAlign: 'center', padding: 10 }}>
-                  {transactions.loading ? <SmallLoader/> : ''}{_t.recentTransactions}
+                  {history && history.loading ? <SmallLoader/> : ''}{_t.recentTransactions}
                 </th>
               </tr>
-              {transactions.loading ? false : (
-                transactions.error ? (
-                  <tr>
-                    <td>
-                      <div className='alert alert-danger'>{transactions.error}</div>
-                    </td>
-                  </tr>
-                ) : (
-                  transactions.list.length === 0 ? (
+              {history ? (
+                history.loading ? false : (
+                  history.error ? (
                     <tr>
-                      <th>{_t.noRecentTransactions}</th>
-                    </tr>
-                  ) : transactions.list.map((tr, index) => (
-                    <tr key={index}>
                       <td>
-                        <TransactionDetail
-                          transaction={tr}
-                          walletAddress={walletAddress}
-                          walletId={id}
-                        />
+                        <div className='alert alert-danger'>{history.error}</div>
                       </td>
                     </tr>
-                  ))
+                  ) : (
+                    history.list.length === 0 ? (
+                      <tr>
+                        <th>{_t.noRecentTransactions}</th>
+                      </tr>
+                    ) : history.list.map((tr, index) => (
+                      <tr key={index}>
+                        <td>
+                          <TransactionDetail
+                            transaction={tr}
+                            walletAddress={walletAddress}
+                            walletId={id}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  )
                 )
-              )}
+              ) : false}
              <tr className="last"><th></th></tr>
              </tbody>
            </AssetTable>
