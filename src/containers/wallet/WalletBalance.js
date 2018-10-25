@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { WalletBalanceComponent } from './../../components/wallet/WalletBalanceComponent';
-import { dispatchWalletDetails } from './../../services/WalletStatus';
+import { dispatchWalletDetails, dispatchWalletTransactionsHistory } from './../../services/WalletStatus';
 import { fetchJson, fetchDelete } from './../../services/ApiRequest';
+import { historyNeedsReload } from './../../services/Utils';
 
 const mapStateToProps = state => state;
 
@@ -13,28 +14,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onInit: ({ id, props }) => {
     controller = dispatchWalletDetails({ walletId: id, dispatch, props });
-
     const { history } = props;
-    if (
-      !history 
-      || 
-      (
-        !history.loading 
-        && (
-          history.error 
-          || !history.list 
-          || history.list.length === 0
-        )
-      )
-    ) {
-      dispatch({ type: 'WALLET_HISTORY_REQUEST', payload: { walletId: id } });
-      fetchJson(`/api/wallets/${id}/history`).then(response => {
-        if (response.error) {
-          dispatch({ type: 'WALLET_HISTORY_ERROR', payload: { walletId: id, data: response.error } });
-        } else {
-          dispatch({ type: 'WALLET_HISTORY_RECEIVED', payload: { walletId: id, data: response.data } });
-        }
-      }).catch(err => {});
+    if (historyNeedsReload({ history })) {
+      dispatchWalletTransactionsHistory({ walletId: id, dispatch });
     }
   },
   onDelete: ({ id }) => {

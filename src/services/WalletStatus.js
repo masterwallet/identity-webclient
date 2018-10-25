@@ -148,3 +148,14 @@ export const dispatchWalletDetails = ({ walletId, dispatch, props }) => {
     });
   return controller;
 };
+
+export const dispatchWalletTransactionsHistory = ({ walletId, dispatch }) => {
+  dispatch({ type: 'WALLET_HISTORY_REQUEST', payload: { walletId } });
+  fetchJson(`/api/wallets/${walletId}/history`).then(response => {
+    if (response.error) {
+      dispatch({ type: 'WALLET_HISTORY_ERROR', payload: { walletId, data: response.error } });
+    } else {
+      dispatch({ type: 'WALLET_HISTORY_RECEIVED', payload: { walletId, data: response.data } });
+    }
+  }).catch(err => {});
+};

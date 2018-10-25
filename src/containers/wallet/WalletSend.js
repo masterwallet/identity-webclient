@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { WalletSendComponent } from './../../components/wallet';
-import { dispatchWalletDetails } from './../../services/WalletStatus';
+import { dispatchWalletDetails, dispatchWalletsAssets, dispatchWalletTransactionsHistory } from './../../services/WalletStatus';
 import { postJson, fetchJson } from './../../services/ApiRequest';
 
 const mapStateToProps = state => state;
@@ -31,6 +31,14 @@ const mapDispatchToProps = dispatch => ({
         payload.data = response.data;
         payload.txId = response.data.txid;
         dispatch({ type: 'TRANSACTION_SENT', payload });
+        // Reload assets
+        dispatchWalletsAssets({ walletId, dispatch })
+        // Reload history
+        setTimeout(() => {
+          // TODO: request to notify, that transaction has been recorded
+          dispatchWalletTransactionsHistory({ walletId, dispatch });
+        }, 2000);
+        
       }
     }).catch(error => {
       dispatch({ type: 'TRANSACTION_ERROR', payload: { walletId, error: error.message } });

@@ -67,3 +67,16 @@ export const formatAssetValue = (value) => {
   }
   return value;
 };
+
+export const historyNeedsReload = ({ history }) => {
+  return !history 
+          || 
+          (
+            !history.loading 
+            && (
+              history.error 
+              || !history.list 
+              || history.list.length === 0
+            )
+          )
+};
