@@ -9,6 +9,7 @@ import { calcFontSize, calcSize, getFontFamily } from './../../services/FontResi
 import Esc from './../panel/Esc';
 import Modal from './../controls/Modal';
 import { hasBip38 } from './../../services/Utils';
+import { SmallLoader } from './../controls/SmallLoader';
 
 const Send = styled.button`
   position: absolute;
@@ -161,7 +162,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
   }
 
   const amount = txType === 'incoming' && !multiSender ? parseFloat(transaction.receiver[walletAddress]) : false;
-
+  
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
@@ -183,7 +184,7 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
               <div style={{ display: 'flex' }}>
                 <div><img src={`media/${txType}-transaction.svg`} alt='' style={{ height: 24, width: 24 }} /></div>
                 <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
-                  {amount || parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
+                  {amount !== false ? amount : parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
                   &nbsp;
                   <strong>{transaction.asset}</strong>
                 </div>
@@ -418,7 +419,7 @@ export class WalletBalanceComponent extends React.Component {
   }; 
 
   render() {
-   //console.log(this.props);
+   console.log(this.props);
    const { wallet, transactions, setup } = this.props;
    const { object, isLoading, error, assets, deletionStatus } = wallet; // unused: isLoading, error
    const { id, address, network, mode } = object; // unused: address, publicKey, name, icon
@@ -456,7 +457,13 @@ export class WalletBalanceComponent extends React.Component {
              <thead>
                <tr>
                  <th>
-                  <Title>{assetsList.filter(a => parseFloat(a.value) > 0).length + ' ' + _t.assets}</Title>
+                  <Title>
+                    {assets.isLoading 
+                    ? <SmallLoader />
+                    : assetsList.filter(a => parseFloat(a.value) > 0).length 
+                    }
+                    {` ${_t.assets}`}
+                    </Title>
                   <Menu 
                     onClick={this.onMenuClick}
                     onMenuOptionClick={(option) => this.onMenuOptionClick(option)}
@@ -475,7 +482,9 @@ export class WalletBalanceComponent extends React.Component {
                 <td><AssetsList assets={assetsList} currency={'USD'} /></td>
               </tr>
               <tr>
-                <th style={{ textAlign: 'center', padding: 10 }}>{_t.recentTransactions}</th>
+                <th style={{ textAlign: 'center', padding: 10 }}>
+                  {transactions.loading ? <SmallLoader/> : ''}{_t.recentTransactions}
+                </th>
               </tr>
               {transactions.loading ? false : (
                 transactions.error ? (

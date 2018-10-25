@@ -1,6 +1,7 @@
 import React from 'react';
 import Esc from './../panel/Esc';
 import { WalletPanel } from './../panel/index';
+import { SmallLoader } from './../controls/SmallLoader';
 
 // const _t = {
 
@@ -38,7 +39,7 @@ export class WalletTransactionDetailsComponent extends React.Component {
         <Esc to={`/wallets/${id}/balance`} />
         {details ? 
         (
-          loading ? false : (
+          loading ? <SmallLoader /> : (
             detailsError ? (
               <div className='alert alert-danger'>{detailsError}</div>
             ) : (
