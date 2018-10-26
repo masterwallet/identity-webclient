@@ -11,10 +11,10 @@ const _t = {
 const section = 'create';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ name, network, networkId, testnet }) => {
+  onSubmit: ({ name, network, networkId, testnet, rpc, api }) => {
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
-    const payload = { name, network, networkId, testnet };
+    const payload = { name, network, networkId, testnet, rpc, api };
     postJson('/api/wallets/generate', payload)
       .then((res) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });

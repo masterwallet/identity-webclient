@@ -22,7 +22,7 @@ export class CreateWalletNameComponent extends React.Component {
   }
   render() {
     const{ section, add, assets, setup, onChange, onSubmit } = this.props;
-    const { name, network, networkId, testnet, selectedNetwork } = add[section]; // isUniqueName should apper
+    const { name, network, networkId, testnet, selectedNetwork, rpc, api } = add[section]; // isUniqueName should apper
     const { networksConfig } = setup;
     const menu = CreateMenu({ network, testnet, networksConfig });
     if (!menu) return false;
@@ -38,7 +38,7 @@ export class CreateWalletNameComponent extends React.Component {
         <Next
           to={menu[step + 1]}
           {...{disabled, isLoading}} title={_t.continue}
-          onClick={() => (onSubmit({ ...selectedNetwork, network, testnet, networkId, name }))}
+          onClick={() => (onSubmit({ ...selectedNetwork, network, testnet, networkId, name, rpc, api }))}
         />
         <Prev to={menu[step - 1]} title={_t.back} />
 

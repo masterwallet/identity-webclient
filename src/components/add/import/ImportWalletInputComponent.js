@@ -42,8 +42,8 @@ export class ImportWalletInputComponent extends React.Component {
   render() {
     const { add, setup, onSubmit } = this.props;
     const { lastResponse } = add; // lastError
-    const { name, network, networkId, testnet } = add[section];
-    const networksConfig = { network, networkId, testnet };
+    const { name, network, networkId, testnet, rpc, api } = add[section];
+    const networksConfig = { network, networkId, testnet, rpc, api };
     const menu = ImportMenu({ network, testnet, networksConfig });
     if (!menu) return false;
     const step = findWizardStep(menu, '/wallet');

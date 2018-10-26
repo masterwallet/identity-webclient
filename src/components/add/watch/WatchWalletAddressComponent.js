@@ -30,14 +30,14 @@ const WarningBox = styled.div`
 
 export const WatchWalletAddressComponent = (props) => {
   const { add, section, setup, onSubmit, onUpdate } = props;
-  const { address, validation, network, networkId, testnet, name, rpcRoot, api, selectedNetwork } = add[section];
+  const { address, validation, network, networkId, testnet, name, rpc, api, selectedNetwork } = add[section];
   const { networksConfig } = setup;
   const menu = WatchMenu({ network, testnet, networksConfig });
   if (!menu) return false;
   const step = findWizardStep(menu, '/wallet');
 
   const onChange = value => (onUpdate({ network, networkId, testnet, address: value }));
-  const onSend = () => (onSubmit({ network, networkId, testnet, address, name, rpcRoot, api }));
+  const onSend = () => (onSubmit({ network, networkId, testnet, address, name, rpc, api }));
 
   const canContinue = !!address && validation && validation.result && validation.result.valid;
   const invalidChecksum = validation && validation.result && (validation.result.checksum === false);

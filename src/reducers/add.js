@@ -17,7 +17,14 @@ const updatedName = (obj, subject, exchange = false, config = []) => {
   const selectedNetwork = (config ? config.filter(n => (n.value === network))[0] : {}) || {};
   const networkName = exchange && selectedNetwork ? selectedNetwork.name : network;
   const test = obj.testnet && !exchange ? ' (' + getTestNetName(selectedNetwork.testnets, obj.networkId) + ')' : '';
-  // todo: copy RPC root and API from selectedNetwork
+  // Copy RPC root and API from selectedNetwork
+  if (obj.networkId === '' && selectedNetwork.local && !obj.rpc && !obj.api) {
+    obj.rpc = selectedNetwork.local.rpc;
+    obj.api = selectedNetwork.local.api;
+  } else {
+    delete obj.rpc;
+    delete obj.api;
+  }
   return ({ ...obj, name: `My ${networkName} ${subject}${test}`, selectedNetwork });
 };
 
@@ -106,7 +113,7 @@ export default function (state = initialState, action) {
     }
     case 'UPDATE_RPC_ROOT': {
         const { section, value } = action.payload;
-        const copy = { ...state[section], rpcRoot: value };
+        const copy = { ...state[section], rpc: value };
         return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_WALLET_ADDRESS': {
@@ -142,7 +149,7 @@ export default function (state = initialState, action) {
 
     case 'UPDATE_API_ROOT': {
       const { section, value } = action.payload;
-      const copy = { ...state[section], apiRoot: value };
+      const copy = { ...state[section], api: value };
       return saved({ ...state, [section]: copy });
     }
     case 'UPDATE_SECRET': {

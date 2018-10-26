@@ -14,10 +14,10 @@ const section = 'watch';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
 
-  onSubmit: ({ name, rpcRoot, api, network, networkId, testnet, address }) => {
+  onSubmit: ({ name, rpc, api, network, networkId, testnet, address }) => {
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
-    const payload = { name, rpcRoot, api, network, networkId, testnet, address, mode: 'watch' };
+    const payload = { name, rpc, api, network, networkId, testnet, address, mode: 'watch' };
     postJson('/api/wallets', payload)
       .then((res) => {
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE', payload: res });

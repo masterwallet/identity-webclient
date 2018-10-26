@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { WalletBalanceComponent } from './../../components/wallet/WalletBalanceComponent';
 import { dispatchWalletDetails, dispatchWalletTransactionsHistory } from './../../services/WalletStatus';
-import { fetchJson, fetchDelete } from './../../services/ApiRequest';
+import { fetchDelete } from './../../services/ApiRequest';
 import { historyNeedsReload } from './../../services/Utils';
 
 const mapStateToProps = state => state;

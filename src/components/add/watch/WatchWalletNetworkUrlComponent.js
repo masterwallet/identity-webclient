@@ -12,25 +12,36 @@ const _t = {
   back: 'Back'
 };
 
-export const WatchWalletNetworkUrlComponent = ({ 
-  add, section, setup, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot
-}) => {
-  const { network, testnet, networkId, rpcRoot, apiRoot, selectedNetwork } = add[section];
-  const { networksConfig } = setup;
-  const menu = WatchMenu({ network, testnet, networksConfig });
-  if (!menu) return false;
+export class WatchWalletNetworkUrlComponent extends React.Component {
 
-  const step = findWizardStep(menu, '/url');
-  const hasApi = selectedNetwork.apiName && isValidUrl(apiRoot);
-  const canContinue = networkId || (isValidUrl(rpcRoot) && hasApi);
+  componentDidMount = () => {
+    const { add, section } = this.props;
+    const { selectedNetwork } = add[section];
+    const { local } = selectedNetwork;
+    if (local) {
+      this.props.onUpdateRpcRoot(local.rpc);
+      this.props.onUpdateApiRoot(local.api);
+    }
+  };
 
-  return (
-    <WizardPanel title={_t.customRpcUrl}>
-      <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
-      <Prev to={menu[step - 1]} title={_t.back} />
-      <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot}} />
-      <Steps {...{ step, menu }} />
-    </WizardPanel>
-  );
+  render = () => {
+    const { add, section, setup, onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot } = this.props;
+    const { network, testnet, networkId, rpc, api, selectedNetwork } = add[section];
+    const { networksConfig } = setup;
+    const menu = WatchMenu({ network, testnet, networksConfig });
+    if (!menu) return false;
+
+    const step = findWizardStep(menu, '/url');
+    const hasApi = !selectedNetwork.apiName || (selectedNetwork.apiName && api && isValidUrl(api));
+    const canContinue = networkId || (isValidUrl(rpc) && hasApi);
+
+    return (
+      <WizardPanel title={_t.customRpcUrl}>
+        <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} />
+        <Prev to={menu[step - 1]} title={_t.back} />
+        <TestnetSelector {...add[section]}  {...{onUpdateNetworkId, onUpdateRpcRoot, onUpdateApiRoot}} />
+        <Steps {...{ step, menu }} />
+      </WizardPanel>
+    );
+  };
 };
-
