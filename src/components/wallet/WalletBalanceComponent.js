@@ -420,7 +420,7 @@ export class WalletBalanceComponent extends React.Component {
   }; 
 
   render() {
-   console.log(this.props);
+   //console.log(this.props);
    const { wallet, transactions, setup } = this.props;
    const { object, isLoading, error, assets, deletionStatus } = wallet; 
    const { id, address, network, mode } = object;
@@ -430,6 +430,7 @@ export class WalletBalanceComponent extends React.Component {
 
    const errorMessage = error ? error : assets.error;
    const assetsList = assets && assets.assets ? assets.assets : [];
+   const { total, currency } = assets;
 
    const { menu, modal, backdrop } = this.state;
    const { isDeleting } = deletionStatus;
@@ -444,7 +445,7 @@ export class WalletBalanceComponent extends React.Component {
          <div className='error'>{errorMessage}</div>
        ) : (
          <div>
-           <Totals value={0} currency={'USD'}>
+           <Totals value={total} currency={currency}>
             {mode !== 'watch' ? (
               <Link to={walletUrl('send')}>
                <Send><div><RightArrowIcon /></div>{_t.send}</Send>

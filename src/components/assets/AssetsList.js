@@ -124,8 +124,12 @@ export const AssetsList = ({ assets, currency }) => (
   <AssetTable>
     {assets.filter(a => (a.symbol))
       .filter(a => a.isLoading || a.isPending || a.error || (typeof a.value !== 'undefined' && parseFloat(a.value) > limit))
-      .map(asset => (
-      <div key={asset.symbol || asset.contractAddress || Math.random()} className={`tbl ${asset.error ? 'err' : 'noerr'}`}>
+      .map((asset, i) => (
+      <div 
+        key={i}
+        //key={asset.symbol || asset.contractAddress || Math.random()}
+        className={`tbl ${asset.error ? 'err' : 'noerr'}`}
+      >
         <div className="icon" style={{ width: 26 }}>
           {asset.icon ?
             <img style={{ width: 24, height: 'auto' }} src={asset.icon} alt="" /> :
