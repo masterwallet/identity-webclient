@@ -110,81 +110,84 @@ export const WalletsList = ({ list, title, currency, subtotals }) => {
         </tr>
       </thead>
       <tbody>
-      {list.filter(w => !!w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details }) => (
-        <tr key={id}>
-          <td style={{ verticalAlign: 'top' }}>
-            <NetworkIcon {...{network, icon, networkId, testnet}} />
-          </td>
-          <td style={{ padding: '2px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <JDentIcon size={48} value={address || publicKey}  style={{ background: '#fff' }}/>
-              <div className="main">
-                <div className="name">{name}</div>
-                {address ?
-                  <div className="address">{shortAddress(address)}</div> :
-                  <div className="address">{shortAddress(publicKey)}</div>}
-                {subtotals[id] && subtotals[id] > 0 ? (
-                  <div style={{ 
-                      fontSize: calcFontSize({ 
-                        text: `~ ${subtotals[id].toFixed(2)} ${currency} ${details.assets.length} ${_t.assets}`, 
-                        maxWidth: 170,
-                        options: { font, fontSize: '1rem' }
-                      }),
-                      fontFamily: 'monospace', 
-                      background: 'transparent', 
-                      display: 'flex', 
-                      color: '#222', 
-                      lineHeight: '20px',
-                      height: 20,
-                      width: 180
-                    }}
-                  >
-                    <div style={{ paddingLeft: 10 }}>
-                      ~ {subtotals[id].toFixed(2)} {currency}
-                    </div>
-                    {details.assets.length > 1 ? (
-                       <div>&nbsp;<strong>{details.assets.length} {(details.assets.length === 1) ? _t.asset : _t.assets}</strong></div>
-                    ): false}
+        {list.filter(w => !!w.id).map(({ id, name, address, publicKey, network, networkId, testnet, icon, details }) => {
+          const assets = details && details.assets ? details.assets.filter(a => parseFloat(a.value) > 0) : [];
+          return (
+            <tr key={id}>
+              <td style={{ verticalAlign: 'top' }}>
+                <NetworkIcon {...{ network, icon, networkId, testnet }} />
+              </td>
+              <td style={{ padding: '2px' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <JDentIcon size={48} value={address || publicKey} style={{ background: '#fff' }} />
+                  <div className="main">
+                    <div className="name">{name}</div>
+                    {address ?
+                      <div className="address">{shortAddress(address)}</div> :
+                      <div className="address">{shortAddress(publicKey)}</div>}
+                    {subtotals[id] && subtotals[id] > 0 ? (
+                      <div style={{
+                        fontSize: calcFontSize({
+                          text: `~ ${subtotals[id].toFixed(2)} ${currency} ${assets.length} ${_t.assets}`,
+                          maxWidth: 170,
+                          options: { font, fontSize: '1rem' }
+                        }),
+                        fontFamily: 'monospace',
+                        background: 'transparent',
+                        display: 'flex',
+                        color: '#222',
+                        lineHeight: '20px',
+                        height: 20,
+                        width: 180
+                      }}
+                      >
+                        <div style={{ paddingLeft: 10 }}>
+                          ~ {subtotals[id].toFixed(2)} {currency}
+                        </div>
+                        {assets.length >= 1 ? (
+                          <div>&nbsp;<strong>{assets.length} {(assets.length === 1) ? _t.asset : _t.assets}</strong></div>
+                        ) : false}
+                      </div>
+                    ) : false
+                      /* TODO: if one of the assets in this wallet had an error, show '?'.
+                               if one of the assets in this wallet have no price, show '??' (something else)
+                      */
+                    }
                   </div>
-                ) : false
-                  /* TODO: if one of the assets in this wallet had an error, show '?'.
-                           if one of the assets in this wallet have no price, show '??' (something else)
-                  */
-                }
-              </div>
-              <div className="chevron">
-                <Link to={`/wallets/${id}/balance`}>
-                  <svg x="0px" y="0px" width="18px" height="30px" viewBox="0 0 18 30">
-                    <g><path fill="#eee" d="M0,0h9.333L18,15.001L9.333,30H0l8.667-14.999L0,0z"/></g>
-                  </svg>
-                </Link>
-              </div>
-            </div>
-            {details && details.isLoading ? (
-              <div key={2222} className="tbl">
-                <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
-                  loading...
+                  <div className="chevron">
+                    <Link to={`/wallets/${id}/balance`}>
+                      <svg x="0px" y="0px" width="18px" height="30px" viewBox="0 0 18 30">
+                        <g><path fill="#eee" d="M0,0h9.333L18,15.001L9.333,30H0l8.667-14.999L0,0z" /></g>
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ): false}
-            {details && details.error ? (
-              <div key={3333} className="tbl">
-                <div style={{
-                  fontSize: 12, marginTop: 5, color: 'darkred', lineHeight: '18px', textAlign: 'center', width: '100%',
-                  borderLeft: '3px #b99ff5 solid',
-                  background: '#ebe6f2'
-                }}>
-                  {details.error}
+                {details && details.isLoading ? (
+                  <div key={2222} className="tbl">
+                    <div style={{ fontSize: 12, background: 'transparent', color: '#222', lineHeight: '20px', height: 20, textAlign: 'center', width: '100%' }}>
+                      loading...
                 </div>
-              </div>
-            ): false}
-            {details && details.assets ? (
-              <AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />
-            ): false}
+                  </div>
+                ) : false}
+                {details && details.error ? (
+                  <div key={3333} className="tbl">
+                    <div style={{
+                      fontSize: 12, marginTop: 5, color: 'darkred', lineHeight: '18px', textAlign: 'center', width: '100%',
+                      borderLeft: '3px #b99ff5 solid',
+                      background: '#ebe6f2'
+                    }}>
+                      {details.error}
+                    </div>
+                  </div>
+                ) : false}
+                {details && details.assets ? (
+                  <AssetsList key={1122} {...{ subtotal: subtotals[id], assets: details.assets, currency }} />
+                ) : false}
 
-          </td>
-        </tr>
-        ))}
+              </td>
+            </tr>
+          )
+        })}
         <tr className="last"><th colSpan={2}></th></tr>
       </tbody>
     </AssetTable>
