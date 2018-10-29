@@ -66,7 +66,6 @@ const withTotals = state => {
   });
   // console.info('assets', loadedWallets.map(w => (w.details.assets)));
   const assets = Object.values(assetMap);
-  console.log(assets);
 
   // const getTotal = loadedWallets
   //   .map(w => {
