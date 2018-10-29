@@ -89,9 +89,11 @@ export default class PaperWalletComponent extends React.Component {
     return (
       <div style={{ margin: '30px auto' }}>
         {_t.printWallet}
-        <div style={{ marginTop: 10 }}>
-          <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
-        </div>
+        {radioOptions.length > 1 ? (
+          <div style={{ marginTop: 10 }}>
+            <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
+          </div>
+        ) : false}
         {mode === 'secure' ?
           <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: 5 }}>

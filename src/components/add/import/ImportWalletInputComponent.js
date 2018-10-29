@@ -71,9 +71,11 @@ export class ImportWalletInputComponent extends React.Component {
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
         </div>
-        <div>
-          <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
-        </div>
+        {radioOptions.length > 1 ? (
+          <div>
+            <RadioButtonGroup options={radioOptions} onChange={this.onChangeMode} value={mode} />
+          </div>
+        ) : false}
         {
           mode === 'secure' ? 
           <div style={{ margin: '20px auto'}}>
