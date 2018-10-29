@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
 import { WizardPanel, Next, Prev } from './../panel/index';
 
@@ -26,11 +27,11 @@ const options = [
     value: 'watch',
     comment: 'Safely Add Wallet to Watch List (just by providing its public address)'
   },
-  {
+/*  {
     label: 'Watch Exchange Account',
     value: 'exchange',
     comment: 'Add Exchange Account API keys to watch the balance'
-  },
+  },*/
   {
     label: 'Import Existing Wallet',
     value: 'import',
@@ -77,6 +78,7 @@ export class CreateMenuComponent extends React.Component {
         {hdWallet ? <Notice>{_t.yourOptionsAreLimited}</Notice> : false}
         <div style={{ marginTop: 20 }}></div>
         <RadioButtonGroup value={to} options={adjustedOptions} onChange={this.onChange} />
+        {canGoToWallets ? <div style={{ marginTop: 20, textAlign: 'center' }}><Link to='/wallets'>Back to Wallets</Link></div> : false}
       </WizardPanel>
     );
   }

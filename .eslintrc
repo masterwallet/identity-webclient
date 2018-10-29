@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["react-app"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "mocha": true,
+    "node": false
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+        "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": { 
+    "jsx-a11y/href-no-hash": 0 
+  }
+}
