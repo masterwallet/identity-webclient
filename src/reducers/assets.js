@@ -66,18 +66,28 @@ const withTotals = state => {
   });
   // console.info('assets', loadedWallets.map(w => (w.details.assets)));
   const assets = Object.values(assetMap);
+  console.log(assets);
 
-  const getTotal = loadedWallets
-    .map(w => {
-      return w.details.assets.map(asset => {
-        const { cmc, value } = asset;
-        if (cmc && !isNaN(value) && value) {
-          const priceField = `price_${currency}`;
-          return value * cmc[priceField];
-        }
-        return 0;
-      });
-    }).reduce((acc, value) => (parseFloat(acc) + parseFloat(value)), 0);
+  // const getTotal = loadedWallets
+  //   .map(w => {
+  //     return w.details.assets.map(asset => {
+  //       const { cmc, value } = asset;
+  //       if (cmc && !isNaN(value) && value) {
+  //         const priceField = `price_${currency}`;
+  //         return value * cmc[priceField];
+  //       }
+  //       return 0;
+  //     });
+  //   }).reduce((acc, value) => (parseFloat(acc) + parseFloat(value)), 0);
+
+  const total = assets.reduce((acc, asset) => {
+    const { value, cmc } = asset;
+    if (cmc && !isNaN(value) && value) {
+      const price = cmc[`price_${currency}`];
+      return parseFloat(acc) + parseFloat(value) * parseFloat(price);
+    }
+    return parseFloat(acc);
+  }, 0);
 
   return {
     ...state,
@@ -85,7 +95,8 @@ const withTotals = state => {
       assets: loadingAssetsList.length,
       balances: loadingAssetsBalance.length
     },
-    total: getTotal.toFixed(2),
+    //total: getTotal.toFixed(2),
+    total: total.toFixed(2),
     subtotals,
     assets
   };
