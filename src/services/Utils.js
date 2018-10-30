@@ -80,3 +80,23 @@ export const historyNeedsReload = ({ history }) => {
             )
           )
 };
+
+export const isLoggedIn = () => {
+  const authToken = JSON.parse(sessionStorage.getItem('authToken'));
+  const loggedIn = (authToken && parseInt(authToken.expiry, 10) > now()) || false;
+  //console.log({loggedIn});
+  return loggedIn;
+};
+
+export const tokenIsExpiring = () => {
+  // Less than 1 minute left
+  const authToken = JSON.parse(sessionStorage.getItem('authToken'));
+  if (authToken) {
+    const timeLeft = parseInt(authToken.expiry, 10) - now();
+    const expiring = timeLeft < 60 && timeLeft > 0;
+    return expiring;
+  }
+  return false;
+};
+
+export const now = () => Math.round((new Date()).getTime() / 1000);

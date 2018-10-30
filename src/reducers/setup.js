@@ -18,7 +18,8 @@ const initialState = {
     data: {}
   },
   networksConfig: { ...initialConfig },
-  exchangesConfig: { ...initialConfig }
+  exchangesConfig: { ...initialConfig },
+  auth: { isLoading: false, tokens: [], error: '' }
 };
 
 export default function (state = initialState, action) {
@@ -54,6 +55,25 @@ export default function (state = initialState, action) {
       const networksConfig = { isLoading: false, data: {}, error: payload };
       const exchangesConfig = { isLoading: false, data: {}, error: payload };
       return { ...state, networksConfig, exchangesConfig };
+    }
+    case 'AUTH_TOKEN_REQUEST' : {
+      const { auth } = state;
+      return { ...state, auth: { ...auth, isLoading: true } };
+    }
+    case 'AUTH_TOKEN_RECEIVED': {
+      const { auth } = state;
+      const { tokens } = auth; 
+      const token = payload;
+      tokens.push(token);
+      return { ...state, auth: { ...auth, isLoading: false, tokens } };
+    }
+    case 'AUTH_TOKEN_ERROR': {
+      const { auth } = state;
+      const error = payload
+      return { ...state, auth: { ...auth, isLoading: false, tokens: [], error } };
+    }
+    case 'AUTH_TOKEN_REMOVE': {
+      return { ...state, auth: { isLoading: false, tokens: [], error: '' } };
     }
 
     default:

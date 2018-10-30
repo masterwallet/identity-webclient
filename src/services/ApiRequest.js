@@ -18,6 +18,15 @@ const urlPatterns = [
   '/api/networks/:networkId/address/:address',
 ];
 
+const fetchAll = (url, options = {}) => {
+  const authToken = JSON.parse(sessionStorage.getItem('authToken'));
+  if (authToken) {
+    options.headers = options.headers || new Headers();
+    options.headers.append('Authorization', `Bearer ${authToken.token}`);
+  }
+  return fetch(url, options);
+};
+
 const getQuery = ({ url }) => {
   const urlObj = URL.parse(url);
   const query = {};
@@ -232,7 +241,7 @@ export const fetchPlain  = (url, options = {}) => {
   if (isElectron()) {
     return fetchPlainIPC({ url, options });
   } else {
-    return fetch(getRoot() + url, options)
+    return fetchAll(getRoot() + url, options)
       .then(async res => {
         if (res.status === 404) throw new Error('Not Found');
         return res.text();
@@ -247,7 +256,7 @@ export const fetchBlob = (url, options = {}) => {
     options.headers['Content-Type'] = 'application/pdf';
     return fetchPlainIPC({ url, options });
   } else {
-    return fetch(getRoot() + url, options)
+    return fetchAll(getRoot() + url, options)
     .then(async res => {
       if (res.status === 404) throw new Error('Not Found');
       return res.blob();
@@ -259,7 +268,7 @@ export const fetchJson = (url, options = {}) => {
   if (isElectron()) {
     return fetchIPC({ method: 'GET', url, options });
   } else {
-    return fetch(getRoot() + url, options)
+    return fetchAll(getRoot() + url, options)
       .then(handleJsonResponse);
   }
 };
@@ -272,7 +281,7 @@ export const postJson = (url, body) => {
   if (isElectron()) {
     return fetchIPC({ method: 'POST', url, options});
   } else {
-    return fetch(getRoot() + url, options)
+    return fetchAll(getRoot() + url, options)
       .then(handleJsonResponse)
       .then(obj => {
         if (obj.status === 'error' && obj.error) throw new Error(obj.error);
@@ -286,7 +295,7 @@ export const fetchDelete = (url, options = {}) => {
     return fetchIPC({ method: 'DELETE', url, options });
   } else {
     options.method = 'DELETE';
-    return fetch(getRoot() + url, options).then(handleJsonResponse);
+    return fetchAll(getRoot() + url, options).then(handleJsonResponse);
   }
 };
 

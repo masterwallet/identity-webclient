@@ -36,7 +36,7 @@ export class PinCode extends React.Component {
     focused: 0
   };
   onKeyPress = (e) => {
-    const { length = 4, value, onChange, onComplete } = this.props;
+    const { length = 6, value, onChange, onComplete } = this.props;
     if (e.keyCode === 8 && this.state.focused > 0) {
       const focused = this.state.focused - 1;
       onChange(value.substring(0, value.length - 1));
@@ -70,7 +70,7 @@ export class PinCode extends React.Component {
     }
   }
   render() {
-    const { length = 4, error, value } = this.props;
+    const { length = 6, error, value } = this.props;
     const { focused } = this.state;
     const list = Array.apply(null, { length }).map(Function.call, Number);
     return (
