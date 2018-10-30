@@ -6,7 +6,7 @@ export const calcFontSize = ({ text, maxWidth, options }) => {
     fontSize: '1rem'
   };
   let currSize = calculateSize(text, options);
-  let fontSize = 1;
+  let fontSize = parseFloat(options.fontSize);
 
   while (currSize.width >= maxWidth) {
     fontSize = (fontSize - 0.1).toFixed(1);
