@@ -107,7 +107,7 @@ export class AssetsCombinedComponent extends React.Component {
 
   render() {
     const { assets } = this.props;
-    const { wallets, status } = assets;
+    const { wallets, status, loading } = assets;
     if (!status.isLoading) {
       const numWallets = wallets.filter(w => (w.id)).length;
       if (numWallets === 0) return (<Redirect to='/add' />);
@@ -117,7 +117,11 @@ export class AssetsCombinedComponent extends React.Component {
       <WizardPanel title={_t.assetsCombined}>
         <SettingsButton add={true}/>
         <LockButton />
-        <Totals value={assets.total} currency={assets.currency}>
+        <Totals
+          value={assets.total}
+          currency={assets.currency}
+          loading={loading.assets > 0 || loading.balances > 0}
+        >
           <Link to='/wallets'><MyWallets>{_t.wallets}</MyWallets></Link>
         </Totals>
         <AssetTable>

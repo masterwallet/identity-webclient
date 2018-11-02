@@ -44,12 +44,15 @@ const withTotals = state => {
     total += asset[`value_${currency}`];
   });
 
+  const loading = assetsList.filter(a => a.isLoading || a.isPending).length > 0;
+
   return {
     ...state,
     assets: {
       ...assets,
-      total: total.toFixed(2)
-    }
+      total: total.toFixed(2),
+      loading,
+    },
   };
 };
 
