@@ -19,9 +19,11 @@ export class UnlockComponent extends React.Component {
 
   onChange = (value) => {
     this.setState({ value });
+    this.props.onChange();
   }; 
 
   render = () => {
+    //console.log(this.props);
     const { value } = this.state;
     const { onChange } = this;
     const { onComplete, setup } = this.props;

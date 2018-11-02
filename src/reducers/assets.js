@@ -125,6 +125,9 @@ export default function (state = initialState, action) {
       const status = { isLoading: false, error: action.payload  };
       return { ...state, status };
     }
+    case 'WALLETS_LIST_NEED_RELOAD' : {
+      return { ...state, needReload: true };
+    }
 
     case 'WALLET_ASSETS_RECEIVED': {
       const { walletId, data } = action.payload;

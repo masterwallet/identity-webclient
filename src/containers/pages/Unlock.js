@@ -19,11 +19,15 @@ const mapDispatchToProps = dispatch => ({
       } else {
         dispatch({ type: 'AUTH_TOKEN_RECEIVED', payload: response.data });
         sessionStorage.setItem('authToken', JSON.stringify(response.data));
+        dispatch({ type: 'WALLETS_LIST_NEED_RELOAD' });
         dispatch(push('/wallets'));
       }
     }).catch(error => {
       dispatch({ type: 'AUTH_TOKEN_ERROR', payload: error.message });
     });
+  },
+  onChange: () => {
+    dispatch({ type: 'AUTH_TOKEN_REMOVE' });
   }
 });
 

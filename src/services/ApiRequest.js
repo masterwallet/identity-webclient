@@ -4,6 +4,9 @@ import b64toBlob from 'b64-to-blob';
 
 const urlPatterns = [
   '/api/status',
+  '/api/auth/unlock',
+  '/api/auth/lock',
+  '/api/auth/refresh',
   '/api/storage',
   '/api/wallets',
   '/api/wallets/generate',
@@ -18,12 +21,17 @@ const urlPatterns = [
   '/api/networks/:networkId/address/:address',
 ];
 
-const fetchAll = (url, options = {}) => {
+const appendAuthorizationHeader = (headers) => {
+  headers = headers || new Headers();
   const authToken = JSON.parse(sessionStorage.getItem('authToken'));
   if (authToken) {
-    options.headers = options.headers || new Headers();
-    options.headers.append('Authorization', `Bearer ${authToken.token}`);
+    headers.append('Authorization', `Bearer ${authToken.token}`);
   }
+  return headers;
+};
+
+const fetchAll = (url, options = {}) => {
+  options.headers = appendAuthorizationHeader(options.headers);
   return fetch(url, options);
 };
 
@@ -104,6 +112,8 @@ const fetchIPC = ({ method, url, options }) => {
     const { ipcRenderer } = window.require('electron');
     if (ipcRenderer) {
       let _url = url;
+      options.headers = appendAuthorizationHeader(options.headers);
+      options.headers = parseHeaders(options.headers);
       // Extract query from url
       options.query = getQuery({ url: _url });
       // URL without query:
@@ -147,6 +157,8 @@ const fetchPlainIPC = ({ url, options }) => {
     const { ipcRenderer } = window.require('electron');
     if (ipcRenderer) {
       let _url = url;
+      options.headers = appendAuthorizationHeader(options.headers);
+      options.headers = parseHeaders(options.headers);
       options.query = getQuery({ url: _url });
       // URL without query:
       _url = URL.parse(_url).pathname;
@@ -252,6 +264,7 @@ export const fetchPlain  = (url, options = {}) => {
 export const fetchBlob = (url, options = {}) => {
   if (isElectron()) {
     options.params = { ...options.params, encoding: 'base64' };
+    options.headers = appendAuthorizationHeader(options.headers);
     options.headers = parseHeaders(options.headers);
     options.headers['Content-Type'] = 'application/pdf';
     return fetchPlainIPC({ url, options });
