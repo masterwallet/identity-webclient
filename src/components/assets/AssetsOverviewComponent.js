@@ -60,7 +60,7 @@ export class AssetsOverviewComponent extends React.Component {
   render() {
     //console.log(this.props);
     const { assets } = this.props;
-    const { wallets, subtotals, status, currency } = assets;
+    const { wallets, subtotals, status, currency, loading } = assets;
     if (!status.isLoading) {
       const numWallets = wallets.filter(w => (w.id)).length;
       if (numWallets === 0) return (<Redirect to='/add' />);
@@ -69,7 +69,11 @@ export class AssetsOverviewComponent extends React.Component {
       <WizardPanel title={_t.walletsOverview}>
         <SettingsButton add={true}/>
         <LockButton />
-        <Totals value={assets.total} currency={currency}>
+        <Totals
+          value={assets.total}
+          currency={currency}
+          loading={loading.assets > 0 || loading.balances > 0}
+        >
           <Link to='/assets'><MyAssets>{_t.assets}</MyAssets></Link>
         </Totals>
         <WalletsList
