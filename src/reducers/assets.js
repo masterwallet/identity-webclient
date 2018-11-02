@@ -51,9 +51,9 @@ const withTotals = state => {
         asset.value &&
         asset.cmc
       ))
-      .forEach(({ symbol, name, value, cmc }) => {
+      .forEach(({ symbol, name, value, icon, cmc }) => {
         if (typeof assetMap[symbol] === 'undefined') {
-          assetMap[symbol] = { symbol, name, value: parseFloat(value, 10), cmc };
+          assetMap[symbol] = { symbol, name, value: parseFloat(value, 10), icon, cmc };
         } else {
           assetMap[symbol].value += parseFloat(value, 10);
         }
