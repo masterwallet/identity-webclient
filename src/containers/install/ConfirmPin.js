@@ -31,6 +31,10 @@ const mapDispatchToProps = dispatch => ({
       .then((res) => {
         dispatch({ type: 'SUBMISSION_LOADING_DONE', payload: res });
         dispatchServerStatus(dispatch);
+        if (res.data.token) {
+          dispatch({ type: 'AUTH_TOKEN_RECEIVED', payload: res.data.token });
+          sessionStorage.setItem('authToken', JSON.stringify(res.data.token));
+        }
       })
       .catch((e) => {
         dispatch({ type: 'SUBMISSION_LOADING_ERROR', payload: e.toString() });

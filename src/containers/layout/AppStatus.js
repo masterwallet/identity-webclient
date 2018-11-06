@@ -27,7 +27,7 @@ class AppStatus extends React.Component {
     if (isLoading) return <Loader />;
     if (notInInstall && isFirstRun) return <Redirect to='/welcome' />
     if (error) return <ErrorStatus message={error} />;
-    if (!isLoggedIn() && path !== '/unlock') return <Redirect to='/unlock' />
+    if (!isLoggedIn() && ![ ...InstallationMenu, '/unlock' ].includes(path)) return <Redirect to='/unlock' />
   
     return <div>{children}</div>;
   };
