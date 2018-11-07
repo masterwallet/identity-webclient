@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { WalletBalanceComponent } from './../../components/wallet/WalletBalanceComponent';
 import { dispatchWalletDetails, dispatchWalletTransactionsHistory } from './../../services/WalletStatus';
-import { fetchDelete } from './../../services/ApiRequest';
+import { postJson } from './../../services/ApiRequest';
 import { historyNeedsReload } from './../../services/Utils';
 
 const mapStateToProps = state => state;
@@ -19,9 +19,9 @@ const mapDispatchToProps = dispatch => ({
       dispatchWalletTransactionsHistory({ walletId: id, dispatch });
     }
   },
-  onDelete: ({ id }) => {
+  onDelete: ({ id, pin }) => {
     dispatch({ type: 'WALLET_DELETE_REQUEST' });
-    fetchDelete(`/api/wallets/${id}`).then(response => {
+    postJson(`/api/wallets/${id}/delete`, { pin }).then(response => {
       if (response.error) {
         dispatch({ type: 'WALLET_DELETE_ERROR', payload: { error: response.error } });
       } else {

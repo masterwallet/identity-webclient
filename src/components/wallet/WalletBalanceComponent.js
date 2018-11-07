@@ -10,6 +10,7 @@ import Esc from './../panel/Esc';
 import Modal from './../controls/Modal';
 import { hasBip38 } from './../../services/Utils';
 import { SmallLoader } from './../controls/SmallLoader';
+import { PinCode } from './../controls/PinCode';
 
 const Send = styled.button`
   position: absolute;
@@ -134,7 +135,8 @@ const _t = {
   deleteQuestion: 'Are you sure to delete wallet {WALLET_ADDRESS} from MasterWallet?',
   deleteNotice: 'You can import it again anytime if you have Private Key.',
   delete: 'Delete',
-  cancel: 'Cancel'
+  cancel: 'Cancel',
+  enterPinCode: 'Please enter PIN1 to confirm action',
 };
 
 const dateFormat = 'D MMM, YYYY';
@@ -365,7 +367,8 @@ export class WalletBalanceComponent extends React.Component {
   state = {
     menu: false,
     modal: false,
-    backdrop: false
+    backdrop: false,
+    pin: '',
   };
 
   componentWillMount() {
@@ -411,7 +414,8 @@ export class WalletBalanceComponent extends React.Component {
 
   onDelete = () => {
     const id = this.props.match.params.walletId;
-    this.props.onDelete({ id });
+    const { pin } = this.state;
+    this.props.onDelete({ id, pin });
   };
 
   onPrint = (secure = false) => {
@@ -432,7 +436,7 @@ export class WalletBalanceComponent extends React.Component {
    const assetsList = assets && assets.assets ? assets.assets : [];
    const { total, currency, loading } = assets;
 
-   const { menu, modal, backdrop } = this.state;
+   const { menu, modal, backdrop, pin } = this.state;
    const { isDeleting } = deletionStatus;
    const deletionError = deletionStatus.error;
    const bip38 = hasBip38(setup, network);
@@ -527,6 +531,7 @@ export class WalletBalanceComponent extends React.Component {
         onCancel={this.onModalClose}
         onConfirm={this.onDelete}
         title={_t.deleteWallet}
+        titleStyle={{ textTransform: 'capitalize' }}
         body={(
           <div>
             {(() => {
@@ -547,6 +552,14 @@ export class WalletBalanceComponent extends React.Component {
                   </div>
                   {parts[1]}
                   <p>{_t.deleteNotice}</p>
+                  <div>
+                    <h4 style={{ fontSize: 'medium' }}>{_t.enterPinCode}</h4>
+                    <PinCode { ...{ 
+                      value: pin,
+                      onChange: (pin) => { this.setState({ pin }) },
+                      onComplete: () => {}
+                    }} />
+                  </div>
                 </div>
               );
             })()}

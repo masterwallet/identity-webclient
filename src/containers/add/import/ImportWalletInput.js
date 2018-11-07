@@ -11,10 +11,10 @@ const section = 'import';
 const mapStateToProps = state => ({ ...state, section });
 const mapDispatchToProps = dispatch => ({
 
-  onSubmit: ({ network, networkId, testnet, name, privateKey, password, rpc, api }) => {
+  onSubmit: ({ network, networkId, testnet, name, privateKey, password, rpc, api, pin }) => {
 
     dispatch({ type: 'WALLET_WIZARD_SUBMIT_STARTED' });
-    const payload = { network, networkId, testnet, name, privateKey, password, rpc, api };
+    const payload = { network, networkId, testnet, name, privateKey, password, rpc, api, pin };
     postJson('/api/wallets', payload)
       .then((res) => {
         console.warn('last response=', res);

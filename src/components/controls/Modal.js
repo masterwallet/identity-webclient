@@ -34,13 +34,14 @@ class Modal extends React.Component {
     const backdropClass = this.state.show ? 'modal-backdrop fade show' : 'modal-backdrop fade';
     const backdropStyle = this.state.show ? { display: 'block' } : { display: 'none' };
 
+    
     return (
       <div>
         <div className={modalClass} style={modalStyle}>
           <div className='modal-dialog'>
             <div className='modal-content'>
               <div className='modal-header'>
-                <h4 className='modal-title' style={{ textTransform: 'capitalize' }}>{this.props.title}</h4>
+                <h4 className='modal-title' style={this.props.titleStyle}>{this.props.title}</h4>
                 <button type='button' className='close' onClick={this.onClose}>
                   &times;
                 </button>
