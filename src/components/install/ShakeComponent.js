@@ -39,6 +39,11 @@ export class ShakeComponent extends React.Component {
     const a = [e.pageX, e.pageY];
     this.props.onSeed(a);
   };
+  onTouchMove = (e) => {
+    const touch = e.touches[0];
+    const a = [touch.pageX, touch.pageY];
+    this.props.onSeed(a);
+  };
   onKeyPress = (e) => {
     if (e.keyCode) this.props.onSeed(e.keyCode);
   }
@@ -49,10 +54,12 @@ export class ShakeComponent extends React.Component {
       onInit();
     }
     document.addEventListener("mousemove", this.onMouseMove, false);
+    document.addEventListener("touchmove", this.onTouchMove, false);
     document.addEventListener("keydown", this.onKeyPress, false);
   }
   componentWillUnmount() {
     document.removeEventListener("mousemove", this.onMouseMove, false);
+    document.removeEventListener("touchmove", this.onTouchMove, false);
     document.removeEventListener("keydown", this.onKeyPress, false);
   }
   render() {
