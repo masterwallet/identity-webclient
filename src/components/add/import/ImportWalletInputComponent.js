@@ -8,6 +8,7 @@ import RadioButtonGroup from './../../controls/RadioButtonGroup';
 import { hasBip38 } from './../../../services/Utils';
 import Modal from './../../controls/Modal';
 import { PinCode } from './../../controls/PinCode';
+import Passphrase from './../../controls/Passphrase';
 
 const _t = {
   enterPrivateKey: 'Enter Private Key',
@@ -19,6 +20,7 @@ const _t = {
   labelSecure: 'Password Protected Wallet',
   labelInsecure: 'Insecure Wallet',
   enterPinCode: 'Please enter PIN1 to confirm action',
+  enterPassphrase: "Passphrase to encode wallet's Private Key",
 };
 
 const section = 'import';
@@ -29,6 +31,7 @@ export class ImportWalletInputComponent extends React.Component {
     mode: 'insecure',
     modal: false,
     pin: '',
+    passphrase: '',
   };
 
   onChangePrivateKey = (value) => {
@@ -42,6 +45,9 @@ export class ImportWalletInputComponent extends React.Component {
     password = mode === 'insecure' ? '' : password;
     this.setState({ mode: value, password });
   };
+  onPassphraseChange = (passphrase) => {
+    this.setState({ passphrase });
+  };
 
   render() {
     const { add, setup, onSubmit } = this.props;
@@ -51,7 +57,7 @@ export class ImportWalletInputComponent extends React.Component {
     const menu = ImportMenu({ network, testnet, networksConfig });
     if (!menu) return false;
     const step = findWizardStep(menu, '/wallet');
-    const { privateKey, password, mode, modal, pin } = this.state;
+    const { privateKey, password, mode, modal, pin, passphrase } = this.state;
 
     const canContinue = !!privateKey;
     if (lastResponse && lastResponse.data && lastResponse.data.id) {
@@ -65,7 +71,7 @@ export class ImportWalletInputComponent extends React.Component {
       radioOptions.push({ value: 'secure', label: _t.labelSecure });
     }
 
-    const onSend = (pin) => (onSubmit({ ...networksConfig, name, privateKey, password, pin }));
+    const onSend = (pin) => (onSubmit({ ...networksConfig, name, privateKey, password, pin, passphrase }));
     return (
       <WizardPanel title={_t.enterPrivateKey} wide={false}>
         <Next to={menu[step + 1]} disabled={!canContinue} title={_t.continue} onClick={() => { this.setState({ modal: !modal }) }}/>
@@ -74,6 +80,8 @@ export class ImportWalletInputComponent extends React.Component {
         <div style={{ margin: '20px auto'}}>
           <p style={{ textAlign: 'center', marginBottom: 0 }}>{_t.providePrivateKey}</p>
           <TextInput value={privateKey} onChange={this.onChangePrivateKey} />
+          {_t.enterPassphrase}
+          <Passphrase { ...{ passphrase, onChange: this.onPassphraseChange }} />
         </div>
         {radioOptions.length > 1 ? (
           <div>
@@ -97,7 +105,10 @@ export class ImportWalletInputComponent extends React.Component {
             body={<PinCode { ...{ 
               value: pin,
               onChange: (pin) => { this.setState({ pin }) },
-              onComplete: (pin) => { onSend(pin) }
+              onComplete: (pin) => { 
+                onSend(pin);
+                this.setState({ pin: '', modal: false });
+              }
             }} />}
           />
         : false}

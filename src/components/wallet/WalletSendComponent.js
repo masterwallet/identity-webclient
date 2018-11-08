@@ -6,6 +6,7 @@ import { calcFontSize, getFontFamily } from './../../services/FontResize';
 import TextInput from './../controls/TextInput';
 import Dropdown from './../controls/Dropdown';
 import TextArea from './../controls/TextArea';
+import Passphrase from './../controls/Passphrase';
 
 const _t = {
   send: 'Send Assets',
@@ -23,7 +24,8 @@ const _t = {
   asset: 'Asset',
   advanced: 'Advanced',
   back: 'Back',
-  data: 'Data'
+  data: 'Data',
+  enterPassphrase: "Passphrase to decode wallet's Private Key",
 };
 
 const font = getFontFamily();
@@ -75,6 +77,7 @@ export class WalletSendComponent extends React.Component {
     gasPrice: 1, // gwei
     gasLimit: 21000, // standard limit
     advanced: false,
+    passphrase: ''
   };
 
   componentWillMount() {
@@ -137,10 +140,10 @@ export class WalletSendComponent extends React.Component {
 
   onSubmit = () => {
     const { walletId } = this.props.match.params;
-    const { to, qty, assetId, fee, gasPrice, gasLimit, data } = this.state;
+    const { to, qty, assetId, fee, gasPrice, gasLimit, data, passphrase } = this.state;
     const { assets } = this.props.wallet;
     if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet, this.state.assetId) })) {
-      const params = { walletId, to, amount: qty, fee, gasPrice, gasLimit, data };
+      const params = { walletId, to, amount: qty, fee, gasPrice, gasLimit, data, passphrase };
       if (assets.assets && assets.assets[assetId]) {
         const asset = assets.assets[assetId];
         params.asset = asset.symbol;
@@ -161,7 +164,7 @@ export class WalletSendComponent extends React.Component {
       this.props.redirect(`/wallets/${id}/balance`);
     }
 
-    const { qty, to, assetId, advanced, gasPrice, gasLimit } = this.state;
+    const { qty, to, assetId, advanced, gasPrice, gasLimit, passphrase } = this.state;
     const sender = transactions.sender[id] || false;
     const fee = transactions.fees[id] || false;
     const feeValue = this.state.fee > 0 ? this.state.fee : (
@@ -328,6 +331,10 @@ export class WalletSendComponent extends React.Component {
                 </div>
               )
             ) : false }
+            <div>
+              {_t.enterPassphrase}
+              <Passphrase { ...{ passphrase, onChange: (passphrase) => { this.setState({ passphrase }) }} } />
+            </div>
             <div style={blockStyle}>
                 {sender.processing 
                   ? 

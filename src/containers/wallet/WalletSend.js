@@ -20,10 +20,10 @@ const mapDispatchToProps = dispatch => ({
       dispatch({ type: 'FEE_ERROR', payload: { walletId, error: error.message }});
     });
   },
-  onSubmit: ({ walletId, asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress }) => {
+  onSubmit: ({ walletId, asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress, passphrase }) => {
     const payload = { walletId };
     dispatch({ type: 'TRANSACTION_SUBMITTED', payload });
-    postJson(`/api/wallets/${walletId}/transaction`, { asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress }).then(response => {
+    postJson(`/api/wallets/${walletId}/transaction`, { asset, amount, to, fee, gasPrice, gasLimit, data, contractAddress, passphrase }).then(response => {
       if (response.error) {
         payload.error = response.error;
         dispatch({ type: 'TRANSACTION_ERROR', payload });

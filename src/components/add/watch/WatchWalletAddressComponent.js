@@ -81,7 +81,10 @@ export class WatchWalletAddressComponent extends React.Component {
             body={<PinCode { ...{ 
               value: pin,
               onChange: (pin) => { this.setState({ pin }) },
-              onComplete: (pin) => { onSend(pin) }
+              onComplete: (pin) => { 
+                onSend(pin);
+                this.setState({ pin: '', modal: false });
+              }
             }} />}
           /> 
           : false}

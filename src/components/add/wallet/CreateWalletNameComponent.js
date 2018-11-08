@@ -6,6 +6,7 @@ import TextInput from './../../controls/TextInput';
 import { NetworkIcon } from './../../assets/NetworkIcon';
 import Modal from './../../controls/Modal';
 import { PinCode } from './../../controls/PinCode';
+import Passphrase from './../../controls/Passphrase';
 
 const _t = {
   nameYourAccount: 'Please Name Your Wallet',
@@ -14,6 +15,7 @@ const _t = {
   back: 'Back',
   notUnique: 'Name must be unique',
   enterPinCode: 'Please enter PIN1 to confirm action',
+  enterPassphrase: "Passphrase to encode wallet's Private Key",
 };
 
 export class CreateWalletNameComponent extends React.Component {
@@ -21,6 +23,7 @@ export class CreateWalletNameComponent extends React.Component {
   state = {
     modal: false,
     pin: '',
+    passphrase: ''
   };
 
   componentWillMount() {
@@ -29,6 +32,11 @@ export class CreateWalletNameComponent extends React.Component {
     const { section, add, onChange } = this.props;
     onChange(add[section].name);
   }
+
+  onPassphraseChange = (passphrase) => {
+    this.setState({ passphrase });
+  };
+
   render() {
     const{ section, add, assets, setup, onChange, onSubmit } = this.props;
     const { name, network, networkId, testnet, selectedNetwork, rpc, api } = add[section]; // isUniqueName should apper
@@ -41,7 +49,7 @@ export class CreateWalletNameComponent extends React.Component {
     const isUnique = assets.verifyWallet.isUnique;
     const canContinue = !!name && isUnique;
     const disabled = isLoading || !canContinue;
-    const { pin, modal } = this.state;
+    const { pin, modal, passphrase } = this.state;
 
     return (
       <WizardPanel title={_t.nameYourAccount}>
@@ -58,6 +66,8 @@ export class CreateWalletNameComponent extends React.Component {
           <p style={{ textAlign: 'center', margin: 0 }}>{_t.thisIsInternal}</p>
           <TextInput {...{value: name, onChange, autofocus: true }} style={{ textAlign: 'center' }}  />
           {isUnique ? false : <p style={{ textAlign: 'center', color: 'red', margin: 0 }}>{_t.notUnique}</p>}
+          <p style={{ textAlign: 'center', marginTop: 10, marginBottom: 0 }}>{_t.enterPassphrase}</p>
+          <Passphrase { ...{ passphrase, onChange: this.onPassphraseChange }} />
         </div>
         {modal ?
           <Modal
@@ -68,7 +78,10 @@ export class CreateWalletNameComponent extends React.Component {
             body={<PinCode { ...{ 
               value: pin,
               onChange: (pin) => { this.setState({ pin }) },
-              onComplete: (pin) => { onSubmit({ ...selectedNetwork, network, testnet, networkId, name, rpc, api, pin }) }
+              onComplete: (pin) => { 
+                onSubmit({ ...selectedNetwork, network, testnet, networkId, name, rpc, api, pin, passphrase });
+                this.setState({ pin: '', modal: false });
+              }
             }} />}
           />
         : false}
