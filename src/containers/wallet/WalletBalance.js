@@ -29,6 +29,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: 'WALLET_WIZARD_SUBMIT_DONE' }); // needReload = true
         dispatch(push('/wallets'));
       }
+    }).catch(error => {
+      dispatch({ type: 'WALLET_DELETE_ERROR', payload: { error: error.message } });
     });
   },
   onPrintRedirect: ({ id, secure }) => {

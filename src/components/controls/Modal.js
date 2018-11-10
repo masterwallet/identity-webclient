@@ -37,7 +37,7 @@ class Modal extends React.Component {
     
     return (
       <div>
-        <div className={modalClass} style={modalStyle}>
+        <div className={modalClass} style={{ ...modalStyle, overflow: 'auto' }}>
           <div className='modal-dialog'>
             <div className='modal-content'>
               <div className='modal-header'>
