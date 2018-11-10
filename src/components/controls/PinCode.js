@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Numpad } from './Numpad';
 
 const PinWrapper = styled.div`
   display: flex;
@@ -70,19 +71,39 @@ export class PinCode extends React.Component {
     }
   }
   render() {
-    const { length = 6, error, value } = this.props;
+    const { length = 6, error, value, onChange, onComplete } = this.props;
     const { focused } = this.state;
     const list = Array.apply(null, { length }).map(Function.call, Number);
     return (
-      <PinWrapper title={value} className={error ? 'invalid': ''}>
-        {list.map(n => {
-          const className = `digit ${(focused) === n ? 'focused' : ''}`;
-          const v = (value && n < value.length) ? <span>&bull;</span> : '';
-          return (
-            <div key={n} className={className}>{v}</div>
-          );
-        })}
-      </PinWrapper>
+      <div>
+        <PinWrapper title={value} className={error ? 'invalid': ''}>
+          {list.map(n => {
+            const className = `digit ${(focused) === n ? 'focused' : ''}`;
+            const v = (value && n < value.length) ? <span>&bull;</span> : '';
+            return (
+              <div key={n} className={className}>{v}</div>
+            );
+          })}
+        </PinWrapper>
+        <Numpad 
+          onInput={(digit) => {
+            if (value.length < length) {
+              onChange(value + '' + digit);
+              this.setState({ focused: value.length + 1 });
+              // Triggering that we've managed to finish
+              if (value.length + 1 === length && typeof onComplete === 'function') {
+                onComplete(value + '' + digit);
+              }
+            }}
+          }
+          onBackspace={() => {
+            console.log(value);
+            const focused = this.state.focused - 1;
+            onChange(value.substring(0, value.length - 1));
+            this.setState({ focused });
+          }}
+        />
+      </div>
     );
   }
 }
