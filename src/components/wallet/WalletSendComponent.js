@@ -253,16 +253,17 @@ export class WalletSendComponent extends React.Component {
                     &nbsp;
                     <div>{fee.units}</div>
                     &nbsp;
-                    <a href='' onClick={(event) => {
+                    <button 
+                      style={{ opacity: 0.5 }}
+                      className='btn btn-basic btn-sm'
+                      onClick={(event) => {
                         event.preventDefault();
                         this.setState({ advanced: false });
                       }}
                     >
-                      <button style={{ opacity: 0.5 }} className='btn btn-basic btn-sm'>
-                        {_t.back}&nbsp;
-                        <img src='media/back-arrow.svg' alt='' style={{ width: 20, height: 20 }} />
-                      </button>
-                    </a>
+                      {_t.back}&nbsp;
+                      <img src='media/back-arrow.svg' alt='' style={{ width: 20, height: 20 }} />
+                    </button>
                   </div>
                   {fee.label2 ? (
                     <div style={blockStyle}>
@@ -311,16 +312,17 @@ export class WalletSendComponent extends React.Component {
                         }
                       }}
                     />
-                    <a href='' onClick={(event) => {
+                    <button 
+                      style={{ opacity: 0.5 }} 
+                      className='btn btn-basic btn-sm'
+                      onClick={(event) => {
                         event.preventDefault();
                         this.setState({ advanced: true });
                       }}
                     >
-                      <button style={{ opacity: 0.5 }} className='btn btn-basic btn-sm'>
-                        {_t.advanced}&nbsp;
-                        <img src='media/gears.svg' alt='' style={{ width: 20, height: 20 }} />
-                      </button>
-                    </a>
+                      {_t.advanced}&nbsp;
+                      <img src='media/gears.svg' alt='' style={{ width: 20, height: 20 }} />
+                    </button>
                   </div>
                   {fee.label2 ? (
                     <div style={blockStyle}>

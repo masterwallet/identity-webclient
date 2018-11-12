@@ -346,12 +346,13 @@ const Menu = ({ onClick, onMenuOptionClick, onMenuMouseOver, onMenuMouseOut, bac
         onMouseOut={onMenuMouseOut}
       >
         {items.map((item, i) => (
-          <a 
+          <button
             key={i}
-            className='dropdown-item' 
+            className='dropdown-item'
             onClick={() => onMenuOptionClick(item.action)}
-          ><div>{item.text}</div>
-          </a> 
+          >
+            {item.text}
+          </button>
         ))}
       </DropdownMenu>
       <DropdownBackdrop 

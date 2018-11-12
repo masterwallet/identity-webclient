@@ -65,7 +65,6 @@ export default class PaperWalletComponent extends React.Component {
       this.setState({ ready: !ready, pdfUrl: '', downloading: false, password: '' });
     } else {
       this.setState({ ready: !ready }, () => {
-      
         this.loadFrame();
       });
     }
@@ -74,7 +73,7 @@ export default class PaperWalletComponent extends React.Component {
   loadFrame = async () => {
     const { walletId } = this.props;
     const { ready, password, passphrase } = this.state;
-    if (walletId && ready) {
+    if (walletId && passphrase && ready) {
       this.setState({ encrypting: true, pdfUrl: '' });
       const url = `/api/wallets/${walletId}/pdf?rotate=true`;
       const headers = new Headers();
