@@ -44,7 +44,7 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   onChange = (password) => {
-    const valid = /^[\x00-\x7F]+$/.test(password);
+    const valid = /^[\x00-\x7F]+$/.test(password); // eslint-disable-line no-control-regex
     this.setState({ password, valid, pdfUrl: '' });
   };
 
