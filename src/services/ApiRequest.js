@@ -20,6 +20,7 @@ const urlPatterns = [
   '/api/networks/:networkId/terms',
   '/api/networks/:networkId/status',
   '/api/networks/:networkId/address/:address',
+  '/api/locale/:lang/:filename',
 ];
 
 const appendAuthorizationHeader = (headers) => {
@@ -274,6 +275,18 @@ export const fetchBlob = (url, options = {}) => {
     .then(async res => {
       if (res.status === 404) throw new Error('Not Found');
       return res.blob();
+    });
+  }
+};
+
+export const fetchText = (url, options = {}) => {
+  if (isElectron()) {
+    return fetchPlainIPC({ url, options });
+  } else {
+    return fetchAll(getRoot() + url, options)
+    .then(async res => {
+      if (res.status === 404) throw new Error('Not Found');
+      return res.text();
     });
   }
 };

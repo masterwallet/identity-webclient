@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { fetchText } from './../services/ApiRequest';
 export const lang = localStorage.getItem('masterwallet_locale') || 'en';
 
 export const Storage = {
@@ -11,7 +12,7 @@ export const Storage = {
         resolve(JSON.parse(Storage.get(x)))
       });
     }
-    return fetch(url).then(r => r.text()).then(contents => {
+    return fetchText(url).then(contents => {
       Storage.set(x, JSON.stringify(contents));
       return contents;
     });
@@ -26,7 +27,7 @@ export class FromFile extends React.Component {
 
   updateText = () => {
     const { name } = this.props;
-    const url = `/locale/${lang}/${name}`;
+    const url = `/api/locale/${lang}/${name}`;
     Storage.retrieve(`${lang}__${name}`, url).then(contents => {
       if (this.root && this.root.children.length === 0) {
         const div = document.createElement('div');
