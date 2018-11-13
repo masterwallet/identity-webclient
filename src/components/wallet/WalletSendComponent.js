@@ -45,8 +45,8 @@ const assetsTotal = (wallet, assetId) => {
   return `${value} ${symbol}`;
 };
 
-const isValid = ({ qty, to, availableAssets }) => (
-  !isNaN(qty) && parseFloat(qty) > 0 && parseFloat(qty) <= parseFloat(availableAssets) && to.length > 0
+const isValid = ({ qty, to, availableAssets, passphrase }) => (
+  !isNaN(qty) && parseFloat(qty) > 0 && parseFloat(qty) <= parseFloat(availableAssets) && to.length > 0 && passphrase.length > 0
 );
 
 const toCurrency = ({ value, unit, cmc, coef }) => {
@@ -142,7 +142,7 @@ export class WalletSendComponent extends React.Component {
     const { walletId } = this.props.match.params;
     const { to, qty, assetId, fee, gasPrice, gasLimit, data, passphrase } = this.state;
     const { assets } = this.props.wallet;
-    if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet, this.state.assetId) })) {
+    if (isValid({ qty, to, availableAssets: assetsTotal(this.props.wallet, this.state.assetId), passphrase })) {
       const params = { walletId, to, amount: qty, fee, gasPrice, gasLimit, data, passphrase };
       if (assets.assets && assets.assets[assetId]) {
         const asset = assets.assets[assetId];
@@ -180,7 +180,7 @@ export class WalletSendComponent extends React.Component {
     const cmc = assets.assets && assets.assets[0] && assets.assets[0].cmc ? assets.assets[0].cmc : null;
     const coef = network ? (network === 'ETH' ? gasLimit : 1) : 1;
 
-    const valid = isValid({ qty, to, availableAssets });
+    const valid = isValid({ qty, to, availableAssets, passphrase });
 
     return (
       <WalletPanel {...object} back={true} isLoading={isLoading}>

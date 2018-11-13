@@ -46,10 +46,10 @@ export class CreateWalletNameComponent extends React.Component {
 
     const { isLoading } = add;
     const step = findWizardStep( menu, '/name' );
-    const isUnique = assets.verifyWallet.isUnique;
-    const canContinue = !!name && isUnique;
-    const disabled = isLoading || !canContinue;
     const { pin, modal, passphrase } = this.state;
+    const isUnique = assets.verifyWallet.isUnique;
+    const canContinue = !!name && isUnique && passphrase.length > 0;
+    const disabled = isLoading || !canContinue;
 
     return (
       <WizardPanel title={_t.nameYourAccount}>

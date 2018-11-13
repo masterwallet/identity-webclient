@@ -59,7 +59,7 @@ export class ImportWalletInputComponent extends React.Component {
     const step = findWizardStep(menu, '/wallet');
     const { privateKey, password, mode, modal, pin, passphrase } = this.state;
 
-    const canContinue = !!privateKey;
+    const canContinue = !!privateKey && passphrase.length > 0;
     if (lastResponse && lastResponse.data && lastResponse.data.id) {
       return (<Redirect to={menu[step + 1]} />);
     }
