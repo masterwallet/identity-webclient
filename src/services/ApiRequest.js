@@ -266,9 +266,7 @@ export const fetchPlain  = (url, options = {}) => {
 export const fetchBlob = (url, options = {}) => {
   if (isElectron()) {
     options.params = { ...options.params, encoding: 'base64' };
-    options.headers = appendAuthorizationHeader(options.headers);
-    options.headers = parseHeaders(options.headers);
-    options.headers['Content-Type'] = 'application/pdf';
+    options.headers.append('Content-Type', 'application/pdf');
     return fetchPlainIPC({ url, options });
   } else {
     return fetchAll(getRoot() + url, options)
