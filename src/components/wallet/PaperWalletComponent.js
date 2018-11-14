@@ -4,6 +4,7 @@ import TextInput from './../controls/TextInput';
 import RadioButtonGroup from './../controls/RadioButtonGroup';
 import { isElectron, fetchBlob } from './../../services/ApiRequest';
 import Passphrase from './../controls/Passphrase';
+import { isASCII } from './../../services/Utils';
 
 const _t = {
   printWallet: 'Print Wallet',
@@ -44,7 +45,7 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   onChange = (password) => {
-    const valid = /^[\x00-\x7F]+$/.test(password); // eslint-disable-line no-control-regex
+    const valid = isASCII(password);
     this.setState({ password, valid, pdfUrl: '' });
   };
 
@@ -57,7 +58,8 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   onChangePassphrase = (passphrase) => {
-    this.setState({ passphrase });
+    const valid = isASCII(passphrase);
+    this.setState({ valid, passphrase });
   };
 
   onChangeReady = (ready) => {
@@ -72,8 +74,10 @@ export default class PaperWalletComponent extends React.Component {
 
   loadFrame = async () => {
     const { walletId } = this.props;
-    const { ready, password, passphrase } = this.state;
-    if (walletId && passphrase && ready) {
+    const { ready, password, passphrase, mode } = this.state;
+    if (walletId && passphrase && ready 
+      && ((mode === 'secure' && password) || mode === 'insecure')
+    ) {
       this.setState({ encrypting: true, pdfUrl: '' });
       const url = `/api/wallets/${walletId}/pdf?rotate=true`;
       const headers = new Headers();
@@ -94,7 +98,7 @@ export default class PaperWalletComponent extends React.Component {
   render() {
     const { bip38 } = this.props;
     const { ready, passphrase, password, mode, encrypting, pdfUrl, valid, downloading } = this.state;
-
+    
     const iframe = (
       <IFrame
         url={pdfUrl}
@@ -122,6 +126,7 @@ export default class PaperWalletComponent extends React.Component {
             className='btn btn-success btn-xs'
             style={{ padding: '5px 10px 0px 10px' }}
             onClick={() => { this.onChangeReady(ready) }}
+            disabled={!valid || passphrase.length === 0}
           >
             <Ready size={{ width: 18, height: 18 }} />
           </button>
@@ -136,9 +141,10 @@ export default class PaperWalletComponent extends React.Component {
           <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: 5 }}>
               <TextInput
-                value={password}
+                value={valid ? password : ''}
                 onChange={this.onChange}
                 placeholder={_t.yourPassword}
+                disabled={!ready}
                 style={{
                   textAlign: 'center',
                   float: 'left',
@@ -146,7 +152,8 @@ export default class PaperWalletComponent extends React.Component {
                 }}
               />
               <button
-                className={`btn btn-xs btn-warning ${!valid ? 'disabled' : ''}`}
+                className={'btn btn-xs btn-warning'}
+                disabled={!valid || password.length === 0}
                 style={{
                   padding: "2px 10px",
                   float: 'right'

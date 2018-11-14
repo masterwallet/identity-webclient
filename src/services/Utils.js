@@ -100,3 +100,5 @@ export const tokenIsExpiring = () => {
 };
 
 export const now = () => Math.round((new Date()).getTime() / 1000);
+
+export const isASCII = (text) => /^[\x00-\x7F]+$/.test(text); // eslint-disable-line no-control-regex

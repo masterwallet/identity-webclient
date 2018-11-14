@@ -1,5 +1,6 @@
 import React from 'react';
 import TextInput from './TextInput';
+import { isASCII } from './../../services/Utils';
 
 const Eye = ({ size }) => (
   <svg style={size} role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" >
@@ -28,7 +29,7 @@ export default class Passphrase extends React.Component {
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <TextInput
-          value={passphrase}
+          value={isASCII(passphrase) ? passphrase : ''}
           onChange={onChange} 
           type={show ? 'text' : 'password'}
           style={{ textAlign: 'center' }} 

@@ -50,18 +50,18 @@ class TextInput extends React.Component {
     return this.props.value ? this.props.value : '';
   }
   componentDidMount() {
-    this.input.value = this.safeValue();
+    //this.input.value = this.safeValue();
     if (this.props.autofocus) {
       setTimeout(() => { if (this.input) this.input.focus(); }, 600);
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.value !== prevProps.value) {
-      if (!this.isFocused) {
-        this.input.value = this.safeValue();
-      }
-    }
+    // if (this.props.value !== prevProps.value) {
+    //   if (!this.isFocused) {
+    //     this.input.value = this.safeValue();
+    //   }
+    // }
   }
 
   handleKeyPress = (e) => {
@@ -88,10 +88,12 @@ class TextInput extends React.Component {
           className={`form-control ${this.props.className ? this.props.className : ''}`}
           onFocus={this.onFocus} onBlur={this.onBlur}
           style={this.props.style}
-          defaultValue={this.safeValue()}
+          //defaultValue={this.safeValue()}
+          value={this.safeValue()}
           type={this.props.type ? this.props.type : 'text'}
           min={this.props.min}
           step={this.props.step}
+          disabled={this.props.disabled || false}
         />
       </Inp>
     );
