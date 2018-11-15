@@ -31,14 +31,27 @@ const mapDispatchToProps = dispatch => ({
         payload.data = response.data;
         payload.txId = response.data.txid;
         dispatch({ type: 'TRANSACTION_SENT', payload });
-        // Reload assets
-        dispatchWalletsAssets({ walletId, dispatch })
-        // Reload history
-        setTimeout(() => {
-          // TODO: request to notify, that transaction has been recorded
-          dispatchWalletTransactionsHistory({ walletId, dispatch });
-        }, 2000);
-        
+        // Reload Wallet's assets and history after transaction is recorded:
+        console.log('checking address history updates');
+        fetchJson(`/api/wallets/${walletId}/updated`).then(response => {
+          if (response.error) {
+            console.error(response.error);
+          } else {
+            console.log(`address updated=${response.data}`)
+            if (response.data === true) {
+              dispatchWalletsAssets({ walletId, dispatch })
+              dispatchWalletTransactionsHistory({ walletId, dispatch });
+            } else {
+              // In case of error, usually when not-implemented, just wait and then refresh assets and history
+              setTimeout(() => {
+                dispatchWalletsAssets({ walletId, dispatch })
+                dispatchWalletTransactionsHistory({ walletId, dispatch });
+              }, 10000); 
+            }
+          }
+        }).catch(error => {
+          console.error(error.message);
+        });
       }
     }).catch(error => {
       dispatch({ type: 'TRANSACTION_ERROR', payload: { walletId, error: error.message } });

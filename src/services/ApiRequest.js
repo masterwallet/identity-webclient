@@ -20,6 +20,7 @@ const urlPatterns = [
   '/api/wallets/:id/transaction/:txId',
   '/api/wallets/:id/transaction-fee',
   '/api/wallets/:id/transaction-gas',
+  '/api/wallets/:id/updated',
   '/api/networks',
   '/api/networks/:networkId/terms',
   '/api/networks/:networkId/status',
