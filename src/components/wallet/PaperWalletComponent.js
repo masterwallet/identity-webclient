@@ -11,7 +11,8 @@ const _t = {
   labelInsecure: 'Insecure Paper Wallet',
   labelSecure: 'Password Protected Paper Wallet',
   yourPassword: 'Secret Wallet Password',
-  enterPassphrase: 'Please enter passphrase to decode Private Key:'
+  enterPassphrase: 'Please enter passphrase to decode Private Key:',
+  downloadPdf: 'Download Paper Wallet as PDF'
 };
 
 const Ready = ({ size }) => (
@@ -32,7 +33,6 @@ export default class PaperWalletComponent extends React.Component {
     mode: 'insecure',
     pdfUrl: '',
     encrypting: false,
-    downloading: false
   };
 
   componentWillMount = () => {
@@ -50,7 +50,7 @@ export default class PaperWalletComponent extends React.Component {
   };
 
   onChangeMode = (mode) => {
-    this.setState({ mode, pdfUrl: '', downloading: false, password: '' }, () => {
+    this.setState({ mode, pdfUrl: '', password: '' }, () => {
       if (mode === 'insecure') {
         this.loadFrame();
       };
@@ -64,7 +64,7 @@ export default class PaperWalletComponent extends React.Component {
 
   onChangeReady = (ready) => {
     if (ready === true) {
-      this.setState({ ready: !ready, pdfUrl: '', downloading: false, password: '' });
+      this.setState({ ready: !ready, pdfUrl: '', password: '' });
     } else {
       this.setState({ ready: !ready }, () => {
         this.loadFrame();
@@ -97,12 +97,11 @@ export default class PaperWalletComponent extends React.Component {
 
   render() {
     const { bip38 } = this.props;
-    const { ready, passphrase, password, mode, encrypting, pdfUrl, valid, downloading } = this.state;
+    const { ready, passphrase, password, mode, encrypting, pdfUrl, valid } = this.state;
     
     const iframe = (
       <IFrame
         url={pdfUrl}
-        //url='http://localhost:7773/api/wallets/a07cfff2e86f9b81f68f4d13222608dc9e17baf2/pdf?rotate=true'
         height="750px"
         width="300px"
         display="initial"
@@ -174,24 +173,9 @@ export default class PaperWalletComponent extends React.Component {
           </div> : false
         }
         <div style={{ textAlign: 'center' }}>
-          {
-            isElectron() || isMobile() ? (
-              downloading ?
-                iframe :
-                (
-                  pdfUrl 
-                  ? 
-                  <button
-                    className='btn btn-success'
-                    onClick={() => { this.setState({ downloading: true }) }}>
-                    {_t.printWallet}
-                  </button> 
-                  : false
-                )
-                
-            )
-              : iframe
-          }
+          {(isElectron() || isMobile()) && pdfUrl 
+            ? <a href={pdfUrl} className='btn btn-success' download={true} >{_t.downloadPdf}</a>
+            : iframe}
         </div>
       </div>
     );
