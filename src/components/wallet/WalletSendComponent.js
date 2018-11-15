@@ -281,16 +281,18 @@ export class WalletSendComponent extends React.Component {
                       &nbsp;
                     </div>
                   ) : false}
-                  {/* Data field */}
-                  <div style={blockStyle}>
-                    <h4 style={h4Style}>{_t.data}:</h4>&nbsp;
-                    0x
-                    <TextArea 
-                      value={this.state.data}
-                      onChange={(text) => this.onChange('data', text)}
-                    >
-                    </TextArea>
-                  </div>
+                  {network === 'ETH' ? 
+                    /* Data field */
+                    <div style={blockStyle}>
+                      <h4 style={h4Style}>{_t.data}:</h4>&nbsp;
+                      0x
+                      <TextArea 
+                        value={this.state.data}
+                        onChange={(text) => this.onChange('data', text)}
+                      >
+                      </TextArea>
+                    </div>
+                  : false}
                 </div>
               ) : (
                 <div>
