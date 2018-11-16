@@ -122,6 +122,36 @@ const Spinner = () => (
   </SpinnerSvg>
 );
 
+const IncomingTransaction = ({ style }) => (
+  <svg 
+    style={style} 
+    xmlns="http://www.w3.org/2000/svg" 
+    version="1.1"
+    role='img' 
+    viewBox="0 0 23.369 23.369"  
+  >
+    <g fill='green'>
+      <path d="M0.5,23.368c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707L22.516,0.146   c0.195-0.195,0.512-0.195,0.707,0s0.195,0.512,0,0.707L0.854,23.222C0.756,23.319,0.628,23.368,0.5,23.368z"/>
+      <path d="M0.502,23.369c-0.133,0-0.26-0.053-0.354-0.146s-0.146-0.221-0.146-0.354V5.141c0-0.276,0.224-0.5,0.5-0.5   s0.5,0.224,0.5,0.5v17.229l17.227-0.002c0.276,0,0.5,0.224,0.5,0.5s-0.224,0.5-0.5,0.5L0.502,23.369z"/>
+    </g>
+  </svg>
+);
+
+const OutgoingTransaction = ({ style }) => (
+  <svg
+    style={style}
+    xmlns="http://www.w3.org/2000/svg" 
+    version="1.1"
+    role='img'
+    viewBox="0 0 23.369 23.369" 
+  >
+    <g fill='red'>
+      <path d="M0.5,23.369c-0.128,0-0.256-0.049-0.354-0.146c-0.195-0.195-0.195-0.512,0-0.707L22.515,0.147   c0.195-0.195,0.512-0.195,0.707,0s0.195,0.512,0,0.707L0.854,23.222C0.756,23.32,0.628,23.369,0.5,23.369z"/>
+      <path d="M22.867,18.728L22.867,18.728c-0.276,0-0.5-0.224-0.5-0.5l0.002-17.227H5.14c-0.276,0-0.5-0.224-0.5-0.5s0.224-0.5,0.5-0.5   h17.729c0.133,0,0.26,0.053,0.354,0.146s0.146,0.221,0.146,0.354l-0.002,17.727C23.367,18.504,23.143,18.728,22.867,18.728z"/>
+    </g>
+  </svg>
+);
+
 const _t = {
   receive: 'Receive',
   send: 'Send',
@@ -145,7 +175,7 @@ const timeForamt = 'h:mma';
 const fontFamily = getFontFamily();
 
 //  asset, icon, hash, date ?
-const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
+const TransactionDetail = ({ transaction, walletAddress, walletId, network }) => {
   const txType = Object.keys(transaction.sender).indexOf(walletAddress) > -1 ? 'outgoing' : 'incoming';
   const date = transaction.timestamp ? moment.utc(transaction.timestamp * 1000) : null;
   const multiSender = Object.keys(transaction.sender).length > 1;
@@ -162,9 +192,9 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
     // All senders
     Object.keys(transaction.sender).forEach(s => counterpart.push(s));
   }
-
   const amount = txType === 'incoming' && !multiSender ? parseFloat(transaction.receiver[walletAddress]) : false;
-  
+  const arrowStyle = { height: 24, minHeight: 24, width: 24, minWidth: 24 };
+
   return (
     <div style={{ width: 300, textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
       {counterpart.map((addr, i) => {
@@ -173,7 +203,6 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
           maxWidth: 232, 
           options: { font: fontFamily, fontSize: '1rem' } 
         });
-        
         return (
           <div key={i} style={{ margin: 5, display: 'flex' }}>
             <Link to={`/wallets/${walletId}/transaction/${transaction.txid}`} >
@@ -184,11 +213,13 @@ const TransactionDetail = ({ transaction, walletAddress, walletId }) => {
                 {addr}
               </div>
               <div style={{ display: 'flex' }}>
-                <div><img src={`media/${txType}-transaction.svg`} alt='' style={{ height: 24, width: 24 }} /></div>
+                {/* <div><img src={`media/${txType}-transaction.svg`} alt='' style={{ height: 24, width: 24 }} /></div> */}
+                {txType === 'incoming' ? <IncomingTransaction style={arrowStyle} /> : false}
+                {txType === 'outgoing' ? <OutgoingTransaction style={arrowStyle} /> : false}
                 <div style={{ marginLeft: 5, color: `${txType === 'incoming' ? 'green' : 'red'}` }}>
                   {amount !== false ? amount : parseFloat(multiSender ? transaction.sender[addr] : transaction.receiver[addr])}
                   &nbsp;
-                  <strong>{transaction.asset}</strong>
+                  <strong>{transaction.asset || network}</strong>
                 </div>
                 <div style={{ display: 'flex', fontSize: 'smaller', flexDirection: 'column', marginLeft: 'auto', textAlign: 'right' }}>
                   <div>{date ? date.calendar(null, {
@@ -514,6 +545,7 @@ export class WalletBalanceComponent extends React.Component {
                             transaction={tr}
                             walletAddress={walletAddress}
                             walletId={id}
+                            network={network}
                           />
                         </td>
                       </tr>
