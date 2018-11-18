@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: 'TRANSACTION_SENT', payload });
         // Reload Wallet's assets and history after transaction is recorded:
         console.log('checking address history updates');
-        fetchJson(`/api/wallets/${walletId}/updated`).then(response => {
+        fetchJson(`/api/wallets/${walletId}/updated/${response.data.txid}`).then(response => {
           if (response.error) {
             console.error(response.error);
           } else {
